@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 
 from fastapi.testclient import TestClient
 
-from app.main import app
+from app.sum.main import app
 
 
 class TestSum(unittest.TestCase):

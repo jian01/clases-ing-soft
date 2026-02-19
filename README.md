@@ -1,32 +1,36 @@
 # API de ejemplo con FastAPI
 
-Una API simple construida con [FastAPI](https://fastapi.tiangolo.com/) y gestionada con [Poetry](https://python-poetry.org/).
+Dos microservicios construidos con [FastAPI](https://fastapi.tiangolo.com/) y gestionados con [Poetry](https://python-poetry.org/).
 
 ## Requisitos previos
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/) (incluido en Docker Desktop)
 
-## Como ejecutar la API
+## Como ejecutar los microservicios
 
-1. **Inicia el servidor**:
-   ```bash
-   docker compose up api
-   ```
-   La API se levanta en el puerto 8000.
+Para levantar ambos microservicios juntos:
+```bash
+docker compose up api-sum api-user
+```
 
-2. **Abri tu navegador** y entra a: [http://localhost:8000/hello](http://localhost:8000/hello)
+- **Sumas** en [http://localhost:8000](http://localhost:8000)
+- **Usuarios** en [http://localhost:8001](http://localhost:8001)
 
-   Vas a ver la respuesta de la API:
-   ```json
-   {"message": "Hola mundo!"}
-   ```
+Para levantar uno solo:
+```bash
+docker compose up api-sum    # solo sumas en puerto 8000
+docker compose up api-user   # solo usuarios en puerto 8001
+```
 
-3. **Documentacion interactiva**: FastAPI genera documentacion automatica de tu API. Podes acceder a ella en:
-   - Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
-   - ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+**Para detener los servicios**, presiona `CTRL+C` en la terminal.
 
-4. **Para detener el servidor**, presiona `CTRL+C` en la terminal.
+## Documentacion interactiva
+
+Cada microservicio tiene su propia documentacion:
+
+- Sumas: [http://localhost:8000/docs](http://localhost:8000/docs)
+- Usuarios: [http://localhost:8001/docs](http://localhost:8001/docs)
 
 ## Como correr los tests
 
@@ -34,25 +38,20 @@ Una API simple construida con [FastAPI](https://fastapi.tiangolo.com/) y gestion
 docker compose run test
 ```
 
-Esto ejecuta pre-commit (black, flake8, pylint, mypy) y pytest con reporte de cobertura.
+Esto ejecuta pytest con reporte de cobertura.
 
 ## Endpoints disponibles
 
-### General
+### Sumas (puerto 8000)
 
 | Metodo | Endpoint | Descripcion |
 |---|---|---|
 | `GET` | `/hello` | Devuelve un saludo. |
-
-### Sumas
-
-| Metodo | Endpoint | Descripcion |
-|---|---|---|
 | `GET` | `/sum?a=1&b=2` | Suma dos numeros. |
 | `GET` | `/sum-slow?a=1&b=2` | Suma dos numeros de forma lenta (iterativa). |
 | `GET` | `/sum-square?a=1&b=2` | Llama internamente a `/sum` por red y devuelve el cuadrado de la suma. |
 
-### Usuarios
+### Usuarios (puerto 8001)
 
 | Metodo | Endpoint | Descripcion |
 |---|---|---|

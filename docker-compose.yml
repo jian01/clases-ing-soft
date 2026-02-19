@@ -1,10 +1,21 @@
 services:
-  api:
+  api-sum:
     build:
       context: .
       target: base
+    environment:
+      - APP_MODULE=app.sum.main:app
     ports:
       - "8000:8000"
+
+  api-user:
+    build:
+      context: .
+      target: base
+    environment:
+      - APP_MODULE=app.user.main:app
+    ports:
+      - "8001:8000"
 
   test:
     build:
