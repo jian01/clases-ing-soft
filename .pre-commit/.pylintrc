@@ -1,0 +1,22 @@
+[MESSAGES CONTROL]
+disable=raw-checker-failed,
+        bad-inline-option,
+        locally-disabled,
+        file-ignored,
+        suppressed-message,
+        useless-suppression,
+        deprecated-pragma,
+        use-symbolic-message-instead,
+        bad-indentation, # W0311
+        misplaced-future, # W0410
+        line-too-long, # C0301
+        too-many-lines, # C0302
+        trailing-whitespace, # C0303
+        missing-final-newline, # C0304
+        trailing-newlines, # C0305
+        multiple-imports, # C0410
+        import-error, # E0401
+        too-few-public-methods, # R0903
+        too-many-arguments,
+        too-many-positional-arguments,
+        consider-using-with

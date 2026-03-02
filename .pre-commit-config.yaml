@@ -1,0 +1,32 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+        args: ["--config", ".pre-commit/.black.toml"]
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+        args: ["--config", ".pre-commit/.flake8"]
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v3.3.3
+    hooks:
+      - id: pylint
+        args: ["--rcfile", ".pre-commit/.pylintrc"]
+        additional_dependencies:
+          - fastapi
+          - pydantic
+          - httpx
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
+        args: ["--config-file", ".pre-commit/mypy.ini"]
+        additional_dependencies:
+          - fastapi
+          - pydantic
+          - httpx

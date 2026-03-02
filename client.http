@@ -1,0 +1,56 @@
+@rootUrl = http://localhost:8000
+
+### Hello world
+GET {{rootUrl}}/hello
+Content-Type: application/json
+
+### Sum
+GET {{rootUrl}}/sum?a=1&b=2
+Content-Type: application/json
+
+### Sum square
+GET {{rootUrl}}/sum-square?a=1&b=2
+Content-Type: application/json
+
+### List users
+GET {{rootUrl}}/user
+Content-Type: application/json
+
+### Create user
+POST {{rootUrl}}/user
+Content-Type: application/json
+
+{
+  "username": "merok23",
+  "name": "Alejo",
+  "email": "acalizblanco@udesa.edu.ar",
+  "dni": 41023655
+}
+
+### Get user by username
+GET {{rootUrl}}/user/merok23
+Content-Type: application/json
+
+### Replace user (PUT)
+PUT {{rootUrl}}/user/merok23
+Content-Type: application/json
+
+{
+  "username": "merok23",
+  "name": "Alejo",
+  "email": "acaliz@fi.uba.ar",
+  "dni": 41023655
+}
+
+### Partial update user (PATCH)
+PATCH {{rootUrl}}/user/merok23
+Content-Type: application/json
+
+{
+  "email": "acalizblanco@udesa.edu.ar"
+}
+
+### Delete user
+DELETE {{rootUrl}}/user/merok23
+Content-Type: application/json
+

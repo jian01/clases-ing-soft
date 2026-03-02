@@ -1,0 +1,172 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Clase práctica
+meta:
+  id: wrk_cdae79b9a15045dea883f5b71ab29984
+  created: 1771816390173
+  modified: 1771817311546
+  description: ""
+collection:
+  - url: http://127.0.0.1:8000/user/gcafferata
+    name: 1 - GET gcafferata
+    meta:
+      id: req_dcb58a3e2b9344188f1c9dd4c4fc773a
+      created: 1771816390225
+      modified: 1771817136575
+      isPrivate: false
+      description: ""
+      sortKey: -1771817134345
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.3.1
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:8000/user
+    name: 2 - POST a gcafferata
+    meta:
+      id: req_dd55d97f083e458796f703c68d0c679b
+      created: 1771817134245
+      modified: 1771817215055
+      isPrivate: false
+      description: ""
+      sortKey: -1771817134245
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username": "gcafferata", "email": "gcafferata@udesa.edu.ar", "dni":
+        40130750, "name": "Gianmarco Cafferata"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.3.1
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:8000/user/gcafferata
+    name: 3 - GET gcafferata
+    meta:
+      id: req_d21c57ba032d496db2cf68471e5422ca
+      created: 1771817223117
+      modified: 1771817224291
+      isPrivate: false
+      description: ""
+      sortKey: -1771817134145
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.3.1
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:8000/user
+    name: 4 - POST a gcafferata
+    meta:
+      id: req_99eadbc6306f46ffa2df01021adc5c1e
+      created: 1771817229241
+      modified: 1771817230362
+      isPrivate: false
+      description: ""
+      sortKey: -1771817134045
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"username": "gcafferata", "email": "gcafferata@udesa.edu.ar", "dni":
+        40130750, "name": "Gianmarco Cafferata"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.3.1
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:8000/user/gcafferata
+    name: 5 - DELETE gcafferata
+    meta:
+      id: req_c4e297518dc14a39901d3fd08062f2b9
+      created: 1771817253091
+      modified: 1771817258323
+      isPrivate: false
+      description: ""
+      sortKey: -1771817133945
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/12.3.1
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:8000/user/gcafferata
+    name: 5 - GET gcafferata
+    meta:
+      id: req_9caf42a1ff784f399a60ab7b63a1f745
+      created: 1771817265219
+      modified: 1771817266451
+      isPrivate: false
+      description: ""
+      sortKey: -1771817133845
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.3.1
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_2ea5fb7b67a1297455bdb7149e93de01c8aec5f1
+    created: 1771816390175
+    modified: 1771816390175
+environments:
+  name: Base Environment
+  meta:
+    id: env_2ea5fb7b67a1297455bdb7149e93de01c8aec5f1
+    created: 1771816390174
+    modified: 1771816390174
+    isPrivate: false
