@@ -1,0 +1,12 @@
+services:
+  api:
+    build:
+      context: .
+      target: base
+    ports:
+      - "8000:8000"
+
+  test:
+    build:
+      context: .
+      target: test

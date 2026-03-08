@@ -4,39 +4,18 @@ Una API simple construida con [FastAPI](https://fastapi.tiangolo.com/) y gestion
 
 ## Requisitos previos
 
-Antes de empezar, necesitas tener instalado en tu computadora:
-
-1. **Python 3.10 o superior**
-
-2. **Poetry** (gestor de dependencias)
-   - Una vez que tengas Python instalado, abri una terminal y ejecuta:
-     ```bash
-     pip install poetry
-     ```
-   - Verifica que se instalo correctamente:
-     ```bash
-     poetry --version
-     ```
-
-## Instalacion del proyecto
-
-1. **Clona el repositorio**
-
-2. **Instala las dependencias** del proyecto:
-   ```bash
-   poetry install
-   ```
-   Esto va a crear un entorno virtual automaticamente y va a instalar todas las librerias necesarias (FastAPI, Uvicorn, httpx, etc.).
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/) (incluido en Docker Desktop)
 
 ## Como ejecutar la API
 
-1. **Inicia el servidor** ejecutando:
+1. **Inicia el servidor**:
    ```bash
-   poetry run uvicorn app.main:app --workers 4
+   docker compose up api
    ```
-   El flag `--workers 4` levanta 4 procesos (workers) para atender requests en paralelo.
+   La API se levanta en el puerto 8000.
 
-2. **Abri tu navegador** y entra a: [http://127.0.0.1:8000/hello](http://127.0.0.1:8000/hello)
+2. **Abri tu navegador** y entra a: [http://localhost:8000/hello](http://localhost:8000/hello)
 
    Vas a ver la respuesta de la API:
    ```json
@@ -44,10 +23,18 @@ Antes de empezar, necesitas tener instalado en tu computadora:
    ```
 
 3. **Documentacion interactiva**: FastAPI genera documentacion automatica de tu API. Podes acceder a ella en:
-   - Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-   - ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+   - Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+   - ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 4. **Para detener el servidor**, presiona `CTRL+C` en la terminal.
+
+## Como correr los tests
+
+```bash
+docker compose run test
+```
+
+Esto ejecuta pre-commit (black, flake8, pylint, mypy) y pytest con reporte de cobertura.
 
 ## Endpoints disponibles
 
