@@ -1,0 +1,14 @@
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: webhook-clase
+    receivers:
+      - uid: webhook-clase-receiver
+        type: webhook
+        disableResolveMessage: false
+        settings:
+          # Servicio local que recibe los webhooks de Grafana.
+          # Ver las notificaciones con: docker compose logs webhook-receiver -f
+          url: http://webhook-receiver:8080/grafana-alerts
+          httpMethod: POST

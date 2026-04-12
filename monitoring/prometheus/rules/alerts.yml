@@ -1,0 +1,69 @@
+groups:
+  - name: py-app-disponibilidad
+    interval: 30s
+    rules:
+
+      - alert: ServicioCaido
+        expr: up{job="py-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "py-app no responde"
+          description: >
+            El servicio py-app lleva más de 1 minuto sin responder.
+            Revisar con: docker compose logs py-app
+
+      - alert: ErrorRateAlto
+        expr: >
+          sum(rate(http_request_duration_seconds_count{status_code=~"5..",job="py-app"}[5m]))
+          /
+          sum(rate(http_request_duration_seconds_count{job="py-app"}[5m]))
+          > 0.01
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Error rate de la API supera el 1%"
+          description: >
+            La tasa de errores HTTP 5xx es {{ $value | humanizePercentage }}
+            en los últimos 5 minutos (KPI: < 1%).
+
+  - name: py-app-performance
+    interval: 30s
+    rules:
+
+      - alert: LatenciaForecastAlta
+        expr: >
+          histogram_quantile(
+            0.95,
+            sum(rate(forecast_duration_seconds_bucket[5m])) by (le)
+          ) > 5
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Latencia p95 de forecast supera KPI"
+          description: >
+            El percentil 95 de latencia de forecast es {{ $value | humanizeDuration }},
+            superando el KPI de 5 segundos.
+
+  - name: sistema-recursos
+    interval: 60s
+    rules:
+
+      - alert: CPUAltaSostenida
+        expr: >
+          100 - (
+            avg by(instance) (
+              rate(node_cpu_seconds_total{mode="idle",job="node-exporter"}[5m])
+            ) * 100
+          ) > 80
+        for: 5m
+        labels:
+          severity: info
+        annotations:
+          summary: "Uso de CPU del host supera 80%"
+          description: >
+            El uso de CPU del host es {{ $value | humanize }}%
+            de forma sostenida en los últimos 5 minutos.

@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 15s       # Cada 15s va a buscar métricas a los targets
+  evaluation_interval: 15s   # Cada 15s evalúa las reglas de alerta
+  scrape_timeout: 10s
+
+# Archivos con reglas de alerta
+rule_files:
+  - /etc/prometheus/rules/*.yml
+
+# Targets a monitorear
+scrape_configs:
+
+  # API Python (métricas HTTP + métricas custom de negocio)
+  - job_name: py-app
+    static_configs:
+      - targets:
+          - py-app:5000
+    metrics_path: /metrics
+
+  # Métricas del sistema operativo/host (CPU, RAM, Disk I/O)
+  - job_name: node-exporter
+    static_configs:
+      - targets:
+          - node-exporter:9100
+
+  # Prometheus se monitorea a sí mismo
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - localhost:9090

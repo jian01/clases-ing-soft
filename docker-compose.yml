@@ -1,11 +1,12 @@
 services:
+
+  # ─── Aplicación ───────────────────────────────────────────────────────────
   react-app:
     build: ./react-app
     ports:
       - "3000:3000"
-    # Opcional: esperar a que py-app esté listo (más que nada para desarrollar)
-    # depends_on:
-    #   - py-app
+    depends_on:
+      - py-app
 
   py-app:
     build: ./py-app
@@ -13,10 +14,68 @@ services:
       - "5000:5000"
     environment:
       STORAGE_DIR: /data
-    # ── Volumen para persistir los datos:
-    # volumes:
-    #   - py-data:/data
+    volumes:
+      - py-data:/data
 
-# ── Volumen para persistir los datos:
-# volumes:
-#   py-data:
+  # ─── Monitoreo ────────────────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/rules:/etc/prometheus/rules:ro
+      - prometheus-data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --storage.tsdb.retention.time=15d
+    depends_on:
+      - py-app
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_FEATURE_TOGGLES_ENABLE: alertingSimplifiedRouting
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  webhook-receiver:
+    image: mendhak/http-https-echo:31
+    ports:
+      - "8080:8080"
+    environment:
+      HTTP_PORT: "8080"
+      LOG_IGNORE_PATH: /health
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:v1.7.0
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+    restart: unless-stopped
+
+volumes:
+  py-data:
+  prometheus-data:
+  grafana-data:
