@@ -1,0 +1,60 @@
+services:
+
+  # ── Smoke Test ──────────────────────────────────────────────────────────────
+  # Verificación rápida (1 usuario, 60s). Correr: docker compose --profile smoke up
+  locust-smoke:
+    profiles: [smoke]
+    image: locustio/locust:2.32.2
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    working_dir: /mnt/locust
+    command: >
+      -f smoke_test.py
+      --host http://py-app:5000
+      --headless
+      --html /mnt/locust/reports/smoke-report.html
+    networks:
+      - clases-net
+
+  # ── Stress Test ─────────────────────────────────────────────────────────────
+  # Ramp-up escalonado hasta 200 usuarios (~7.5 min). Correr: docker compose --profile stress up
+  locust-stress:
+    profiles: [stress]
+    image: locustio/locust:2.32.2
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    working_dir: /mnt/locust
+    command: >
+      -f stress_test.py
+      --host http://py-app:5000
+      --html /mnt/locust/reports/stress-report.html
+    networks:
+      - clases-net
+
+  # ── Spike Test ──────────────────────────────────────────────────────────────
+  # Baseline → pico x20 → recovery (3 min). Correr: docker compose --profile spike up
+  locust-spike:
+    profiles: [spike]
+    image: locustio/locust:2.32.2
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    working_dir: /mnt/locust
+    command: >
+      -f spike_test.py
+      --host http://py-app:5000
+      --html /mnt/locust/reports/spike-report.html
+    networks:
+      - clases-net
+
+networks:
+  clases-net:
+    # Se conecta a la red del docker-compose principal para poder
+    # alcanzar el servicio py-app por nombre de host
+    external: true
+    name: clases-ing-soft_default
