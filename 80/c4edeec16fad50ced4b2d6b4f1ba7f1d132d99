@@ -1,0 +1,49 @@
+dags/etl_parametrizado.py
+  s_558e6e66cd12a5::t_65acebf1ba1677 1-3,5-6,8-17,20,23-24,26-27,29-43,49-51,200-201
+  s_558e6e66cd12a5::t_574481f2c765f5 19
+  s_558e6e66cd12a5::t_ef6c0d3b2fdc9f 4,7,18,21-22,28,52-122,130-199,202
+  s_558e6e66cd12a5::t_e78a7c224dcb49 25,123-129
+README.md
+  s_558e6e66cd12a5::t_12b65f5c985650 302
+  s_558e6e66cd12a5::t_6d3ffc2926a197 38-41
+  s_558e6e66cd12a5::t_48bdaa1f00307a 14,16-20,62,68-69,74,80,95,117,119,128-129,134-146,149,151-161,163,165,170-173,176-195,197-201,212,223-224,226,228,239-245,256,265,271,276-277,279-280,282-287
+  s_558e6e66cd12a5::t_f2e120b44b96d0 289
+  s_558e6e66cd12a5::t_0d6e5aacd5eef3 13,22-24
+  s_558e6e66cd12a5::t_8515df66e5236e 101-116
+  s_558e6e66cd12a5::t_895902da380c2d 25-30,296-299
+  s_558e6e66cd12a5::t_57d890cf512ed3 3,15,32-35,44-61,63-67,70-73,75-79,81-94,96-100,118,120-127,130-132,147-148,150,162,164,166-169,174-175,210-211,213-222,225,227,229-238,246-252,260-264,266-270,272-275,278,281
+  s_558e6e66cd12a5::t_193b5846e00f85 254,257
+dags/entrenamiento_rf.py
+  s_558e6e66cd12a5::t_58fe3f0f3cb5f7 16,27,71-73,111-118
+  s_558e6e66cd12a5::t_a0b8c396c92ec0 3,5,11,13,24,30,44-70,74-110,119-167
+  s_558e6e66cd12a5::t_2b2101cf24c280 12
+  s_558e6e66cd12a5::t_cbedc66dd7fb00 1-2,4,6-10,14-15,17-23,25-26,28-29,31-43
+.gitignore
+  s_558e6e66cd12a5::t_1843e039118cb5 7-8
+  s_558e6e66cd12a5::t_b18c35729fb41b 2-3
+.pre-commit-config.yaml
+  s_558e6e66cd12a5::t_5965e00122b88b 1
+docker-compose.yml
+  s_558e6e66cd12a5::t_bb0094f536524b 95
+  s_558e6e66cd12a5::t_22225e51bbc7d0 70-85
+  s_558e6e66cd12a5::t_140e236d18e2fc 94
+  s_558e6e66cd12a5::t_46891ed5fbce99 14
+  s_558e6e66cd12a5::t_d8a496911543b3 11
+  s_558e6e66cd12a5::t_f0a384cd12f559 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.6",
+  "base_commit_sha": "80c4edeec16fad50ced4b2d6b4f1ba7f1d132d99",
+  "prompts": {},
+  "sessions": {
+    "s_558e6e66cd12a5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dcb11778-338a-4266-b065-1e34718caa95",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "gcafferata_meli <gianmarco.cafferata@mercadolibre.com>"
+    }
+  }
+}
