@@ -1,0 +1,95 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: warehouse
+      POSTGRES_USER: dwh
+      POSTGRES_PASSWORD: dwh
+    ports: ["5432:5432"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dwh -d warehouse"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  dagster:
+    build:
+      context: ./dagster
+    ports: ["3000:3000"]
+    environment:
+      DAGSTER_POSTGRES_HOST: postgres
+      DAGSTER_POSTGRES_PORT: "5432"
+      DAGSTER_POSTGRES_DB: warehouse
+      DAGSTER_POSTGRES_USER: dwh
+      DAGSTER_POSTGRES_PASSWORD: dwh
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: warehouse
+      POSTGRES_USER: dwh
+      POSTGRES_PASSWORD: dwh
+      DBT_PROFILES_DIR: /workspace/dbt
+    volumes:
+      - ./dagster:/workspace/dagster
+      - ./dbt:/workspace/dbt
+      - ./extract:/workspace/extract
+      - ./data:/workspace/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  metabase:
+    image: metabase/metabase:latest
+    ports: ["3001:3000"]
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_HOST: postgres
+      MB_DB_PORT: "5432"
+      MB_DB_USER: dwh
+      MB_DB_PASS: dwh
+    volumes:
+      - metabase_data:/metabase-data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:3000/api/health | grep -q '\"status\":\"ok\"' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 90s
+
+  metabase-init:
+    build:
+      context: ./metabase-init
+    environment:
+      MB_HOST: http://metabase:3000
+      MB_ADMIN_EMAIL: admin@demo.com
+      MB_ADMIN_PASSWORD: Admin1234!
+      MB_ADMIN_FIRST_NAME: Admin
+      MB_ADMIN_LAST_NAME: Demo
+      MB_SITE_NAME: "DWH Streaming - UDESA"
+      PG_HOST: postgres
+      PG_PORT: "5432"
+      PG_DB: warehouse
+      PG_USER: metabase_ro
+      PG_PASSWORD: metabase_ro
+    depends_on:
+      metabase:
+        condition: service_healthy
+    restart: "no"
+
+  adminer:
+    image: adminer:latest
+    ports: ["8081:8080"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  metabase_data:

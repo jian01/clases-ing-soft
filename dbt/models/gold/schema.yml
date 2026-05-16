@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: fact_streams
+    description: "Fact table de eventos de streaming. Incremental por fecha."
+    config:
+      store_failures: true
+    columns:
+      - name: stream_id
+        tests: [unique, not_null]
+      - name: sk_cancion
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_cancion')
+              field: sk_cancion
+      - name: sk_plataforma
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_plataforma')
+              field: sk_plataforma
+      - name: sk_tiempo
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_tiempo')
+              field: sk_tiempo
+      - name: reproducciones
+        tests: [not_null]
+      - name: ingresos_usd
+        tests: [not_null]
+
+  - name: dim_artista
+    description: "Dimension artista con SCD tipo 2. Cada cambio de genero genera una fila nueva."
+    columns:
+      - name: sk_artista
+        tests: [unique, not_null]
+      - name: artista_id
+        tests: [not_null]
+      - name: valid_from
+        tests: [not_null]
+      - name: valid_to
+        tests: [not_null]
+
+  - name: dim_cancion
+    description: "Dimension cancion. SCD tipo 1."
+    columns:
+      - name: sk_cancion
+        tests: [unique, not_null]
+      - name: cancion_id
+        tests: [not_null]
+
+  - name: dim_plataforma
+    description: "Dimension plataforma. Cinco plataformas de streaming."
+    columns:
+      - name: sk_plataforma
+        tests: [unique, not_null]
+      - name: nombre
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["Spotify", "YouTube", "Apple Music", "Tidal", "Amazon Music"]
+
+  - name: dim_tiempo
+    description: "Dimension tiempo. Una fila por dia desde 2024-01-01."
+    columns:
+      - name: sk_tiempo
+        tests: [unique, not_null]
+      - name: fecha
+        tests: [unique, not_null]

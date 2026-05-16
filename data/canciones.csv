@@ -1,0 +1,1001 @@
+cancion_id,titulo,artista_id,album,duracion_seg,anio_lanzamiento
+1,He Tengo,68,Estuvo Hubo Humano,161,2005
+2,Cualquier Pasa,45,Trabajar Alto Derecha,158,2005
+3,Hecho,105,Me Origen,360,2009
+4,Mirada,60,Estar Primer,264,2022
+5,Causa Seguir Sí Flores,19,Humana Visto Unos,239,2008
+6,Octubre Organización,109,Corazón,398,2007
+7,Aquel Ejército,69,Ir,156,2001
+8,Período Conseguir,79,Unas Causa Campo,411,2009
+9,Distintas Universidad Hacerlo Entrar,32,Muchas Mantener,275,2022
+10,Especial Comenzó Universidad Mejores,70,Tú Dicho Respuesta,396,2015
+11,Términos Aire Todas Resultado,21,Internacional Seguir Ministerio,140,2013
+12,Ninguna Varios Social,155,Ve Miguel,133,2002
+13,Mí Características,173,Había Mayores Ejército,420,2000
+14,Local Hubiera Norte,148,Consumo,209,2015
+15,Encima Política Buscar Mucho,72,Destino,419,2013
+16,Función Zonas Temas Mediante,24,Próximo Cara,298,2013
+17,Quedó Dirección Bastante,83,Toda Futuro Septiembre,173,2005
+18,Español Realizar Muestra,106,Ocasión Industria Intereses,373,2009
+19,Tampoco Trata Formación Peso,195,Tribunal Cuando Bien,138,2014
+20,Reunión,81,Tiempos Podría,285,2003
+21,Guerra Tanto Imágenes Humano,132,Valores,397,2014
+22,Tribunal Sector Acciones Fiscal,14,Hasta,385,2011
+23,Voz Hay Ellas Salud,161,Unas Demás,146,2006
+24,Acto Fueron Pueden,141,Hubo,267,2014
+25,Comercio Quizá San Esfuerzo,32,Algunos,242,2022
+26,Sentido Silencio,80,Movimiento Tratamiento Revolución,127,2017
+27,Bueno Podría Queda Cada,24,Generales,178,2014
+28,Libro,166,Clase,375,2022
+29,Dicho Imposible Compañía,131,Cara Manos Premio,259,2013
+30,Adelante Forma Música Ellas,121,Nivel,353,2017
+31,Flores Tierra,99,Capaz,380,2023
+32,Pudo Hora,18,Fuerte Radio,332,2010
+33,Mayores Desde Teatro,1,Serie López,272,2018
+34,María Atrás Importantes Propia,39,Ayuda Posición,395,2015
+35,Viene Valores Amigos,86,Aumento Única Fiscal,398,2012
+36,Autor Llegar Primeros Dejar,83,Dejó,242,2018
+37,Millones Armas Señor Diferentes,60,Punto Llegado,142,2010
+38,Junio Condiciones Carácter Esos,181,Nunca Posibilidades,317,2021
+39,Solamente Arriba,127,Nivel,184,2016
+40,Humanos Español Mayor,26,Imposible Nacional,171,2016
+41,Piel Oro Éxito Paciente,4,Arriba Película Condiciones,193,2013
+42,Mantener Con,20,Quiero Ninguna,255,2010
+43,Plaza Boca Experiencia Unidad,167,Pablo,288,2021
+44,Amor Trabajadores Mes Objeto,82,Tipos Mil Actividades,369,2017
+45,Norte,159,Tiene,240,2020
+46,Opinión Actividad Habrá,59,Suelo Ante Muy,166,2013
+47,Ser,195,Familia Figura País,171,2014
+48,Mucha Están,178,Miembros Grande,134,2001
+49,Miedo Sistemas Capital,15,Médico Toda,303,2011
+50,Especial Según Valor Quién,38,Hicieron,391,2013
+51,Problema Compañía,44,Horas,160,2019
+52,Paz Suficiente Ciencia Menos,159,Políticas Conjunto Perdido,243,2015
+53,Ellas Hijo,60,Manera Ellos,250,2014
+54,Sueño Ninguna Medidas,171,Pudo,358,2009
+55,Buenos R,19,Mi Claro,296,2018
+56,Vuelve Plazo Aún,164,Título Palabra,248,2014
+57,Plan Aspectos Lado,51,Juez Expresión,367,2003
+58,Especialmente Pueblo,98,Líder Rafael Televisión,303,2018
+59,Tenían Hacer Señaló,180,Millones Últimos,131,2021
+60,Expresión Izquierda Una Algunas,71,Quien,409,2021
+61,Humano,156,Europa Estos Parte,374,2009
+62,Datos Tengo,156,Podemos Julio,232,2020
+63,Países Debido,159,Principales Pequeña,190,2020
+64,Trabajadores,161,Políticos Edad Buscar,140,2009
+65,Así Posibilidad Hablar Radio,9,Aire Armas Cada,306,2023
+66,Aunque Evitar,24,Él Hora,287,2023
+67,Lleva Hacen Voz Afirmó,45,Conjunto,187,2025
+68,Tierra Control Estudio,136,Cuadro Presidente Bastante,259,2005
+69,Marco Causa Señora,124,Estudio Voluntad,293,2025
+70,Espacio,120,Segunda,192,2024
+71,Llamado Última,174,Metros Primero Primero,323,2025
+72,Madre Jamás Puedo,24,Soy Ella,127,2008
+73,Durante,117,Sí Gran,254,2018
+74,Modelo Local Cuya Plan,164,Cuales Proyecto,175,2021
+75,Ellos Libro,121,Acto,407,2010
+76,Pacientes Relaciones,166,Diversos,357,2022
+77,Valores Generales Cantidad,167,Propia Común,179,2004
+78,Usted,10,Toda Resultados,372,2003
+79,Dolor,61,Nada Solución Fuerza,189,2012
+80,Fecha Partidos Cuestión Solución,95,Animales Vía Decía,396,2013
+81,Sangre Le,107,Muerto Título Mujeres,170,2015
+82,Mujer Precisamente Llegar Buena,72,A,309,2006
+83,Frente Mejor Lucha Tiempo,114,Peso,305,2003
+84,Lleva Sin Humanos,140,Ejemplo Ambos Quiere,303,2001
+85,Único Valores Fácil Jóvenes,71,Tan,182,2014
+86,Victoria,170,Sólo,130,2001
+87,Tal Texto Está,63,Hace,409,2006
+88,Dar,196,Paz Espacio Importantes,226,2018
+89,Idea Acuerdo,60,Fuerzas Internacional,195,2025
+90,Estos,71,Cabeza,186,2017
+91,Viene Naturaleza Tenemos,45,Mal,133,2004
+92,Años,92,Ley,285,2000
+93,Comisión Favor,68,Los,184,2023
+94,Noche Deseo Materia Doctor,135,Segundo,152,2015
+95,Mil Los Sean Tienen,200,Tampoco Enfermedad,382,2018
+96,Congreso,116,Estudios Existencia Libro,233,2019
+97,Seis,187,Podrá Fue Es,386,2009
+98,Distintas Pregunta Fuentes Pedro,165,Principales,151,2015
+99,Pensar Junto Producción Piel,110,Personas Encuentran Movimiento,175,2015
+100,Francia Tengo Anterior Sino,19,Deben,284,2019
+101,Izquierda Pública,17,Camino,260,2019
+102,Comercio Humanos Países,98,Cultural Otro Lleva,391,2009
+103,Tenido Historia Riesgo Ahí,130,Curso Siquiera Entonces,340,2003
+104,Sino,168,Algunos Cuatro Clase,402,2023
+105,Humano Bastante,111,Misma Lejos,236,2013
+106,Central Texto Humano,117,Consejo Llama,332,2023
+107,Dejar,81,Sangre Diversas,280,2021
+108,Real R Mal,96,Interés,362,2002
+109,Tiempo,22,Cerca,341,2003
+110,Arte Nivel Hora,34,Hay Sociales Ministro,150,2018
+111,Julio Hay Principios,172,Te,330,2011
+112,Siquiera Perdido Tanto Podemos,185,Dinero,267,2019
+113,Puntos Palabra Volver,91,Grado,415,2016
+114,Dos Armas,40,Miguel Social Conocer,366,2007
+115,Ésta,90,Debe Nos Estado,308,2003
+116,Revolución Palabras Quería,147,Mundial,339,2017
+117,Pocos,156,Grupo Final Alto,256,2000
+118,Media Recursos,70,Primer Policía Tú,278,2010
+119,Fondo Español Domingo,2,Costa,193,2018
+120,Blanco Iba Proyecto Mar,18,Antonio,135,2002
+121,Derecho Éxito,97,Siete Violencia,352,2010
+122,Instituciones Claro,95,B Trabajo,286,2024
+123,Ellas,14,Algún,200,2024
+124,Proyectos,173,Boca,259,2014
+125,Derecha Presencia Unión Diversos,125,Propio Sabe Enero,346,2013
+126,Aspectos Grande Título,56,Modelo Políticas Próximo,178,2011
+127,Autor Relaciones Tengo Dios,29,Mujer Nuestra,369,2016
+128,Encuentran Capacidad Importante,12,Nacional,322,2019
+129,Primer,2,Otros,274,2006
+130,Equipo Expresión,196,Universidad Televisión,268,2010
+131,Alrededor,2,Juicio Esta,340,2005
+132,Pesetas Vino,98,Momento Sabe Sea,237,2016
+133,Principios Sola Costa,19,Poder Alto,141,2013
+134,Europa,118,Puerta,280,2018
+135,Poner Mano Sector Verdad,147,Actitud Consejo,333,2009
+136,Queda,104,Centro,286,2005
+137,Propio Pasó Joven G,177,Fuerza Encuentran,165,2013
+138,Julio,63,Llegó Da,325,2016
+139,Presencia,102,Jefe Capital,293,2007
+140,Estas Nuestro Conocer,200,Vio,159,2016
+141,Modo,136,Qué Cerca Acción,219,2024
+142,Comenzó Espera Justicia,90,Hecho Hace Va,195,2007
+143,Visto,38,Victoria Entonces,221,2005
+144,Alto Sistemas,195,Países Interés Puesto,158,2005
+145,Le Sólo Carácter Cambio,119,Afirmó Pesar Me,416,2014
+146,Precios Fútbol Muestra,161,Enero Hoy,197,2014
+147,Cuanto,121,Asimismo Mes,275,2025
+148,Principios Peso Joven,152,Blanco,300,2016
+149,Y,80,Victoria Es,351,2001
+150,Nadie,95,G Pasa,159,2020
+151,Entrada,158,Color Relaciones Riesgo,379,2012
+152,Mano Casa Eran Buenos,149,Natural Ni Encontrar,141,2014
+153,Calidad Menor,83,Mismos Libre Formación,363,2016
+154,Cabeza La,16,M Civil,172,2025
+155,He Existencia Recursos,183,Único,378,2020
+156,Donde Próximo,11,Económica,344,2014
+157,Llegado Universidad,94,Lo Instituciones,264,2012
+158,Había Saber Policía Sean,199,Persona Donde,146,2025
+159,San Lucha Estado,17,Comunicación Estuvo,168,2017
+160,España Propia Español Sangre,73,S Tiempos,196,2010
+161,Viaje,150,Posibilidad José Hombre,192,2011
+162,Vivir Tipos Todo,168,Dice Enero Considera,320,2004
+163,Sé,80,Corte Hijos Destino,312,2020
+164,Ministerio Último Negro,33,Tener Persona Práctica,389,2002
+165,Señora Mayoría Hecho Fuerza,131,Dicen Miedo,129,2011
+166,Vio Saber Teoría,47,Militar,294,2024
+167,Autoridades México Conciencia Público,50,Otra,190,2004
+168,Entrada,76,Siendo,379,2024
+169,Aunque,170,Salud Explicó,187,2019
+170,Mujer Cuanto Antes Mil,40,Nivel,212,2022
+171,Partir Productos,185,Ir Compañía,142,2013
+172,Propia Fue Comercio,174,M Términos Hora,241,2014
+173,Conseguir Encuentran E,193,Oficial Dios Creación,349,2007
+174,Permite Propios,80,Otras Importantes,219,2011
+175,Práctica Entre Donde Diferencia,119,Condiciones Vista,315,2016
+176,Sol Conocer Permite Siguientes,42,Música,190,2008
+177,Ninguna,165,Serán Partidos,310,2017
+178,Ministerio,183,México Hemos Dar,183,2009
+179,Líder,196,Ante,259,2014
+180,Sus Fin,112,Tenido,233,2014
+181,Saber Cuales Información,7,Hombres Medida,147,2012
+182,N María Profesional,61,Investigación Ellos,161,2011
+183,Industria Julio,8,Pp Imagen,170,2022
+184,Durante Acto Solución,38,Mil,139,2009
+185,Existencia Sabía Resto Cabeza,179,Falta,360,2014
+186,Tribunal,21,Estas,251,2006
+187,Momentos Trabajar,141,Silencio Cuadro Militar,390,2013
+188,Hecho,199,Hospital Volver,241,2009
+189,Sociedad,13,Supuesto,334,2020
+190,Central Creo Miguel Niño,17,García,375,2019
+191,Esto,162,P Tan Llegar,414,2007
+192,Premio Escuela,75,Próximo Carrera,120,2019
+193,Distintos Cada Aquellas,62,Dónde Personal Análisis,333,2005
+194,M,135,Además Título,154,2016
+195,García,100,Pensar Frente,142,2020
+196,Piel Haya Debía Yo,96,Hecho Cómo,128,2011
+197,Veces,89,Poder,173,2024
+198,Real Sabía Van,35,Buscar,300,2017
+199,Juego Derecho Te,165,Dice,357,2022
+200,Opinión Causa Primera Nivel,162,Queda,189,2002
+201,Sí República Superior Salir,10,Personas Elementos,223,2001
+202,Rodríguez Orden,11,Llama También,278,2016
+203,Oposición Esa Siguientes Sola,140,Nombre Fuera,249,2001
+204,Miguel Secretario,74,Sin Dicen,144,2020
+205,Alguien Dónde Manos,70,Obra,308,2013
+206,Película Políticas Director Ahora,191,Todos Mediante,317,2010
+207,Atención Cualquier,128,Importantes Primero Formación,374,2011
+208,Corazón Oro Hicieron,22,Momento Acción Cuales,337,2002
+209,Tuvo Niño Mujeres Final,155,Menos,399,2009
+210,Mi Deseo Entrar,27,Empresas,287,2021
+211,Relación Señora Medio,79,Mil Común,338,2005
+212,Primero Serán Organización Hijos,90,Nuevas Llegar,141,2023
+213,O Deseo Prensa,158,Piel Ejemplo,260,2020
+214,Tengo,20,Desde Da Rey,327,2011
+215,Ocasiones Boca,8,Luis,344,2001
+216,Quiero Hija,18,Arte,307,2011
+217,España Nombre Condiciones Dio,146,Años,198,2021
+218,Estoy Habría Muchos Allá,95,Cada Estamos,347,2024
+219,Nuestras,147,Manuel,391,2011
+220,Problema Destino Análisis Les,81,Hicieron Dinero Produce,262,2007
+221,Segunda,7,Mar Condiciones Nuevo,215,2015
+222,Clase Estoy Dos Ser,144,Régimen,254,2024
+223,Luz Soy Cara,181,Teatro Hijos,229,2019
+224,Mil Decía Sea,178,Torno Modelo,222,2003
+225,Dicho Pesetas,19,Técnica Apenas,208,2022
+226,Sabía Cierto Sala Fuerza,23,Pie Paciente Experiencia,283,2021
+227,Europea Baja Crecimiento,182,Ha,401,2017
+228,Rey Algunas Bastante,77,N,209,2025
+229,Riesgo Común Valores,131,Domingo,182,2006
+230,Sigue Pública,61,Valores Juez,133,2011
+231,Tampoco Informe Número,120,Miguel I Tener,186,2019
+232,Julio,17,Seguridad Política,323,2022
+233,Compañía Dirección Características Toma,135,Tribunal Estructura,329,2018
+234,Parte,33,Santa Juego,157,2014
+235,Importancia Términos Estaban Sabe,175,Instituto Movimiento Época,296,2004
+236,Alguien Poner,197,Dicen,341,2016
+237,Modelo,32,Argentina Precio Nombre,198,2009
+238,Atención Constitución,42,Dar Dicho,235,2011
+239,Pacientes Noviembre Sola,21,Ejército Compañía,220,2020
+240,Valor Sigue Derechos,33,Comenzó Valores Podría,275,2019
+241,Energía,129,Poner Tampoco Conseguir,206,2018
+242,Vía Dan,44,Película Cabeza Podría,292,2018
+243,Consecuencia,8,Aunque,143,2020
+244,Esas Arte Modo,167,Investigación,412,2013
+245,Hizo,128,Dice Resultado Corte,399,2009
+246,Diario Hoy Alta,124,Elecciones,327,2009
+247,Estar Mi Victoria Ley,19,Lado Mundo Proyecto,150,2005
+248,Mes Argentina Hoy Buscar,107,Perdido Pasado,357,2006
+249,Resulta Aspecto Nuevos,156,Tratamiento,280,2022
+250,Nuestro Pablo Semana,188,Autor Pequeña,324,2004
+251,Día Partidos Presente,132,Participación Obstante Humana,174,2010
+252,Pueden Contenido,120,Mujer,256,2014
+253,Corte Todo,37,Asociación,145,2009
+254,Servicio Comunidad Obstante Imposible,158,Jorge Junio,247,2005
+255,Del Jóvenes Caso,148,J Verdad Destino,280,2006
+256,Ministerio Central,128,Diversos Ocasión Difícil,359,2015
+257,Será Poco Sea,128,Futuro,166,2012
+258,Haciendo Formación No Pesetas,62,Nivel,418,2011
+259,Comunicación,13,Pie Será,373,2019
+260,Mesa Buenos Camino Población,74,Mil Estoy Sido,124,2003
+261,Máximo Nuestros Etapa A,35,Campo Deben,307,2024
+262,Público Proyecto Comunicación Pedro,94,Mujeres,325,2001
+263,Tomar Realizar,93,Ni Les Partir,267,2002
+264,Camino Jefe Cama Enfermedad,130,Ministro Unos,401,2008
+265,Visita,33,Buscar,321,2011
+266,Tierra Debido Estados,143,España Casi,193,2006
+267,Sean Teatro Diferentes Pasa,129,Educación,143,2001
+268,Alrededor Chile,183,Tales Fecha,362,2016
+269,Análisis Especialmente Plazo Crisis,39,Decisión Tengo Asimismo,383,2004
+270,Poco Técnica Rodríguez,157,Dice Quiero,203,2012
+271,Nunca Salida Arte,152,Análisis Región,379,2016
+272,Valor Pp Medida Yo,182,Millones Diferentes Manuel,273,2015
+273,Pedro,95,Llegó Cuestión,176,2013
+274,Participación Antonio Cámara,186,Humanos Común Muy,133,2019
+275,Internacional Parte Afirmó Comenzó,68,Bien Corte Sobre,416,2018
+276,Fondo Carrera,185,Memoria,418,2015
+277,República Metros,135,Pablo Pesar Socialista,314,2004
+278,Consejo Asimismo,9,Calle Aunque Buscar,176,2006
+279,Aun,113,Resultado Resulta,334,2004
+280,Segunda Cual Quiero Varias,177,Humanos,330,2016
+281,Imágenes Período Estuvo Imágenes,189,Puntos Escuela Espacio,151,2022
+282,Interior Proceso,133,Mes,407,2010
+283,Van Muchas Pone Baja,135,Poco Costa,280,2005
+284,Capital Vino Juicio Una,137,Aún Mundo,399,2011
+285,Ya Domingo Enfermedad,157,Desde Carta,218,2007
+286,Hablar Tu Usted,143,Oposición Hay,235,2009
+287,Estamos Sería Sala,181,Dejó,370,2010
+288,Fuentes Administración Psoe Vía,90,Allí Junio Hospital,260,2009
+289,Banco,147,Nadie Casos Así,398,2012
+290,Siguientes Hacerlo Ii Objetivo,89,Alto,268,2001
+291,Cuya Años Internacional,183,Amigos,297,2014
+292,América Llegado Tuvo,192,Diferentes Días,229,2006
+293,Sabe Texto Soy,144,París Casos Cambios,259,2004
+294,Mira,158,Puntos Vez Barcelona,420,2007
+295,Dado Popular,13,Razón Madre Proyecto,391,2007
+296,Te Personal,14,Tampoco,331,2010
+297,Tres Éxito Tener Siglo,26,Plaza Productos Instituciones,190,2000
+298,He Pequeño,105,Éxito Estudios Posibilidad,363,2015
+299,Zonas Luz,194,Constitución Una,284,2009
+300,Estilo,197,Muchos,413,2007
+301,Diversas,45,Construcción Sean,210,2001
+302,Texto Posibilidades Padres Especie,127,Seis,268,2001
+303,Diversos,77,Estar Varios Tú,174,2010
+304,Uso Suelo Llegar,117,Total Contenido Uso,398,2016
+305,Precio Quedó Pequeño Respecto,35,Ello Primero Muy,359,2008
+306,Entrar Construcción,29,Su Allá,203,2023
+307,Experiencia Cuarto Tierra Juan,166,Proceso Habría,215,2000
+308,Padre Causa Tipos,76,Orden Serán Valor,218,2005
+309,Participación Modelo Visto Conocimiento,110,Propia Madrid Alguien,287,2002
+310,Tras Dicen Torno Constitución,172,Quiero,214,2004
+311,Ya U Deseo Existencia,83,Nuestras,123,2008
+312,A Hoy Blanco Donde,61,Debe Estados,256,2010
+313,Existe Así Silencio,150,Corte Esfuerzo Amigos,413,2000
+314,Una Apenas Papel,168,Su Quedó,240,2001
+315,Pasa,120,Perdido Para,201,2012
+316,Aspectos Pie Fuego,177,Hermano,271,2011
+317,Fueron Grado,57,Quiero,364,2004
+318,Todas Sistema Próximo Sala,192,Mujeres Servicio Policía,311,2013
+319,Camino García Torno Ley,194,Tiempos Sueño Tomar,231,2024
+320,Puso Peso,175,Sí Interior Allá,161,2016
+321,Hay Del Personas Calidad,136,Principio Programas Fuerte,305,2002
+322,Hacerlo,16,Teoría Vio Has,378,2006
+323,Proceso Abril,43,Autoridades Sol,386,2014
+324,Alguna,175,Hasta,418,2015
+325,Encuentran,131,E Particular,148,2014
+326,Revolución Contrario,132,Este Propuesta,353,2018
+327,Real,144,Una Agua,277,2023
+328,Entonces,102,Llevar Momentos,121,2023
+329,Hijo Otro,149,Aquí,143,2013
+330,Manuel Sol París,180,Acciones,397,2001
+331,Has,121,Palabra,266,2013
+332,Mayoría Mitad,197,Mejor,335,2011
+333,Mantener Francia Te Entrada,115,Van País,312,2002
+334,Sentido Vida,168,Conocer Cuyo,180,2005
+335,Especialmente Generales Señor Económico,136,Precio,234,2000
+336,Llegó,77,Investigación Político,398,2013
+337,Pacientes Servicios Análisis Sur,59,Durante,355,2011
+338,Psoe Equipo,71,Través,177,2001
+339,Viaje Esa Toda Espera,158,Muestra,243,2006
+340,Pasado,26,Modelo Trata Forma,137,2014
+341,Y,63,Tipos Imagen Pequeño,142,2012
+342,Antes Durante Salud Vamos,60,Fuerzas Estado Día,231,2024
+343,Jóvenes,36,Tres Domingo Voz,268,2007
+344,Buen Aquel Obras,148,Otra Abril Victoria,284,2007
+345,Imágenes Miguel Embargo,37,Música Lugar Casos,386,2007
+346,Figura Parte Siendo Europa,77,Atención Otro,151,2017
+347,Incluso Gente,161,Hubo Podemos Juan,338,2017
+348,Forma Familia Siguientes Mayoría,13,Quizá Película,315,2025
+349,Proyecto Iba Sala,179,Intereses Animales,329,2004
+350,Están Semana Encuentran,97,Aún,395,2015
+351,Posibilidad Nueva,58,Hijo Tuvo,193,2025
+352,Campaña Lleva Arriba Mayo,15,Paso Don Llegado,331,2013
+353,Española Hermano,100,Noche,250,2006
+354,Superior Alguien Acto,166,Manuel,350,2011
+355,Ha,138,Jamás Llegó Río,217,2001
+356,Media Aquel Realizar,97,Mirada Produce Fondo,140,2002
+357,Nuevas Lleva,195,Número Amigos Ocho,406,2006
+358,Diciembre Cada Torno Posibilidad,54,Estoy Sociales,275,2000
+359,Toma Autoridades,49,Conjunto Mantener Total,180,2023
+360,Cama Quiero Silencio Otra,63,Carrera Lucha Igual,224,2012
+361,Reunión Era,142,J Existen,264,2012
+362,Ciento Llevar Peor Salud,137,Las Cinco Diez,303,2009
+363,Juego Cine Libre,93,Medida Niños Psoe,374,2014
+364,Productos,185,Compañía Debe,283,2006
+365,Somos Educación Equipo,81,Toma Gobierno,143,2018
+366,Principios Marcha,190,Persona,128,2008
+367,Cosa Ninguna Agua Educación,76,Necesario,220,2010
+368,País Quedó,98,Julio Donde Era,245,2015
+369,Espera Más Programa,66,Hacer Felipe,371,2014
+370,Muerto Carta,188,Justicia Seguir,206,2004
+371,Mercado Ir Llegó Conciencia,48,Origen Ciudad Lucha,150,2016
+372,Camino,20,Si Cuyo Cuatro,144,2024
+373,Importantes,106,Mediante,238,2002
+374,Razón Ejército,3,Fuera,378,2014
+375,Dar Especie Europea,16,Administración Atrás Quiero,367,2021
+376,Condiciones Tipo Estos América,5,Carácter,392,2017
+377,Decisión Buenos Rey Mesa,4,Clase,391,2023
+378,Presidente Propia Edad,138,Grupo Plaza,128,2016
+379,Felipe Grado Función Boca,46,Semana,169,2016
+380,Unos Largo,62,He,389,2008
+381,Policía Trabajo Razón,69,Especialmente Libre,160,2011
+382,Relaciones Efecto Quiero Has,118,Precios Cuenta Aquí,244,2022
+383,Sería Ciudad,77,Pese Objeto Señora,161,2020
+384,Hicieron,24,Del Pues,314,2012
+385,Sala Pablo Prensa Comunidad,15,Políticas Diferentes Prueba,124,2022
+386,Valor Eso,22,Sin Pequeño,342,2020
+387,Aquel Hora Pasar,145,Grupo,390,2001
+388,Libros Fuerte,55,Psoe Comunidad Diez,410,2015
+389,Pedro Mujeres Ministerio,12,Zona,263,2017
+390,Cuya,46,Unidad También,128,2006
+391,Escuela Alguien,193,Destino Antes S,323,2002
+392,D Director Premio,42,Personal Empresa Cámara,243,2018
+393,Media Niveles Características Allí,174,Supuesto Energía Ahí,289,2012
+394,Espera Lleva,177,Poder Madrid Agua,160,2016
+395,Agua Todos Ahí,14,Podría,343,2007
+396,P,88,Resultado Sé Especie,323,2024
+397,Junto Mujeres Puso,8,Hospital Permite Sido,259,2025
+398,Imposible Memoria Grado Flores,126,Voluntad,302,2017
+399,Siete Habrá Esto Algunos,111,Proyecto,419,2021
+400,Técnica Pequeño Poner Valor,22,Administración Siglo Idea,271,2025
+401,Julio Lleva,183,Rodríguez,162,2008
+402,Carrera Dio,98,Dejó Padres Marco,198,2023
+403,Ninguna Necesario Comunicación Zonas,82,Hija Sí,174,2002
+404,N,79,Edad Norte,304,2024
+405,Últimos Parte Banco,27,Posible,164,2005
+406,Generales Tales Comunidad Real,115,Derecho Queda Momento,404,2016
+407,Industria Expresión Vio Fecha,27,Hasta,165,2011
+408,Año,153,Objetivo Encontrar Su,286,2012
+409,Propios,75,Asociación Primeros,318,2024
+410,De,186,Proyectos Población Explicó,244,2018
+411,Armas Contenido,176,Manos Temas,206,2004
+412,Junio Sí Creo,78,Eso Norte,372,2004
+413,Partes,43,Poder Antonio,261,2013
+414,Largo Ambiente Mí,124,Boca,304,2008
+415,Ella Sido,185,Nuestra Después Podemos,373,2019
+416,Juego Imagen,118,Se,189,2009
+417,Viaje,102,Palabras Hacia,314,2025
+418,Oro Acciones Estaban,113,Desarrollo Día,340,2020
+419,Fuego Estado,77,Fuerza Dicho,222,2015
+420,Vista Aspectos Temas,46,República Existen,283,2009
+421,Bien Contrario Actividades Tenía,148,Total,286,2012
+422,Quedó Única Política,101,Demás Radio,178,2018
+423,Oro Tan,152,Mundo Llevar Izquierda,212,2021
+424,Dinero,187,Propia Empresas,227,2014
+425,Enero Final Encuentro,178,Madre,329,2021
+426,Allá Cantidad Importantes Cultural,36,Compañía Sueño Pudo,275,2007
+427,Manos Dólares Cabo,169,Vino,336,2025
+428,Presencia Autor Programas Cuadro,19,Estar Hubiera,365,2018
+429,San Silencio Mismo Voluntad,137,Por Creo Trata,334,2017
+430,Servicio,93,Oro Jóvenes Condiciones,394,2019
+431,I,28,Misma,301,2005
+432,Mayo,145,Aquellos Rafael Ahora,324,2024
+433,Respuesta Con Acuerdo,111,Deseo,125,2003
+434,Así Diciembre Sociales,57,Única Economía Diferentes,385,2017
+435,Precisamente Eso,115,Quiero Alta,320,2014
+436,Alguna Propio,89,Pública,367,2003
+437,Distintas Animales Tal,107,Iba,179,2023
+438,Niños Económico,90,Período Argentina,295,2014
+439,Uno Derecha,134,Marcha U,298,2015
+440,Todos,113,Centro Llama Mayor,351,2010
+441,Formas,77,Elementos,178,2000
+442,Han Iglesia Pudo,166,Fueron,204,2023
+443,Algo Río,133,Escuela,402,2005
+444,Un Necesidad Esas,144,Mundial Unidad,356,2007
+445,Cinco Amor Dejó Instituciones,162,D,215,2020
+446,Tendrá Sola Si Cuestión,102,Dar,221,2014
+447,Pública Ojos Hicieron Formas,100,Militar,229,2006
+448,Ninguna Total Calidad,193,Sol Fuerza Madre,152,2018
+449,Sino,138,Profesional,307,2010
+450,Partidos Participación,118,Mí,254,2021
+451,Construcción Que Puso Por,136,Muy C Toma,280,2019
+452,Cual Estilo Cuando Precio,157,Quería Siete,420,2003
+453,Tarde Relación Centros,91,Respecto Mira,208,2021
+454,Civil Algo Plaza,158,Qué Horas Justicia,163,2021
+455,Muy Estoy,81,Revolución,242,2009
+456,Nuestros,47,Señaló Lejos,192,2016
+457,Ministro Tan Cara Solo,108,Aquel Programas Modelo,190,2018
+458,Sociedad Fuerza R Somos,109,Produce,369,2020
+459,Juan Busca,143,Cultural,370,2009
+460,Europea Debe,48,Hermano O,350,2019
+461,Voy,92,Igual,368,2004
+462,Ayuda Realizar,99,Del Iba Peso,378,2020
+463,Zona Finalmente Falta Noche,105,J Ambos Rosa,371,2013
+464,Aquellas Otras Problema Había,126,Mano,162,2018
+465,Has,195,Señaló,269,2001
+466,Económica Habrá Policía,58,Animales Otra Sido,267,2005
+467,España Mejores E Jóvenes,145,Siendo Buscar Allí,373,2017
+468,Mujeres,147,Tribunal,257,2024
+469,Hemos Creación Habrá,139,Texto,345,2017
+470,Paso Grupos,109,Estar,246,2009
+471,Otro,116,Tipos Están,298,2002
+472,Cierta Nada Sino Personal,31,Varios,227,2025
+473,Seis Menor Buscar,182,Parece Falta Nombre,339,2005
+474,Algo Pasado,53,Enfermedad,150,2018
+475,Podía Ejército Productos,137,Ejemplo Asunto,395,2005
+476,Todas Espera Generales,181,Antonio Desde,268,2018
+477,Dicho Mejores Cuenta,132,Propios Salida Cuya,168,2004
+478,Resto Dijo Año Producto,16,Casa Nos,184,2022
+479,Práctica Horas,64,Ello,284,2007
+480,Distintos Amor Origen Siquiera,126,Rey,415,2020
+481,Plan Asimismo E,161,Somos Cuatro,312,2014
+482,Pocos,163,Ninguna,326,2016
+483,Costa Ella Hija,178,Costa Ellos,352,2015
+484,Semanas Mi Llama,149,Sector,167,2023
+485,Informe Comisión Si Hechos,163,Grupo Ejemplo Ciudad,303,2002
+486,Problema Juicio Entre Objeto,56,Padre Tierra,228,2015
+487,Demás Causa Así,83,Problema Hoy,292,2017
+488,Nuestro Electoral,145,Próximo Blanco,295,2021
+489,Unidad,12,Vamos,355,2000
+490,Cuba,41,Al Vista,353,2000
+491,Viaje Sigue Práctica Palabras,52,Fuerte Varios Meses,187,2020
+492,Le Rey Si,41,Supuesto Don,167,2020
+493,Pasó Mes Últimos,65,Favor,310,2021
+494,Premio Animales,14,Mundo Lucha,276,2023
+495,Público Cámara,110,Asimismo Yo N,166,2022
+496,Tarde,1,Función,364,2002
+497,U Conciencia,152,C,385,2021
+498,Etapa Proyectos Cuenta Allí,3,Paso,295,2003
+499,Fuego Ve Posibilidades Me,178,Formación,364,2002
+500,Propia Jóvenes,99,Decir,172,2003
+501,Contrario Social Vuelve,95,Razones Siguiente,190,2012
+502,Llegar Aire,165,Tanto Lado Estados,193,2002
+503,Televisión,157,Estaban Mayoría Cuyo,204,2014
+504,Fuego Quiere Nueva,185,Unidad,197,2013
+505,Exterior Sé Como Respuesta,56,Concepto,171,2004
+506,Decir,151,Juez U Oro,316,2011
+507,Estilo Puerta Pacientes Antonio,81,Estado,246,2008
+508,Internacional,64,Manos Pues Pasado,265,2024
+509,Aquellas,169,Anterior Buenos,225,2016
+510,Efecto Trata,192,Cambios Cuales,271,2020
+511,Ii,62,Propuesta Plazo,317,2003
+512,Posible Izquierda,128,Tienen Partir Crecimiento,156,2016
+513,Momento,93,Nueva La,187,2012
+514,Precisamente Pedro Capaz Sola,94,Sol Frente Algún,208,2024
+515,Pasó Mesa Pensar Contra,198,Militar,128,2018
+516,Nuevo,4,Mercado Después,230,2001
+517,Político,102,Noviembre Ver Considera,266,2020
+518,Siempre Sabía Buenos Tendrá,109,Deben Nombre Cuerpo,325,2002
+519,Donde Modo,72,General,278,2002
+520,Cuarto Desde,40,Alto Ambos Aquí,287,2012
+521,Espacio,80,Figura Interior Alguien,343,2023
+522,Año Sigue,15,Considera,164,2013
+523,Superior,117,Viejo Puedo Sea,148,2009
+524,Cada Solución,31,Manos,190,2022
+525,Lo,42,Tuvo Marzo,297,2016
+526,E Embargo Zona,43,Consecuencia Queda,184,2023
+527,Pp Sí Podemos,188,Pueda,135,2010
+528,Aparece Especie Salud Resulta,70,Importantes Principio Sólo,152,2008
+529,Buena,128,Aún Manera,381,2011
+530,Quería,128,Palabra Particular Televisión,205,2011
+531,Línea Director,66,Según,413,2021
+532,Mi,59,Tema Resto Investigación,380,2000
+533,Yo,4,Único,143,2015
+534,El Durante Suerte,99,República,211,2001
+535,Cantidad Nuestro Sus Partido,58,Aquel Esa,247,2013
+536,Ocasiones Llegar Hijo,70,Economía,412,2011
+537,Asimismo,129,Sur Ella Conjunto,146,2005
+538,Cosas Considera,133,Interior,325,2002
+539,Ciudad Era Mediante Muerte,73,Democracia Manuel,287,2002
+540,Debe Diario Gran Existencia,3,Pasó Idea,222,2009
+541,Estuvo Guerra Así,190,Saber Recursos Peor,244,2014
+542,Puedo Obstante Pedro,152,Cambio Dicho,220,2023
+543,Comisión Salida,39,Cuando,329,2000
+544,Carácter Busca,139,Felipe Existen,124,2010
+545,Ayuda,195,Entonces Martín Consejo,312,2023
+546,Martín Aquí Bajo,27,Cuatro,391,2007
+547,Mucho Relaciones Vuelve Siendo,126,Ocasiones,192,2022
+548,Formas Período Problemas,24,Corte,238,2016
+549,Principales Cuestión Tan Cuya,180,Seguir Asunto,354,2023
+550,Época,149,Futuro,378,2004
+551,Asimismo Por I Respuesta,20,Práctica Poco Días,410,2001
+552,Sol B Buscar Mundo,170,Nada,241,2009
+553,Contrario Mundo María,81,Menor Palabras,287,2010
+554,Papel Vista Capacidad Color,70,Ser,158,2006
+555,Grupo Dio,200,Secretario Argentina Hablar,175,2004
+556,Camino,43,Dicen Mayoría,358,2010
+557,Mano Humanos Toma Presenta,31,Lo Vuelta Nivel,303,2024
+558,Don Siguiente,116,Diario Según,357,2008
+559,Recuerdo,24,Mí,275,2022
+560,Hoy,56,Casos Miedo,195,2002
+561,Juez Semana,92,Metros Conocer,382,2001
+562,Día Arte Humana,67,Dado,135,2012
+563,Construcción Peso Santiago Informe,143,Hijos Primer Ministro,401,2007
+564,Juego,119,Idea,191,2003
+565,Lugar,16,Felipe,186,2006
+566,Ocasión Hacerlo Me Será,96,Volvió Democracia Cuerpo,163,2018
+567,Existe Grado Especie,20,Don,153,2006
+568,Fuerza Actividad Servicio Carne,33,Derecha,289,2003
+569,Sobre,119,Final,206,2018
+570,Policía Podemos Nueva Comercio,186,Respuesta Puesto,374,2000
+571,Tenía Vio Deja Francia,175,Verdad Saber,208,2011
+572,Sea Miguel,48,Buscar Asociación,263,2014
+573,Reunión Viene,9,Siglo Dirección Lo,245,2020
+574,Libros Materia Se,128,Ii Reunión,401,2015
+575,Alta,23,Creación Posible,316,2004
+576,Evitar Tipos Viaje Sabía,52,Muchas Cama Ocasión,389,2007
+577,Aquellos,98,Incluso Niño Existen,303,2015
+578,Suerte Servicio Antes Fuerzas,89,Pocos Ocasiones Puerta,377,2010
+579,Reunión Color Dicho Caso,70,Él,133,2010
+580,Éste Pueblo,8,Voz Pueblo,149,2025
+581,Siete Propios Viejo Social,136,Mundial San,419,2007
+582,Hay Asociación,26,S,243,2008
+583,Debido,196,Idea,414,2025
+584,Línea Argentina Valores Bastante,91,Nivel,210,2007
+585,Carlos Capital Obras,189,Cuando Río Miguel,303,2018
+586,Muchos,181,Programa Viaje Radio,300,2018
+587,Silencio Nuevos,145,Buscar,372,2017
+588,Boca Sociales Solución,45,Prueba Junio,139,2002
+589,Fin,60,Cuanto Aquellos Construcción,232,2000
+590,Baja Estudios Esfuerzo Sistemas,1,Revolución Tomar,223,2025
+591,Horas Posible,88,Operación Europa Tendrá,210,2025
+592,Amor Demasiado Actividad,16,Hacia,195,2018
+593,Aquellos Señaló,199,Domingo,389,2011
+594,Unión,96,Solamente Ese Dicen,322,2018
+595,Congreso,87,Algo Argentina,285,2004
+596,Popular Barcelona,188,Comercio Debe,369,2020
+597,Flores Programa Rafael,45,Área Diversas Mejor,407,2022
+598,Pregunta Mujer Aunque,58,Luz Diversas Seguridad,209,2012
+599,Vez Julio Situación,188,Lejos Fuentes Primer,270,2004
+600,Memoria Cultural,187,Esto,413,2012
+601,Origen,47,Principio Empresas Empresas,282,2025
+602,Nuestros En,164,Banco Marcha Suficiente,173,2015
+603,Área Alrededor,85,Tenido Para En,159,2007
+604,Conocimiento Importante Marco,82,Respecto,165,2022
+605,Además Campo Izquierda,115,Personas,255,2006
+606,Él Muy,178,Aquellas,299,2008
+607,Director,185,Niño,144,2012
+608,Fernando Especialmente Orden Voluntad,188,Explicó Programa,205,2013
+609,Abril Ellas Social Siguientes,97,Grado Dio,399,2012
+610,Mí,123,Tarde Líder Fuera,235,2005
+611,Como Prensa Ayer Espera,19,Habla,270,2000
+612,Esta Junio Mis,67,Hacen,157,2010
+613,Natural Podemos,97,Está,158,2017
+614,Viene,87,Nada Encontrar Desde,367,2022
+615,Les,111,Dado Tampoco Queda,204,2019
+616,Soy Cómo Padres Origen,41,Llegar,171,2010
+617,Europa Mundo,49,Económica Natural,403,2023
+618,Habrá Capital Pp,170,Fuerzas Secretario,272,2007
+619,Junto,13,Estos Forma,412,2017
+620,Dentro Nuestro Ojos Recursos,40,Agua,304,2000
+621,Últimos Dirección Va Hacen,23,Debía Crecimiento,365,2006
+622,Figura,7,Español,207,2020
+623,Tu Por Siempre,21,General Partidos,179,2009
+624,Central Martín Cultural E,121,Participación López,255,2002
+625,Encuentro Cara Perdido Muerte,48,Mi Aspectos,315,2011
+626,Temas Industria,115,Solo,254,2014
+627,Creación Primero Finalmente Dijo,68,Fácil,257,2018
+628,Esfuerzo,39,Muy Industria Medidas,169,2002
+629,Partido Últimos Alto,139,Parecía Sectores,236,2017
+630,Sido,100,Policía Programa Estos,334,2017
+631,Ciento Cara G Compañía,147,Aire,363,2009
+632,Mejores,102,Libertad Tendrá Aquí,137,2016
+633,Esto Artículo,31,Máximo Exterior,208,2005
+634,Estado Ii,50,Comunidad,141,2013
+635,Unidad,175,Apoyo Alto,223,2020
+636,Mesa Cultural,153,Mesa Pregunta,283,2023
+637,Rodríguez,23,Aumento Teoría,404,2012
+638,Momento Toma Poco,71,Papel Muy Información,354,2000
+639,Seguridad Especie Viene Materia,29,Administración García,196,2004
+640,Paciente,28,Grande Orden Recursos,171,2025
+641,I Sido Pocos,138,Relación Van,330,2008
+642,Poner Buen Fútbol Mar,168,Rafael Han,412,2019
+643,Sangre Luego Sueño Industria,10,Socialista,261,2012
+644,Poder D,159,Semana Mercado Alguna,325,2001
+645,Sociales Resto Interior Vuelta,85,Te Sector Pedro,241,2001
+646,Durante Organización Mal Conseguir,69,Entrada Para,130,2010
+647,Minutos Cuando Pasa,80,Mira Enero,371,2022
+648,Rafael,59,Económico,273,2023
+649,Oficial Recuerdo Cuales Tomar,199,Existe Quiere,257,2023
+650,Tales Cámara Exterior Mayoría,155,Materia Cantidad Vivir,165,2006
+651,Dios Grupos País Amigos,55,Que Igual,368,2024
+652,Económico Felipe Hacen,15,Puerta Forma Aun,201,2002
+653,Siguiente Unidad Médico,182,Fondo Madre Juan,326,2004
+654,Ayer,45,Jamás,222,2001
+655,Industria Acuerdo,9,Suerte Tener,145,2011
+656,Orden Alrededor,71,Años Lleva,357,2016
+657,Boca Ayer Socialista Cara,163,Españoles,135,2007
+658,Instituto Hombre Nuevas,126,Popular Desde Etapa,348,2005
+659,Aumento Educación Universidad Distintas,151,Nueva Común Marcha,299,2011
+660,Además Obras,67,Cantidad Contenido Estamos,166,2009
+661,Dinero,99,Empresas,203,2018
+662,Paciente Centros,57,Fecha Nosotros Pablo,235,2021
+663,Blanca Grupos,69,España Barcelona I,329,2016
+664,Materia,200,Fuerzas Ocasiones Hacen,124,2015
+665,Seguridad Efectos,166,Sol,124,2007
+666,Mismos Punto Elementos,156,Cabeza Internacional,260,2013
+667,Boca Máximo Muestra Curso,90,Estamos Acciones,249,2006
+668,Real Mayor Propia Sigue,78,Civil Tratamiento Base,386,2019
+669,Actitud Consumo María Hija,150,Técnica,123,2016
+670,Por Forma Música,144,Sólo Hay Público,264,2009
+671,Puerto,124,Nunca,292,2008
+672,J Hechos Algunos,71,Nos Programas,272,2006
+673,Cualquier Encuentra,133,Fuerza,149,2025
+674,Cuba Antes Dolor Modelo,170,Entrar Médico,191,2023
+675,Libre,168,Razón Diez,271,2008
+676,Conciencia Diario Realizar Años,104,Ningún Dado,138,2018
+677,Expresión Políticas,88,Peor Sólo Miedo,233,2021
+678,Ello Dolor Oro Paz,172,Ley Económico,379,2009
+679,Sabía Fuerza,169,Energía Finalmente Tipo,212,2009
+680,Miedo,121,Vuelve,252,2023
+681,Historia Consejo,175,J E,165,2007
+682,Imposible Campaña Algo,58,Dos Dar Muerte,277,2013
+683,Va U Y,96,Uso Pone,419,2009
+684,Son Propuesta Rey Lejos,31,Hubo Ocasiones,147,2020
+685,Llegar,121,Jefe,376,2003
+686,Mantener Resto Ahora Cambios,136,Crisis Constitución,331,2001
+687,Políticos Llegado,36,Tenía,295,2013
+688,Diferentes Quiero Ella Nadie,37,Nuestra Mayoría,212,2024
+689,Único,125,Cuanto Suficiente,210,2010
+690,Económico,2,Popular N,260,2006
+691,Distintos Máximo,148,Del,370,2025
+692,Unos,34,Cargo Medida López,342,2020
+693,Cuyo Posición Curso Acto,104,Semana Profesional,364,2012
+694,Generales,10,Estos Modo Éxito,222,2023
+695,Pero Mundial Cierta,4,Ésta Militar,391,2006
+696,Nuevas,174,Era,247,2007
+697,Segundo Viejo Respecto,80,Otra,172,2012
+698,Siguientes Ver Instituto,43,Causa,143,2009
+699,Época Formas Fuera,117,Pueda Grandes Políticas,386,2019
+700,G Aún Técnica,112,Sectores Construcción Siendo,188,2010
+701,Cámara Ahora Radio O,92,Campaña,204,2025
+702,Mayoría Durante Han Producto,5,Miguel,234,2023
+703,Mismo Informe,55,Ii Quién Interés,131,2018
+704,Producción Trata,32,Ex Les,139,2012
+705,Y Cuarto Parte,198,Humanos Muy Sueño,144,2019
+706,México,170,Marzo,130,2001
+707,Hijos,107,Forma Plazo,314,2003
+708,Manos Tan Ideas,122,Alto Comisión Sur,198,2006
+709,Capacidad,78,Luego Hizo,171,2021
+710,Sean Europea París,160,Tierra Económico Director,190,2013
+711,Armas,131,Posibilidades Produce Metros,180,2009
+712,Vista,28,Constitución Un,221,2019
+713,Temas Trabajo,200,También Pedro,387,2006
+714,Dinero Queda Gobierno,181,Situación Construcción,271,2005
+715,Mayores,141,Palabras Barcelona,226,2022
+716,Autor Congreso Va Nadie,85,Ciencia,121,2000
+717,Cinco,29,Muchos Frente Atrás,372,2004
+718,Instituciones,200,Han D Torno,158,2023
+719,Contrario,66,Visto Resto Cabeza,238,2014
+720,Donde Según Baja,68,Efecto Mercado,145,2003
+721,Además Bastante,11,Menos Objeto,304,2025
+722,Busca Algún Interés,110,Alta Largo Experiencia,179,2003
+723,Cine,3,Salir,207,2010
+724,Española Trata Población,113,En Padre Países,257,2023
+725,Acerca,96,República Pueblo,213,2003
+726,Total Permite Mayoría Sigue,103,Imagen Juez,259,2012
+727,Efecto Nada Siquiera Esa,108,Don Mira Socialista,205,2003
+728,Tipo Conocimiento,179,Objetivo Principales Área,150,2005
+729,Comercio,107,Sociales Sobre Comunicación,367,2025
+730,Producción Función Violencia Seguir,47,Ministerio Términos Mes,314,2024
+731,Características Condiciones Posible,157,Enero,186,2015
+732,Función Asociación España Economía,29,Tanto C,345,2001
+733,Las,67,Medidas Sueño Fuego,280,2000
+734,Cuyo Poder,172,Ésta Medida,385,2016
+735,Tras,111,Fuerte Fuerte Tribunal,247,2015
+736,Algunos Consecuencia Visita,170,Dos Pequeño Sentido,317,2004
+737,Meses,3,Único Fue Agua,200,2016
+738,Primeras Creo Futuro Ninguna,127,Hasta,158,2024
+739,Son Haciendo Estado Generales,83,Suelo,289,2008
+740,Capaz,130,Don,401,2020
+741,G Muerte Conjunto Cuenta,104,Grande,160,2014
+742,Interior Energía Pp Después,147,Incluso Aquellas,165,2015
+743,Horas Camino Vuelta Internacional,81,Habla,374,2023
+744,Central,27,Mucha A,331,2001
+745,López,24,Lugar Poder Después,275,2016
+746,Sangre Bajo,168,Ciudad Tengo Región,353,2010
+747,Les Realidad Local,14,Finalmente,352,2010
+748,Estos Trabajadores Posibilidad Principal,184,Reunión Papel Unas,306,2022
+749,Mientras Superior Hombre Congreso,30,Humana,233,2000
+750,Miguel Yo Cinco,91,Fueron Curso Favor,269,2017
+751,Manuel Es Escuela,180,Viene,143,2005
+752,Informe Encuentran Habían Teatro,36,Aquellos Resultados Hizo,329,2003
+753,Papel Otras B,157,Llegado,216,2003
+754,Frente Amigos Nombre Éxito,56,Programa Miembros,217,2022
+755,Principal Proceso Hubiera,28,Nada Ello,143,2020
+756,Razones,198,Armas Tiempos,354,2021
+757,Mira Conocer,128,Frente,391,2023
+758,Necesario,142,Abril Cantidad,419,2015
+759,Marco Tenido,178,Llevar Sí Amigos,208,2023
+760,Rodríguez Resultado,27,La Pone,284,2016
+761,Viene Servicios Europa Temas,108,Ve Empresas Diversos,247,2008
+762,Resultados Llega Ahí Película,88,Primeras Democracia,351,2025
+763,Fuentes Ir,36,Madre Vino,382,2009
+764,Debía Hace Domingo,183,Conjunto Problemas Y,403,2020
+765,Miedo Los,52,Menor,268,2021
+766,Unos Los Tomar,173,Ejército,211,2016
+767,Película Fondo Forma,182,Anterior,300,2017
+768,Viejo Último Ciencia Espacio,150,Condiciones Muchas Análisis,333,2021
+769,Mitad Barcelona Programas,109,Comunidad,387,2003
+770,Tras,98,Tampoco,147,2021
+771,Pedro,52,Voy Último,202,2009
+772,Partir Internacional Ejército,38,Texto,271,2006
+773,Trabajo,92,Ciencia Amigos,172,2019
+774,Actitud Deben,191,Ambiente Estas Ejemplo,407,2012
+775,Estoy Español,131,Causa Ve Cambios,267,2022
+776,Nunca,98,Razón Ayuda,333,2025
+777,Película Distintos Mes,142,Debido,126,2023
+778,Siendo Tiene Países,52,Otros Esta Campo,346,2007
+779,Líder Cuyo Políticos,194,Espera Rey Deseo,399,2023
+780,Mejores Pensar,199,Media Dice Lucha,219,2009
+781,Película María Ya Favor,46,Justicia Sentido Embargo,158,2005
+782,Todo Estar,189,De Pasado N,181,2012
+783,Atrás,110,Ciento Cargo,404,2008
+784,Camino Punto,42,Una Enfermedad Has,250,2000
+785,Resto Artículo Estudios,120,B Segunda Sala,199,2001
+786,Importante Pablo,83,Ninguna Minutos En,146,2024
+787,Pueden Control Estudios,126,Jefe Buena Ante,401,2011
+788,Próximo,182,Instituto Junio,389,2007
+789,Aspectos Libre,134,Espera,378,2005
+790,Paz Sabe Atención Unas,140,Buena Características Argentina,326,2002
+791,Aun Pregunta Resultados,57,Nombre,289,2010
+792,Donde Económico Afirmó,76,Acciones,391,2015
+793,Escuela,30,Proceso Mal Club,297,2014
+794,Justicia Del,165,Octubre Relación Tres,244,2001
+795,Pie Informe Vida,98,Dan,317,2008
+796,Cual Seguridad Estados,7,Partidos José Humanos,311,2016
+797,Precios Manera Efectos Tu,125,Final,271,2020
+798,Tribunal Agua,83,Ello Cuerpo Secretario,162,2003
+799,Tal Forma,198,Toma Poner Medidas,393,2000
+800,Pueda,54,A Asociación Curso,229,2021
+801,Sueño Acción Mal Pp,27,Fiscal,395,2022
+802,Presenta Dolor Investigación Líder,166,Diversos,198,2000
+803,Diez Hijo Dejó Además,184,Próximo Relaciones,139,2002
+804,Pablo,14,Palabra,248,2017
+805,Ya,148,Hijos,252,2013
+806,Esas Oro Riesgo Cara,116,Hacia Dólares Mal,327,2013
+807,Se Pie Tampoco,5,Mundo Tengo,180,2017
+808,Juicio,165,Carlos Pasa Allí,152,2024
+809,Educación,180,Noviembre,303,2016
+810,Única,75,Programa Tras Espacio,274,2019
+811,Estudio,73,Habrá Amor,315,2012
+812,Militares,122,Papel,393,2007
+813,Problema Fueron,192,Millones Fuentes,399,2009
+814,Desarrollo Menos,77,Todavía Cambio Servicios,311,2000
+815,Música Decir,32,J,122,2018
+816,Finalmente Pronto Del Libertad,138,Hombre Aparece Blanco,163,2009
+817,Banco Mal,192,Efecto Obra Puso,296,2006
+818,Hasta Según Tenía Acuerdo,166,Madre Fútbol Gran,192,2005
+819,Mayores Carlos,57,Total Vamos Supuesto,249,2006
+820,M,47,Al Casa Santiago,410,2001
+821,Pablo Dentro Fuentes Suelo,166,Pueden Libros Igual,157,2009
+822,Compañía,65,Recursos,221,2023
+823,Necesario Estructura Dicen Música,85,Unidos Mismos,185,2021
+824,Nuevo Ver,26,Cuestión Orden,155,2006
+825,Blanco Miguel París,125,Ese Estas,288,2019
+826,Guerra Trata Aquel,178,Mujeres Encuentro Meses,198,2018
+827,Imagen Pregunta Dios,81,Respuesta Peor,206,2000
+828,Idea Tras O,64,Humanos,343,2008
+829,Tu Incluso Mayores,35,Deja Fuera Servicio,289,2015
+830,Sido Obstante Pronto Sólo,115,Sola Pública,276,2015
+831,Gobierno,45,Estado Secretario Otra,161,2008
+832,Reforma Ex,138,Tu,254,2023
+833,Último,187,Estuvo,129,2016
+834,Cabeza,149,Paz Mucho Tenemos,327,2024
+835,Partido Cuando,10,Persona Centros Entrar,253,2017
+836,Niño Operación Comenzó Hacen,168,Lugar,307,2012
+837,Septiembre Ve,198,Misma Rey Blanco,268,2004
+838,Ayuda Manuel Recursos Buenos,129,Propio Esas Televisión,166,2012
+839,Película Arte Condiciones,129,Público,242,2025
+840,Tal Las,194,Recursos Acerca Pues,191,2014
+841,Unidos Presente,46,Crecimiento Siguiente Mitad,409,2021
+842,Cierto Vino,189,Tenían Rey Europea,367,2011
+843,Cuales,57,Puerta Demás,238,2002
+844,Derechos Comisión Tenía,95,Mitad,141,2021
+845,Autor Técnica,133,Nadie Otros,318,2015
+846,Hubo Mundial Felipe Decía,12,Espera,285,2003
+847,Tiempos Verdad Miedo,190,Pasó Barcelona,416,2017
+848,Adelante José,97,Junto Oficial Secretario,313,2011
+849,Dar,133,I Siguiente,312,2007
+850,Semana Política Septiembre Más,91,Aquellas Da,369,2025
+851,Hecho Alto Se Tanto,155,Una,376,2004
+852,Central Aquella Cosa Atrás,43,Música,159,2016
+853,Actividad Enero Proyecto,55,Entrar,215,2005
+854,Dejó Decir Público,155,Tema Ministerio Frente,180,2021
+855,Cama Cuerpo,107,Ningún Por,178,2015
+856,Animales Quería Buen Animales,123,Último,202,2020
+857,Efectos Ya Visto Sola,6,Banco,142,2004
+858,Iglesia Haber,35,Razón Rosa Obstante,382,2001
+859,Primer Fernando,15,Serán,252,2005
+860,Pone Políticos Último Silencio,154,Dentro Mucha Oposición,129,2023
+861,Usted Poco Lleva,22,Luz,349,2019
+862,Una Producto Demasiado Antonio,124,Relación,232,2013
+863,Se También,150,Precio,381,2008
+864,Amigo Crecimiento,186,Toda Sola Relación,295,2014
+865,Fuerzas,59,Ella Objeto,317,2004
+866,Dan,5,Niveles,387,2016
+867,N Hubo Todos Encuentro,39,Habrá Enero Primera,169,2005
+868,Lado Máximo Expresión Estuvo,158,Puerto Media Será,139,2025
+869,Santa,24,Calle Éxito,186,2019
+870,Modo,199,Pp González Alto,340,2016
+871,Tierra Ve Manera Ciudad,95,Persona,391,2013
+872,Sé Difícil,124,Santiago Favor,299,2018
+873,Contenido,109,Jóvenes,250,2015
+874,Va Tenido,22,Consejo Mirada,398,2013
+875,Gracias Miembros Riesgo,49,Juego,123,2018
+876,Razón,134,Llevar,312,2020
+877,Fin Es,177,Asunto Riesgo,329,2011
+878,Centro,40,Semana Parte,419,2008
+879,Arriba Mirada Manera,138,Hechos Ideas,409,2011
+880,Casi Tú Dirección,175,Varios Gran,224,2013
+881,Amigos Había Pone Cual,46,Sobre Forma,406,2017
+882,Sistema Sobre Dónde Razón,65,Aire Elementos,415,2011
+883,Función Está Nadie Formación,189,Con,180,2023
+884,Precios Haber,115,Investigación Dicen Otros,202,2003
+885,Creación Así,131,Mar Diversos,293,2025
+886,Ir,42,Unidad Producto,122,2025
+887,Todos,38,Distintos Algunas,342,2002
+888,También,68,Llevar,309,2002
+889,Ahora,186,Período Después,325,2019
+890,Acuerdo Juego Año,183,Realidad Buen Será,149,2024
+891,Lucha Habría,164,Encuentran Mar,344,2000
+892,Mar Humanos,169,Vino Fuentes Pie,266,2006
+893,Cuarto,154,Partes Contenido Aquí,384,2022
+894,Mujer Hablar,158,Van,138,2011
+895,Lucha Banco,168,Debido,200,2002
+896,Paz Propia Hemos,200,Proyectos Voz,300,2021
+897,Amor Doctor Salud Artículo,104,Evitar Contrario Nuestra,222,2016
+898,Memoria,189,Resto Mayores Total,155,2002
+899,Julio Lenguaje De,186,Entre Verdad Su,418,2011
+900,Hombre Recuerdo A,71,Guerra,219,2014
+901,Ejemplo Hemos Sola Tipos,148,Ocasiones,253,2005
+902,Muchas Palabra Cuya Particular,130,Primer,406,2002
+903,Dijo Movimiento Tal,88,Mañana,382,2008
+904,México Comunicación Lado,178,Local Ella,313,2018
+905,Ciento Asimismo Corazón Participación,198,Habla,293,2024
+906,Educación Necesario Revolución Enfermedad,175,Mirada Sido,420,2000
+907,Dónde Esta Pasó Ningún,30,Libros Distintas,154,2012
+908,Iba Hacerlo,174,Principio Precios Hacia,237,2025
+909,Cierta Sean París,106,Propuesta Económico,384,2017
+910,Haciendo,180,Vista Familia,247,2009
+911,Fue,103,Tuvo García Señor,295,2002
+912,Derecha Casi,122,Plaza Somos,301,2006
+913,R Negro Libre,47,Día Servicios Llegado,217,2015
+914,Entonces Éste,61,Nuevos Entrada Hacen,243,2008
+915,Ojos Última,59,Imagen,247,2019
+916,Juez Momento Hombre,40,Pedro,181,2002
+917,Cuatro Comisión Civil Importancia,158,Texto,397,2001
+918,Pública Sociedad Algunas Estudio,96,Políticas Fuentes Poco,281,2015
+919,Idea Española Tener,126,M,381,2008
+920,Podemos Pero Familia Rafael,57,Alta Torno Arte,185,2001
+921,Decir Era Vía Nuestro,123,Puerta Alrededor Industria,136,2016
+922,Poco Han Siguientes,101,Jorge Dolor Mejores,209,2014
+923,No,179,Programa Película Familia,355,2010
+924,Educación,4,Más Haber Pasar,227,2012
+925,Haber,84,Alguien Dejó,252,2005
+926,Pasa Natural Flores,61,Padres Existencia,361,2019
+927,Sabe Violencia Tenemos,94,Información,375,2013
+928,Partido Derecho,108,Diciembre Secretario Sólo,310,2011
+929,Bastante Se Razón Mañana,72,Industria Línea,212,2018
+930,Entrar Al,148,Santiago Suelo Realidad,237,2003
+931,Música Larga Menos,61,Mal Señaló Apenas,341,2012
+932,Ciudad Economía,38,Edad Jorge Como,196,2015
+933,Último,46,Material Familia,375,2004
+934,Aire Mayores Es,125,Tiempos Político,248,2017
+935,Propio,102,Número,203,2001
+936,Explicó Imágenes,66,Muchas Nos,169,2014
+937,Problemas Saber Premio,67,Torno Solamente,304,2017
+938,Martín Ley Aquella,89,Dio,330,2003
+939,Lucha Durante Ningún,174,Estilo P Hubo,221,2018
+940,Guerra San,200,Cómo Blanca,301,2010
+941,Armas Quienes Gracias Agua,199,Lugar Encuentra Felipe,348,2002
+942,Pregunta Llegar Ejército Pública,158,Están Explicó,357,2020
+943,Hicieron Decir,43,Corte Asimismo Algún,292,2013
+944,Vamos Siguientes Les Algún,19,Abril,202,2010
+945,Decir Si,81,Tuvo Aquellas,269,2022
+946,Rosa Podía Entrada,155,Informe Oficial Finalmente,322,2008
+947,Política He Millones Le,200,Hospital Francisco,420,2016
+948,Conocer P Especialmente Realidad,106,Le,214,2000
+949,Ellas Crecimiento,187,Valor,248,2023
+950,Hoy,54,Hijos,323,2003
+951,Santiago,17,Conocer Momentos,400,2001
+952,Vista,198,Tras Obras,388,2024
+953,Capacidad,27,Hoy Historia,199,2002
+954,Este Doctor No Todavía,80,Relaciones,246,2023
+955,Horas América Ello,114,Noche Misma Dan,184,2004
+956,Media Francisco,8,Ejército,302,2010
+957,Voz Edad Gente Producción,120,También Campaña Tampoco,259,2017
+958,Primero Mesa Médico Podemos,35,Crisis Militares Plazo,396,2005
+959,Políticos Julio Llamado Fue,162,Explicó Juego Antonio,408,2013
+960,Campaña Mar Justicia,89,Blanco Está,396,2007
+961,Dicho,114,Mediante Electoral,307,2013
+962,Lejos María Aquí,40,Tierra Has,125,2000
+963,Compañía Fiscal,89,Actividad Autor,360,2017
+964,Tres,177,Quedó Estos,364,2009
+965,Tenían,197,Demasiado Vio,269,2019
+966,Alguien Tema,2,Sé Pero Miembros,311,2006
+967,Aun Cama Contenido Tanto,144,Sé Haciendo,322,2007
+968,Espera Tenía,184,Conocimiento Ella Santa,319,2012
+969,Económico Gobierno,68,Baja,336,2020
+970,Campo Enero,133,Fuerzas Martín Interior,259,2009
+971,Música Llega Esfuerzo,106,Cine,155,2005
+972,Operación Pregunta,75,Aquí,353,2019
+973,Dolor Cual Momentos Ambos,70,Propio Llega Medida,371,2006
+974,Objetivo Unos Millones,5,Parece,145,2017
+975,El,48,Silencio,264,2008
+976,Ideas Por,184,Organización Nuevas,124,2007
+977,Llamado,39,Y,372,2006
+978,Evitar Figura Habían,108,Amigos Miembros,375,2011
+979,Arte Elecciones A Contenido,179,Verdad,289,2002
+980,Quizá Vamos,15,Tales Desde,320,2002
+981,Todas Resulta Todo Adelante,47,Tiempos,248,2012
+982,Superior,32,Aumento Dicho Toma,247,2012
+983,Desde Dado Cual Boca,64,Mesa Amigo Unión,137,2006
+984,Plazo Nueva Ninguna Dejar,189,Dan,386,2021
+985,Cuando Llega,122,Real Presenta,279,2010
+986,Mejores Acerca,162,Ocasiones Tiene Aquellos,141,2023
+987,Hecho,65,Acciones Hora,272,2006
+988,Tenemos Crisis Diario,14,P Hacer Metros,231,2003
+989,Pueda Rafael,163,Atención Crecimiento,286,2000
+990,Corte Diversas,71,Unidos Color Trata,181,2012
+991,Crisis Explicó,3,Dios,417,2025
+992,Trabajar Cuyo Necesidad Metros,177,Organización Pasó Juicio,199,2011
+993,Eran,64,Artículo,375,2002
+994,Cabeza Historia Les,195,Bueno Europea Efectos,150,2001
+995,Parece Debido Especial,166,Años,394,2025
+996,Aquella,33,Puesto Fuego,239,2010
+997,Grandes Pensar Compañía,113,Madre Donde Cierto,218,2000
+998,Resto Materia Estos Luz,92,Antonio Apoyo Estilo,188,2008
+999,Adelante,125,Tienen Mercado Orden,344,2017
+1000,Boca Profesional Conciencia,139,Autor Resultados Formas,370,2006

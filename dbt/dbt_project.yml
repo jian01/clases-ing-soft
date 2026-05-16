@@ -1,0 +1,28 @@
+name: dwh_streaming
+version: "1.0.0"
+config-version: 2
+profile: dwh_streaming
+model-paths: ["models"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  dwh_streaming:
+    silver:
+      +materialized: table
+      +schema: silver
+    gold:
+      +materialized: table
+      +schema: gold
+
+snapshots:
+  dwh_streaming:
+    +target_schema: silver
+    +strategy: check
+    +check_cols: [genero, pais]
+    +unique_key: artista_id
+    +invalidate_hard_deletes: true

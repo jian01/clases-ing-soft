@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE SCHEMA IF NOT EXISTS bronze;
+    CREATE SCHEMA IF NOT EXISTS silver;
+    CREATE SCHEMA IF NOT EXISTS gold;
+    CREATE SCHEMA IF NOT EXISTS audit;
+EOSQL
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "postgres" <<-EOSQL
+    CREATE DATABASE metabase;
+    GRANT ALL PRIVILEGES ON DATABASE metabase TO $POSTGRES_USER;
+EOSQL
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE USER metabase_ro WITH PASSWORD 'metabase_ro';
+    GRANT CONNECT ON DATABASE $POSTGRES_DB TO metabase_ro;
+    GRANT USAGE ON SCHEMA gold TO metabase_ro;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA gold GRANT SELECT ON TABLES TO metabase_ro;
+EOSQL
