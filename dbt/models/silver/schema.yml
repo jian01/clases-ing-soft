@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: stg_artistas
+    description: "Artistas desde bronze, con todas las versiones para SCD2. No se deduplica por artista_id."
+    columns:
+      - name: artista_id
+        description: "ID del artista (business key, puede repetirse para versiones SCD2)"
+        tests:
+          - not_null
+      - name: nombre
+        tests: [not_null]
+      - name: genero
+        tests: [not_null]
+      - name: pais
+        tests: [not_null]
+      - name: fecha_registro
+        tests: [not_null]
+
+  - name: stg_canciones
+    description: "Canciones deduplicadas por cancion_id."
+    columns:
+      - name: cancion_id
+        tests: [unique, not_null]
+      - name: artista_id
+        tests: [not_null]
+      - name: titulo
+        tests: [not_null]
+
+  - name: stg_plataformas
+    description: "Plataformas de streaming deduplicadas por plataforma_id."
+    columns:
+      - name: plataforma_id
+        tests: [unique, not_null]
+      - name: nombre
+        tests: [not_null]
+
+  - name: stg_streams
+    description: "Eventos de streaming deduplicados, con datos validos."
+    columns:
+      - name: stream_id
+        tests: [unique, not_null]
+      - name: cancion_id
+        tests: [not_null]
+      - name: plataforma_id
+        tests: [not_null]
+      - name: fecha
+        tests: [not_null]
+      - name: reproducciones
+        tests: [not_null]
+      - name: ingresos_usd
+        tests: [not_null]

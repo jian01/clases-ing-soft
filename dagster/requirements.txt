@@ -1,0 +1,9 @@
+dagster==1.9.3
+dagster-webserver==1.9.3
+dagster-dbt==0.25.3
+dagster-postgres==0.25.3
+dbt-core==1.7.18
+dbt-postgres==1.7.18
+pandas==2.2.3
+psycopg2-binary==2.9.9
+SQLAlchemy==2.0.36

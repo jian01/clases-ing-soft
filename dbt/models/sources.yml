@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: artistas_raw
+      - name: canciones_raw
+      - name: plataformas_raw
+      - name: streams_raw
