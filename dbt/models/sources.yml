@@ -3,8 +3,38 @@ version: 2
 sources:
   - name: bronze
     schema: bronze
+    description: "Capa de ingesta raw. Puede tener duplicados, nulls y tipos incorrectos."
+    meta:
+      owner: "equipo-ingesta"
+      team: "data-engineering"
+    # Data contract: si los datos tienen más de 24h sin actualizarse, algo falló en el pipeline.
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
     tables:
       - name: artistas_raw
+        loaded_at_field: _loaded_at
+        description: "Raw dump de artistas desde el sistema fuente. Incluye versiones históricas para SCD2."
       - name: canciones_raw
+        loaded_at_field: _loaded_at
+        description: "Raw dump de canciones desde el sistema fuente."
       - name: plataformas_raw
+        loaded_at_field: _loaded_at
+        description: "Raw dump de las cinco plataformas de streaming soportadas."
       - name: streams_raw
+        loaded_at_field: _loaded_at
+        description: "Eventos de streaming en crudo. Puede tener duplicados y registros inválidos."
+        columns:
+          - name: stream_id
+            description: "ID del evento. No único en bronze: puede llegar más de una vez por reenvíos."
+          - name: fecha
+            description: "Fecha del evento (YYYY-MM-DD)."
+          - name: reproducciones
+            description: "Cantidad de reproducciones del evento. Valores <= 0 son inválidos."
+          - name: ingresos_usd
+            description: "Ingresos generados en USD. Puede ser 0 pero nunca negativo."
+          - name: pais_usuario
+            description: "País del usuario (ISO 3166-1 alpha-2). Sensibilidad: baja."
+            meta:
+              pii: false
+              sensitivity: "low"

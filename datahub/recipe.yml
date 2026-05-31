@@ -1,0 +1,52 @@
+# DataHub Ingestion Recipe — dbt → DataHub
+#
+# Qué hace: lee los artefactos que dbt genera (manifest.json, catalog.json, run_results.json)
+# y los sube a DataHub, que los convierte en:
+#   - Lineage a nivel de columna (de qué columna de bronze viene cada columna de gold)
+#   - Catálogo con descriptions, owners y tags de los schema.yml
+#   - Estado de los tests (cuáles pasaron/fallaron en el último run)
+#
+# Prerequisitos:
+#   1. DataHub corriendo:  datahub docker quickstart
+#   2. SDK instalado:      pip install 'acryl-datahub[dbt-postgres]'
+#   3. Artefactos frescos: cd ../dbt && dbt docs generate --profiles-dir .
+
+source:
+  type: dbt
+  config:
+    manifest_path: ../dbt/target/manifest.json
+    catalog_path: ../dbt/target/catalog.json
+    run_results_path: ../dbt/target/run_results.json
+
+    target_platform: postgres
+    target_platform_instance: warehouse
+
+    # Lineage a nivel de columna: traza qué columna de bronze termina en qué columna de gold.
+    include_column_lineage: true
+
+    # Lee el campo meta.owner de cada modelo y lo asigna como dueño en DataHub.
+    meta_mapping:
+      owner:
+        match: ".*"
+        mapping:
+          identifier: owner
+          type: "urn:li:corpuser:{}"
+      team:
+        match: ".*"
+        mapping:
+          identifier: team
+          type: "urn:li:corpGroup:{}"
+
+    # Lee el campo meta.pii de columnas y lo convierte en tag "PII" en DataHub.
+    column_meta_mapping:
+      pii:
+        match: true
+        mapping:
+          identifier: pii
+          type: "urn:li:tag:PII"
+
+sink:
+  type: datahub-rest
+  config:
+    # DataHub GMS corre en localhost:8080 con el quickstart por defecto.
+    server: "http://localhost:8080"
