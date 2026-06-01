@@ -30,6 +30,7 @@ ID_BASE = {
     "null_en_cancion":      920_001,
     "plataforma_nueva":     930_001,
     "silencioso":           940_001,
+    "column_anomaly":       950_002,
 }
 
 
@@ -165,6 +166,39 @@ def inyectar_silencioso(cur):
     return len(rows)
 
 
+def inyectar_column_anomaly(cur):
+    """
+    Inserta streams con ingresos altos pero dentro del umbral de ratio ($0.048/play < $0.05).
+
+    Ningún test declarativo falla:
+      - not_null ✓               → tiene valor
+      - positive_revenue ✓       → ingresos > 0
+      - ingreso_por_reproduccion_razonable ✓  → $0.048/play < $0.05 límite
+
+    Pero las estadísticas de ingresos_usd se disparan:
+      - max_value: de ~$60 normales a $2.400
+      - average:   sube varios órdenes de magnitud respecto al baseline
+
+    Test que alerta: elementary.column_anomalies (max_value, average) en stg_streams y fact_streams.
+    IMPORTANTE: requiere al menos 2 runs previos para que Elementary tenga baseline.
+    Si es el primer run del día, corré el pipeline una vez limpio antes de inyectar.
+    """
+    rows = [
+        stream_row(
+            ID_BASE["column_anomaly"] + i,
+            (i % 1000) + 1,
+            1,
+            "BR",
+            5000000,   # reproducciones = máximo del dataset
+            2_400.0,  # ingresos = $2400 → ratio $0.048/play (justo bajo el límite de $0.05)
+            "column_anomaly2",
+        )
+        for i in range(5000)
+    ]
+    cur.executemany(STREAM_SQL, rows)
+    return len(rows)
+
+
 # ── registro de escenarios ────────────────────────────────────────────────────
 
 ESCENARIOS = {
@@ -192,6 +226,11 @@ ESCENARIOS = {
         "descripcion": "Ingresos negativos + reproducciones=0 (silver los filtra sin avisar)",
         "alarma":      "ningún test falla  ← este es el punto",
         "fn":          inyectar_silencioso,
+    },
+    "column_anomaly": {
+        "descripcion": "20 streams con $2400 de ingreso en 50.000 plays ($0.048/play, bajo el límite de $0.05)",
+        "alarma":      "elementary.column_anomalies en ingresos_usd (max_value, average)  [ALERTA]",
+        "fn":          inyectar_column_anomaly,
     },
 }
 

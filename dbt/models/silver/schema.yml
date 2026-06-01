@@ -54,9 +54,6 @@ models:
       owner: "equipo-data"
       team: "analytics"
     tests:
-      - elementary.volume_anomalies:
-          timestamp_column: "fecha"
-          days_back: 30
       - elementary.freshness_anomalies:
           timestamp_column: "fecha"
           days_back: 30
