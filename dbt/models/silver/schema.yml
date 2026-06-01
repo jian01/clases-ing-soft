@@ -3,6 +3,9 @@ version: 2
 models:
   - name: stg_artistas
     description: "Artistas desde bronze, con todas las versiones para SCD2. No se deduplica por artista_id."
+    meta:
+      owner: "equipo-data"
+      team: "analytics"
     columns:
       - name: artista_id
         description: "ID del artista (business key, puede repetirse para versiones SCD2)"
@@ -13,12 +16,19 @@ models:
       - name: genero
         tests: [not_null]
       - name: pais
+        description: "País de origen del artista (ISO 3166-1 alpha-2)."
         tests: [not_null]
+        meta:
+          pii: false
+          sensitivity: "low"
       - name: fecha_registro
         tests: [not_null]
 
   - name: stg_canciones
     description: "Canciones deduplicadas por cancion_id."
+    meta:
+      owner: "equipo-data"
+      team: "analytics"
     columns:
       - name: cancion_id
         tests: [unique, not_null]
@@ -29,6 +39,9 @@ models:
 
   - name: stg_plataformas
     description: "Plataformas de streaming deduplicadas por plataforma_id."
+    meta:
+      owner: "equipo-data"
+      team: "analytics"
     columns:
       - name: plataforma_id
         tests: [unique, not_null]
@@ -36,7 +49,14 @@ models:
         tests: [not_null]
 
   - name: stg_streams
-    description: "Eventos de streaming deduplicados, con datos validos."
+    description: "Eventos de streaming deduplicados, con datos válidos. Tabla de mayor volumen del pipeline."
+    meta:
+      owner: "equipo-data"
+      team: "analytics"
+    tests:
+      - elementary.freshness_anomalies:
+          timestamp_column: "fecha"
+          days_back: 30
     columns:
       - name: stream_id
         tests: [unique, not_null]
@@ -49,4 +69,20 @@ models:
       - name: reproducciones
         tests: [not_null]
       - name: ingresos_usd
-        tests: [not_null]
+        description: "Ingresos en USD del evento. Nunca negativo; nunca más de $600 por evento."
+        meta:
+          pii: false
+        tests:
+          - not_null
+          - elementary.column_anomalies:
+              column_anomalies:
+                - null_count
+                - average
+                - min_value
+                - max_value
+              min_training_set_size: 2
+      - name: pais_usuario
+        description: "País del usuario (ISO 3166-1 alpha-2). Sensibilidad: baja (nivel país, no personal)."
+        meta:
+          pii: false
+          sensitivity: "low"

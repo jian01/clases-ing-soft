@@ -3,8 +3,15 @@ version: 2
 models:
   - name: fact_streams
     description: "Fact table de eventos de streaming. Incremental por fecha."
+    meta:
+      owner: "equipo-analytics"
+      team: "analytics"
     config:
       store_failures: true
+    tests:
+      - elementary.freshness_anomalies:
+          timestamp_column: "fecha"
+          days_back: 30
     columns:
       - name: stream_id
         tests: [unique, not_null]
@@ -27,12 +34,40 @@ models:
               to: ref('dim_tiempo')
               field: sk_tiempo
       - name: reproducciones
-        tests: [not_null]
+        description: "Reproducciones del evento. Rango esperado: 100–50.000 por evento."
+        tests:
+          - not_null
+          - elementary.column_anomalies:
+              column_anomalies:
+                - null_count
+                - average
+                - min_value
+                - max_value
+              min_training_set_size: 2
       - name: ingresos_usd
-        tests: [not_null]
+        description: "Ingresos generados en USD. Nunca negativo."
+        meta:
+          pii: false
+        tests:
+          - not_null
+          - elementary.column_anomalies:
+              column_anomalies:
+                - null_count
+                - average
+                - min_value
+                - max_value
+              min_training_set_size: 2
+      - name: pais_usuario
+        description: "País del usuario (ISO 3166-1 alpha-2). Sensibilidad: baja."
+        meta:
+          pii: false
+          sensitivity: "low"
 
   - name: dim_artista
-    description: "Dimension artista con SCD tipo 2. Cada cambio de genero genera una fila nueva."
+    description: "Dimensión artista con SCD tipo 2. Cada cambio de género genera una fila nueva."
+    meta:
+      owner: "equipo-analytics"
+      team: "analytics"
     columns:
       - name: sk_artista
         tests: [unique, not_null]
@@ -44,7 +79,10 @@ models:
         tests: [not_null]
 
   - name: dim_cancion
-    description: "Dimension cancion. SCD tipo 1."
+    description: "Dimensión canción. SCD tipo 1."
+    meta:
+      owner: "equipo-analytics"
+      team: "analytics"
     columns:
       - name: sk_cancion
         tests: [unique, not_null]
@@ -52,7 +90,10 @@ models:
         tests: [not_null]
 
   - name: dim_plataforma
-    description: "Dimension plataforma. Cinco plataformas de streaming."
+    description: "Dimensión plataforma. Cinco plataformas de streaming."
+    meta:
+      owner: "equipo-analytics"
+      team: "analytics"
     columns:
       - name: sk_plataforma
         tests: [unique, not_null]
@@ -63,7 +104,10 @@ models:
               values: ["Spotify", "YouTube", "Apple Music", "Tidal", "Amazon Music"]
 
   - name: dim_tiempo
-    description: "Dimension tiempo. Una fila por dia desde 2024-01-01."
+    description: "Dimensión tiempo. Una fila por día desde 2024-01-01."
+    meta:
+      owner: "equipo-analytics"
+      team: "analytics"
     columns:
       - name: sk_tiempo
         tests: [unique, not_null]

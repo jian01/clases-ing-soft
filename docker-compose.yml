@@ -34,8 +34,10 @@ services:
     volumes:
       - ./dagster:/workspace/dagster
       - ./dbt:/workspace/dbt
+      - dbt_packages:/dbt_packages_vol
       - ./extract:/workspace/extract
       - ./data:/workspace/data
+      - ./scripts:/workspace/scripts
     depends_on:
       postgres:
         condition: service_healthy
@@ -90,6 +92,60 @@ services:
       postgres:
         condition: service_healthy
 
+  # --- Parte 2: Lineage ---
+  # Genera y sirve el DAG de lineage de dbt en http://localhost:8082
+  # Muestra el grafo bronze → silver → gold y permite navegar upstream/downstream.
+  # Espera a que dagster instale dbt_packages antes de correr dbt docs generate.
+  dbt-docs:
+    build:
+      context: ./dagster
+    command: >
+      bash -c "
+        cd /workspace/dbt &&
+        dbt deps --profiles-dir /workspace/dbt &&
+        dbt docs generate --profiles-dir /workspace/dbt &&
+        dbt docs serve --profiles-dir /workspace/dbt --port 8082 --host 0.0.0.0 --no-browser
+      "
+    ports: ["8082:8082"]
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: warehouse
+      POSTGRES_USER: dwh
+      POSTGRES_PASSWORD: dwh
+      DBT_PROFILES_DIR: /workspace/dbt
+    volumes:
+      - ./dbt:/workspace/dbt
+      - dbt_packages:/dbt_packages_vol
+    depends_on:
+      postgres:
+        condition: service_healthy
+      dagster:
+        condition: service_started
+    restart: unless-stopped
+
+
+
+  # --- Parte 1: Data Quality Dashboard (Elementary) ---
+  # Sirve el reporte en http://localhost:8083/elementary_report.html
+  # El reporte se genera corriendo desde dagster:
+  #   docker compose exec dagster edr report --project-dir /workspace/dbt --profiles-dir /workspace/dbt --file-path /workspace/dbt/edr_target/elementary_report.html
+  edr-report:
+    image: python:3.12-slim
+    command: >
+      bash -c "
+        mkdir -p /workspace/dbt/edr_target &&
+        python -m http.server 8083 --directory /workspace/dbt/edr_target
+      "
+    ports: ["8083:8083"]
+    volumes:
+      - ./dbt:/workspace/dbt
+    depends_on:
+      dagster:
+        condition: service_started
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   metabase_data:
+  dbt_packages:

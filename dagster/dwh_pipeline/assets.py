@@ -55,4 +55,13 @@ def dbt_dim_assets(context: AssetExecutionContext, dbt: DbtCliResource):
     ).stream()
 
 
-all_assets = [extract_to_bronze, dbt_fact_assets, dbt_dim_assets]
+@asset(
+    group_name="checks",
+    deps=[extract_to_bronze],
+    description="Verifica que las tablas bronze tengan datos de las últimas 24h (dbt source freshness).",
+)
+def source_freshness_check(context: AssetExecutionContext, dbt: DbtCliResource):
+    yield from dbt.cli(["source", "freshness"], context=context).stream()
+
+
+all_assets = [extract_to_bronze, dbt_fact_assets, dbt_dim_assets, source_freshness_check]
