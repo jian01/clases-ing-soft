@@ -1,0 +1,25 @@
+scripts/inject_anomalias.py
+  h_43c1bbe6a2f39f 33,192,194,196
+  s_46d7b303cb5ce2::t_d201d2667dd3f2 230-234
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "8478ded26d478605c5964a60aa469d40a1985e8b",
+  "prompts": {},
+  "humans": {
+    "h_43c1bbe6a2f39f": {
+      "author": "gcafferata_meli <gianmarco.cafferata@mercadolibre.com>"
+    }
+  },
+  "sessions": {
+    "s_46d7b303cb5ce2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "38e294a3-faa8-490a-aabb-0af0f4c4f03a",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "gcafferata_meli <gianmarco.cafferata@mercadolibre.com>"
+    }
+  }
+}
