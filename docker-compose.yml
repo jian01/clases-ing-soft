@@ -84,6 +84,11 @@ services:
     command: scheduler
     restart: always
 
+  airflow-dag-processor:
+    <<: *airflow-common
+    command: dag-processor
+    restart: always
+
 volumes:
   postgres-data:
   airflow-logs:
