@@ -166,7 +166,14 @@ def fraud_detection():
             plt.close()
             mlflow.log_artifact(pr_curve_path)
 
-            mlflow.sklearn.log_model(model, artifact_path="model", registered_model_name=MODEL_NAME)
+            mlflow.sklearn.log_model(
+                model,
+                artifact_path="model",
+                registered_model_name=MODEL_NAME,
+                # Evita que MLflow infiera los requirements escaneando todos los
+                # paquetes instalados (muy lento sobre el filesystem de WSL2/Docker).
+                pip_requirements=["scikit-learn==1.9.0", "xgboost==3.2.0"],
+            )
 
             print(f"Run ID: {run.info.run_id}")
             print(f"AUC-PR: {auc_pr:.4f}")
