@@ -1,0 +1,62 @@
+inference_scenarios.py
+  s_fbb538e3c89ba5::t_e022fd2fc571e2 242
+  s_fbb538e3c89ba5::t_c3d3d47484e3c8 38
+  s_fbb538e3c89ba5::t_1f79d2579fc8f1 134-135
+  s_fbb538e3c89ba5::t_14a229a49a85b1 254
+  s_fbb538e3c89ba5::t_2cbcd0b970ba1b 179-183
+  s_fbb538e3c89ba5::t_b964472688d33d 195,197,199
+  s_fbb538e3c89ba5::t_a160739f77db4c 22,39,43,45,52-53,59-60,80,83-84,88,93-95,108-109,128,130-133,136,138,142,147,149,177,191,193,213
+  s_fbb538e3c89ba5::t_47ce6675b1df02 85-87,91-92
+  s_fbb538e3c89ba5::t_c3ef9afc2d9b50 98,100,102
+  s_fbb538e3c89ba5::t_8740fa7d887961 244,246,248,250
+  s_fbb538e3c89ba5::t_5b10c27b80dee8 1-10,12,14-21,23-37,40-42,46-51,54-58,61-79,96-97,99,101,103-107,110-113,120-121,140-141,143-146,148,150-160,162,168-176,178,184-190,192,194,196,198,200-212,220-227,229,235-241,243,251-253
+  s_fbb538e3c89ba5::t_12df656179f378 245,247,249
+  s_fbb538e3c89ba5::t_749fa37efe5099 228,230,232,234
+  s_fbb538e3c89ba5::t_e8ca63fa2699a2 114-119,122-127,129,137,139
+  s_fbb538e3c89ba5::t_a57a90a0f57f6d 44
+  s_fbb538e3c89ba5::t_a0ccb758a0b1a8 89-90
+  s_fbb538e3c89ba5::t_6674b99fb02c6e 161,163-167
+  s_fbb538e3c89ba5::t_09c23f096a5d5e 214-219
+  s_fbb538e3c89ba5::t_5472f627984ee8 231,233
+forecast_api/app.py
+  s_fbb538e3c89ba5::t_890820659102e3 19
+  s_fbb538e3c89ba5::t_24808b2dbd8143 1,3-6,11-12
+  s_fbb538e3c89ba5::t_2e4bb09a3e5bd2 44
+  s_fbb538e3c89ba5::t_79dbead9d2d051 23,31-39
+  s_fbb538e3c89ba5::t_730302001a1328 2,7-10,13-18,20-21,40-43
+  s_fbb538e3c89ba5::t_aad0c5bc8b8021 22,24-30
+forecast_api/generate_drift_datasets.py
+  s_fbb538e3c89ba5::t_feaf0d2ff10089 13,16-17
+  s_fbb538e3c89ba5::t_3766d9a91bc3cd 39-47
+  s_fbb538e3c89ba5::t_9512fc259404a7 1-12,14-15,18-38
+.gitignore
+  h_43c1bbe6a2f39f 213-215
+  s_fbb538e3c89ba5::t_49d300c74abd68 208-212
+forecast_api/train.py
+  s_fbb538e3c89ba5::t_6613556c0bd451 8-9,13,15-16,18-20,27-28
+  s_fbb538e3c89ba5::t_214dac3049537b 1-7,10-12,14,17,21-26,29
+README.md
+  h_43c1bbe6a2f39f 92
+  s_fbb538e3c89ba5::t_e046a62ef6e57b 1-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "895f729bceb7b42b68f3d674e572fd97f933ef50",
+  "prompts": {},
+  "humans": {
+    "h_43c1bbe6a2f39f": {
+      "author": "gcafferata_meli <gianmarco.cafferata@mercadolibre.com>"
+    }
+  },
+  "sessions": {
+    "s_fbb538e3c89ba5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e8907215-e285-4a54-8ea0-f778f9d6f71a",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "gcafferata_meli <gianmarco.cafferata@mercadolibre.com>"
+    }
+  }
+}
