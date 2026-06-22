@@ -1,0 +1,20 @@
+Dockerfile
+  h_43c1bbe6a2f39f 6,9
+requirements.txt
+  h_43c1bbe6a2f39f 1-5
+docker-compose.yml
+  h_43c1bbe6a2f39f 54-78
+Dockerfile.mlflow
+  h_43c1bbe6a2f39f 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "08e22b3d3e37d1c0cddbbc98f6e6600e178e11b6",
+  "prompts": {},
+  "humans": {
+    "h_43c1bbe6a2f39f": {
+      "author": "gcafferata_meli <gianmarco.cafferata@mercadolibre.com>"
+    }
+  }
+}
