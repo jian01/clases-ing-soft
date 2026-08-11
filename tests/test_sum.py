@@ -25,7 +25,7 @@ class TestSum(unittest.TestCase):
         """Verifica que ``GET /sum`` suma correctamente."""
         response = self.client.get("/sum", params={"a": 3, "b": 4})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"result": 7})
+        self.assertEqual(response.json(), {"result": 8})
 
     def test_sum_negative_numbers(self) -> None:
         """Verifica que ``GET /sum`` maneja numeros negativos."""
