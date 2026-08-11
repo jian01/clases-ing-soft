@@ -19,4 +19,4 @@ def root() -> Dict[str, str]:
 
     :return: Mensaje de saludo.
     """
-    return          {"message": "Hola mundo!"}
+    return {"message": "Hola mundo!"}
