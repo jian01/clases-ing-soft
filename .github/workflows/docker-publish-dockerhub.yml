@@ -1,0 +1,150 @@
+# Publica las imágenes de py-app y react-app en Docker Hub (docker.io).
+#
+# Requiere configurar en Settings -> Secrets and variables -> Actions:
+#   - Variable `DOCKERHUB_USERNAME`: usuario u organización de Docker Hub.
+#   - Secret   `DOCKERHUB_TOKEN`:    access token de Docker Hub (NO la contraseña).
+#
+# Si no están cargadas, el workflow no falla: avisa y no hace nada.
+name: Docker Publish (Docker Hub)
+
+on:
+  push:
+    branches:
+      - feature/docker
+
+# Docker Hub no necesita permisos sobre el repo más que leer el código.
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-publish-dockerhub-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: py-app
+            context: ./py-app
+          - service: react-app
+            context: ./react-app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Las credenciales viajan en un header HTTP `Authorization: Basic base64(user:token)`.
+      # Si el secret quedó guardado con un espacio, un salto de línea o comillas
+      # (típico al copiar/pegar), el header sale roto y Docker Hub responde:
+      #   "malformed HTTP Authorization header"
+      # Por eso las limpiamos y validamos ANTES de intentar el login.
+      - name: Prepare Docker Hub credentials
+        id: creds
+        env:
+          RAW_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+          RAW_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # Saca TODO el whitespace (espacios, tabs, \n, \r) y comillas sueltas.
+          USERNAME="$(printf '%s' "$RAW_USERNAME" | tr -d '[:space:]' | tr -d '"'"'"'"')"
+          TOKEN="$(printf '%s' "$RAW_TOKEN" | tr -d '[:space:]' | tr -d '"'"'"'"')"
+
+          # Volvemos a enmascarar el token ya limpio para que no aparezca en los logs.
+          if [ -n "$TOKEN" ]; then echo "::add-mask::$TOKEN"; fi
+
+          if [ -z "$USERNAME" ] || [ -z "$TOKEN" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Docker Hub no configurado (faltan vars.DOCKERHUB_USERNAME o secrets.DOCKERHUB_TOKEN). Se omite la publicación."
+            exit 0
+          fi
+
+          # El header Basic solo admite ASCII imprimible. Si hay acentos, comillas
+          # tipográficas o caracteres invisibles, el pegado del token vino mal.
+          if printf '%s%s' "$USERNAME" "$TOKEN" | LC_ALL=C grep -q '[^ -~]'; then
+            echo "::error::Las credenciales de Docker Hub tienen caracteres no válidos. Regenerá el access token en Docker Hub (Account settings -> Personal access tokens) y pegalo sin comillas ni saltos de línea."
+            exit 1
+          fi
+
+          # Los namespaces de Docker Hub son siempre en minúsculas.
+          if [ "$USERNAME" != "$(printf '%s' "$USERNAME" | tr '[:upper:]' '[:lower:]')" ]; then
+            echo "::error::DOCKERHUB_USERNAME debe estar en minúsculas (es parte del nombre de la imagen)."
+            exit 1
+          fi
+
+          # Error clásico: poner el mail en vez del usuario. Docker Hub ya no acepta login por mail.
+          case "$USERNAME" in
+            *@*) echo "::error::DOCKERHUB_USERNAME es el usuario de Docker Hub, no el email."; exit 1 ;;
+          esac
+
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+          echo "username=$USERNAME" >> "$GITHUB_OUTPUT"
+          echo "DOCKERHUB_TOKEN_CLEAN=$TOKEN" >> "$GITHUB_ENV"
+
+      - name: Set up Docker Buildx
+        if: steps.creds.outputs.enabled == 'true'
+        uses: docker/setup-buildx-action@v4
+
+      # Sin `registry:` la action apunta a Docker Hub, que es el default documentado.
+      - name: Log in to Docker Hub
+        if: steps.creds.outputs.enabled == 'true'
+        uses: docker/login-action@v4
+        with:
+          username: ${{ steps.creds.outputs.username }}
+          password: ${{ env.DOCKERHUB_TOKEN_CLEAN }}
+
+      # Convención de nombres: <registry>/<namespace>/<repository>:<tag>
+      # Docker Hub NO soporta namespaces anidados: el servicio va como sufijo
+      # -> docker.io/<usuario>/<repo>-<servicio>
+      - name: Docker metadata
+        if: steps.creds.outputs.enabled == 'true'
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: docker.io/${{ steps.creds.outputs.username }}/${{ github.event.repository.name }}-${{ matrix.service }}
+          tags: |
+            # Tag inmutable por commit: el único que sirve para deployar/rollbackear.
+            type=sha,prefix=sha-,format=short
+            # Tag por rama: "feature-docker". Se mueve en cada push, sirve para probar.
+            type=ref,event=branch
+            # Si algún día se taggea el repo (v1.2.3) -> 1.2.3, 1.2 y 1
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            # "latest" solo en la rama default, y es un puntero móvil: nunca deployar por latest.
+            type=raw,value=latest,enable={{is_default_branch}}
+          labels: |
+            org.opencontainers.image.title=${{ matrix.service }}
+            org.opencontainers.image.description=${{ matrix.service }} de clases-ing-soft
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.licenses=GPL-3.0
+
+      - name: Build and push
+        if: steps.creds.outputs.enabled == 'true'
+        uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.context }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Multi-arquitectura (ej. Macs con Apple Silicon). Duplica el tiempo de build:
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
+          cache-from: type=gha,scope=dockerhub-${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=dockerhub-${{ matrix.service }}
+
+      - name: Summary
+        if: steps.creds.outputs.enabled == 'true'
+        run: |
+          {
+            echo "### Docker Hub: \`${{ matrix.service }}\`"
+            echo ""
+            echo '```'
+            echo "${{ steps.meta.outputs.tags }}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

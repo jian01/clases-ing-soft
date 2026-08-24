@@ -1,0 +1,99 @@
+# Publica las imágenes de py-app y react-app en GitHub Container Registry (ghcr.io).
+#
+# No hay que configurar NADA: la autenticación usa el GITHUB_TOKEN que GitHub
+# inyecta automáticamente en cada workflow.
+name: Docker Publish (GHCR)
+
+on:
+  push:
+    branches:
+      - feature/docker
+
+# Permisos mínimos: leer el código y escribir paquetes (GHCR).
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: docker-publish-ghcr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    # Una imagen por servicio: el patrón estándar en un monorepo.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: py-app
+            context: ./py-app
+          - service: react-app
+            context: ./react-app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      # El GITHUB_TOKEN ya tiene permiso de packages:write (ver arriba).
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Convención de nombres: <registry>/<namespace>/<repository>:<tag>
+      # GHCR soporta namespaces anidados -> ghcr.io/<owner>/<repo>/<servicio>
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ghcr.io/${{ github.repository }}/${{ matrix.service }}
+          tags: |
+            # Tag inmutable por commit: el único que sirve para deployar/rollbackear.
+            type=sha,prefix=sha-,format=short
+            # Tag por rama: "feature-docker". Se mueve en cada push, sirve para probar.
+            type=ref,event=branch
+            # Si algún día se taggea el repo (v1.2.3) -> 1.2.3, 1.2 y 1
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            # "latest" solo en la rama default, y es un puntero móvil: nunca deployar por latest.
+            type=raw,value=latest,enable={{is_default_branch}}
+          # Labels OCI estándar: quedan embebidos en la imagen (docker inspect)
+          # y permiten trazar de qué commit y repo salió.
+          labels: |
+            org.opencontainers.image.title=${{ matrix.service }}
+            org.opencontainers.image.description=${{ matrix.service }} de clases-ing-soft
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.licenses=GPL-3.0
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.context }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Multi-arquitectura (ej. Macs con Apple Silicon). Duplica el tiempo de build:
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
+          # Cache de capas entre corridas: evita reinstalar dependencias en cada push.
+          cache-from: type=gha,scope=ghcr-${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=ghcr-${{ matrix.service }}
+
+      - name: Summary
+        run: |
+          {
+            echo "### GHCR: \`${{ matrix.service }}\`"
+            echo ""
+            echo '```'
+            echo "${{ steps.meta.outputs.tags }}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

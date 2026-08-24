@@ -1,3 +1,22 @@
+# ── Node / Frontend ─────────────────────────────────────────────────────────
+node_modules/
+dist/
+.npm/
+*.tsbuildinfo
+
+# ── Docker ───────────────────────────────────────────────────────────────────
+# Named volume data if someone accidentally mounts to a local path
+data/
+
+# ── Editor ───────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+
+# ── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Python ───────────────────────────────────────────────────────────────────
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -136,6 +155,8 @@ celerybeat.pid
 
 # Environments
 .env
+.env.*
+!.env.example
 .envrc
 .venv
 env/

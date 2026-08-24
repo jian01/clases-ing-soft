@@ -1,0 +1,22 @@
+services:
+  react-app:
+    build: ./react-app
+    ports:
+      - "3000:3000"
+    # Opcional: esperar a que py-app esté listo (más que nada para desarrollar)
+    # depends_on:
+    #   - py-app
+
+  py-app:
+    build: ./py-app
+    ports:
+      - "5000:5000"
+    environment:
+      STORAGE_DIR: /data
+    # ── Volumen para persistir los datos:
+    # volumes:
+    #   - py-data:/data
+
+# ── Volumen para persistir los datos:
+# volumes:
+#   py-data:

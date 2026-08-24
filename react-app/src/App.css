@@ -1,0 +1,138 @@
+.container {
+  width: 100%;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: #0f3460;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.input {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #0f3460;
+}
+
+.button {
+  padding: 0.6rem 1.2rem;
+  background: #0f3460;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button:hover:not(:disabled) {
+  background: #16213e;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-secondary {
+  background: #6c757d;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+}
+
+.button-secondary:hover:not(:disabled) {
+  background: #5a6268;
+}
+
+.button-health {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+}
+
+.button-health--unknown,
+.button-health--checking {
+  background: #6c757d;
+}
+
+.button-health--unknown:hover:not(:disabled),
+.button-health--checking:hover:not(:disabled) {
+  background: #5a6268;
+}
+
+.button-health--ok {
+  background: #28a745;
+}
+
+.button-health--ok:hover:not(:disabled) {
+  background: #218838;
+}
+
+.button-health--error {
+  background: #dc3545;
+}
+
+.button-health--error:hover:not(:disabled) {
+  background: #c82333;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.list-title {
+  font-weight: 600;
+  color: #0f3460;
+}
+
+.error {
+  color: #c0392b;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.list-item {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+.empty {
+  color: #888;
+  font-style: italic;
+  padding: 0.5rem 0;
+}
