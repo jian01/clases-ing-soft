@@ -30,7 +30,7 @@ def save(body: SaveRequest):
 
     with open(STORAGE_FILE, "a") as f:
         f.write(body.content + "\n")
-
+    print("hola clase")
     return {"message": "Content saved", "file": STORAGE_FILE}
 
 
