@@ -43,5 +43,5 @@ def read():
 
     with open(STORAGE_FILE, "r") as f:
         lines = [line.rstrip("\n") for line in f.readlines() if line.strip()]
-
+    print('hola clase del 2026-08-24')
     return {"content": lines, "file": STORAGE_FILE}
