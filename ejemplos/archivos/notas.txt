@@ -1,0 +1,22 @@
+Notas de la Practica 4 - Funcionamiento de S3
+=============================================
+
+Un archivo de texto cualquiera. Su unico proposito es que exista algo
+para subir, bajar, sobrescribir y borrar con la CLI.
+
+Cosas para probar con este archivo:
+
+  1. Subirlo:
+       aws s3 cp notas.txt s3://<bucket_files>/
+
+  2. Bajarlo con otro nombre:
+       aws s3 cp s3://<bucket_files>/notas.txt ./bajado.txt
+
+  3. Editar esta linea, volver a subirlo y ver que S3 lo sobrescribe
+     sin preguntar nada. Con versioning apagado, la version anterior
+     no queda en ningun lado.
+
+  4. Borrarlo:
+       aws s3 rm s3://<bucket_files>/notas.txt
+
+     No hay papelera de reciclaje. Se fue.

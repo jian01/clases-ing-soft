@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Práctica 4 · Sitio estático en S3</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<main>
+  <p class="eyebrow">Ingeniería de Software · Práctica 4</p>
+  <h1>Esto sale de un bucket.</h1>
+  <p class="lede">
+    No hay servidor web, ni EC2, ni contenedor. Este HTML es un objeto en S3 y
+    lo estás viendo porque el bucket tiene <em>website configuration</em> y una
+    bucket policy que permite <code>s3:GetObject</code> a todo internet.
+  </p>
+
+  <ul class="lista">
+    <li><b>index.html</b> — este archivo, el documento índice del bucket</li>
+    <li><b>estilos.css</b> — otro objeto más, pedido por el navegador</li>
+    <li><b>error.html</b> — probá una URL que no exista y aparece</li>
+  </ul>
+
+  <div class="nota">
+    <p>
+      La URL termina en <code>s3-website-us-east-1.amazonaws.com</code>, no en
+      <code>s3.amazonaws.com</code>: son dos endpoints distintos. El de website
+      resuelve <code>index.html</code> y las páginas de error; el otro devuelve
+      objetos crudos.
+    </p>
+    <p>
+      Y es <code>http://</code>, sin la <b>s</b>. El website endpoint de S3 no
+      hace TLS: para eso hace falta CloudFront adelante.
+    </p>
+  </div>
+
+  <p class="pie">Universidad de San Andrés · 2C 2026</p>
+</main>
+</body>
+</html>

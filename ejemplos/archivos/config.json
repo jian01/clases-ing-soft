@@ -1,0 +1,14 @@
+{
+  "_comentario": "S3 no interpreta nada de esto: para el bucket es un objeto con Content-Type application/json y listo.",
+  "practica": 4,
+  "tema": "Funcionamiento de S3",
+  "materia": "Ingenieria de Software",
+  "universidad": "Universidad de San Andres",
+  "cuatrimestre": "2C 2026",
+  "buckets": {
+    "web": "sitio estatico servido por HTTP",
+    "athena": "datos crudos y resultados de consultas",
+    "files": "archivos sueltos para practicar la CLI"
+  },
+  "verbos_cli": ["ls", "cp", "rm", "sync"]
+}

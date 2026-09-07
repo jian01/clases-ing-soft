@@ -1,0 +1,28 @@
+fecha,producto,categoria,cantidad,precio_unitario
+2026-03-01,Teclado mecanico,Perifericos,3,89500.00
+2026-03-01,Mouse inalambrico,Perifericos,7,32000.50
+2026-03-02,Monitor 27 pulgadas,Pantallas,2,415000.00
+2026-03-02,Cable HDMI,Accesorios,15,8900.00
+2026-03-03,Notebook 14 pulgadas,Computadoras,1,1250000.00
+2026-03-03,Auriculares,Perifericos,5,64300.00
+2026-03-04,Webcam HD,Perifericos,4,71200.00
+2026-03-05,Monitor 24 pulgadas,Pantallas,3,289000.00
+2026-03-05,Hub USB-C,Accesorios,9,45600.00
+2026-03-06,Notebook 16 pulgadas,Computadoras,2,1890000.00
+2026-03-08,Teclado mecanico,Perifericos,1,89500.00
+2026-03-09,Silla ergonomica,Mobiliario,2,520000.00
+2026-03-10,Cable HDMI,Accesorios,22,8900.00
+2026-03-11,Mouse inalambrico,Perifericos,11,32000.50
+2026-03-12,Disco SSD 1TB,Almacenamiento,6,148000.00
+2026-03-14,Monitor 27 pulgadas,Pantallas,4,415000.00
+2026-03-15,Auriculares,Perifericos,8,64300.00
+2026-03-17,Disco SSD 2TB,Almacenamiento,3,275000.00
+2026-03-18,Escritorio regulable,Mobiliario,1,780000.00
+2026-03-19,Hub USB-C,Accesorios,13,45600.00
+2026-03-20,Notebook 14 pulgadas,Computadoras,3,1250000.00
+2026-03-22,Webcam HD,Perifericos,6,71200.00
+2026-03-24,Disco SSD 1TB,Almacenamiento,9,148000.00
+2026-03-25,Silla ergonomica,Mobiliario,4,520000.00
+2026-03-27,Monitor 24 pulgadas,Pantallas,5,289000.00
+2026-03-29,Teclado mecanico,Perifericos,7,89500.00
+2026-03-30,Cable HDMI,Accesorios,30,8900.00

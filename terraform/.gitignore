@@ -1,0 +1,15 @@
+# Estado y providers locales: nunca van al repo
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Los .tfvars pueden tener datos propios de cada alumno
+*.tfvars
+*.tfvars.json
+!ejemplo.tfvars
+
+# Planes guardados
+*.tfplan

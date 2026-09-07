@@ -1,0 +1,9 @@
+Reporte - Abril 2026
+====================
+
+Un segundo archivo en el mismo prefijo, para que 'aws s3 ls' tenga algo
+que agrupar.
+
+Probar tambien el borrado de todo un prefijo de una vez:
+
+    aws s3 rm s3://<bucket_files>/reportes/ --recursive

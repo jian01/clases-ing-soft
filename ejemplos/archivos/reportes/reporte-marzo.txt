@@ -1,0 +1,15 @@
+Reporte - Marzo 2026
+====================
+
+Este archivo esta dentro de una subcarpeta local (reportes/).
+
+Cuando lo subas con sync, su clave en S3 va a ser:
+
+    reportes/reporte-marzo.txt
+
+Eso NO es una carpeta: es un nombre plano que contiene una barra. La
+consola de AWS dibuja una carpeta porque agrupa por prefijo, pero en S3
+no hay directorios. Se ve claro con:
+
+    aws s3 ls s3://<bucket_files>              -> muestra  PRE reportes/
+    aws s3 ls s3://<bucket_files> --recursive  -> muestra la clave completa

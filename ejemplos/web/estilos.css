@@ -1,0 +1,104 @@
+/* Un CSS separado a propósito: es un segundo objeto que el navegador va a
+   pedir al bucket. Si la bucket policy estuviera mal, la página cargaría
+   sin estilos y en la consola del navegador aparecerían 403. */
+
+:root {
+  --papel: #fcfcfa;
+  --tinta: #15181a;
+  --tinta-2: #5c6660;
+  --violeta: #6534d6;
+  --panel: #f1f3ee;
+  --linea: #dbdfd7;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 48px 24px 64px;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+main { max-width: 660px; margin: 0 auto; }
+
+.eyebrow {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tinta-2);
+  margin: 0 0 16px;
+}
+
+h1 {
+  font-size: clamp(38px, 7vw, 60px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0 0 20px;
+}
+
+.lede { font-size: 20px; color: var(--tinta-2); margin: 0 0 32px; }
+.lede em { color: var(--tinta); font-style: normal; font-weight: 600; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.9em;
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+.lista { list-style: none; margin: 0 0 32px; padding: 0; }
+.lista li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 10px;
+  color: var(--tinta-2);
+}
+.lista li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--violeta);
+}
+.lista b { color: var(--tinta); font-weight: 600; }
+
+.nota {
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin: 0 0 40px;
+}
+.nota p { margin: 0 0 12px; color: var(--tinta-2); font-size: 16px; }
+.nota p:last-child { margin: 0; }
+.nota b { color: var(--tinta); }
+
+.pie {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tinta-2);
+  border-top: 1px solid var(--linea);
+  padding-top: 20px;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papel: #15181a;
+    --tinta: #f3f4f1;
+    --tinta-2: #a4aca6;
+    --panel: #1f2325;
+    --linea: #2e3335;
+  }
+  code { background: #101314; }
+}

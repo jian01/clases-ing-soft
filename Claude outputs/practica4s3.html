@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Práctica 4 — Funcionamiento de S3 · UdeSA 2C 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FCFCFA;
+  --panel:#F1F3EE;
+  --panel-2:#E9ECE5;
+  --ink:#15181A;
+  --ink-2:#5C6660;
+  --rule:#DBDFD7;
+  --main:#2B3138;
+  --violet:#6534D6;
+  --amber:#B87200;
+  --teal:#0C8A80;
+  --pass:#167C42;
+  --fail:#C0342B;
+
+  --display:'Bricolage Grotesque','Inter',system-ui,sans-serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:var(--body)}
+body{overflow:hidden}
+
+/* ---------- escenario fijo 1280x720, escalado al viewport ---------- */
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1280px;height:720px;position:relative;transform-origin:center center}
+
+.slide{
+  position:absolute;inset:0;padding:64px 76px 74px;
+  display:none;flex-direction:column;
+}
+.slide.is-active{display:flex}
+
+/* ---------- chrome ---------- */
+.ref{
+  position:absolute;left:76px;right:76px;bottom:34px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-2);
+}
+.ref .b::before{content:"◇ ";color:var(--violet)}
+#progress{position:fixed;left:0;bottom:0;height:3px;background:var(--violet);width:0;transition:width .25s ease}
+
+/* ---------- tipografía ---------- */
+.eyebrow{
+  font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-2);margin:0 0 14px;
+}
+.eyebrow b{color:var(--violet);font-weight:700}
+h1.big{
+  font-family:var(--display);font-weight:800;font-size:90px;line-height:.95;
+  letter-spacing:-.035em;margin:0;
+}
+h2{
+  font-family:var(--display);font-weight:700;font-size:52px;line-height:1.02;
+  letter-spacing:-.025em;margin:0 0 8px;max-width:26ch;
+}
+.lede{font-size:23px;line-height:1.45;color:var(--ink-2);margin:10px 0 0;max-width:74ch}
+.lede strong{color:var(--ink);font-weight:600}
+p{margin:0}
+.mono{font-family:var(--mono)}
+
+/* ---------- portada de sección ---------- */
+.section-slide{justify-content:center}
+.sec-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+pre.motif{
+  margin:0;font-family:var(--mono);font-size:14.5px;line-height:1.85;color:var(--ink-2);
+  white-space:pre;
+}
+pre.motif b{color:var(--ink);font-weight:500}
+pre.motif .g{color:var(--violet)}
+pre.motif .ok{color:var(--pass);font-weight:700}
+pre.motif .no{color:var(--fail);font-weight:700}
+pre.motif .d{color:#C3C9BE}
+.section-slide .rule{height:1px;background:var(--rule);margin:30px 0 24px;max-width:520px}
+.agenda{display:flex;flex-direction:column;gap:11px;font-family:var(--mono);font-size:15.5px;color:var(--ink-2)}
+.agenda span{display:flex;gap:9px;align-items:baseline}
+.agenda i{font-style:normal;color:var(--violet);font-weight:700}
+.credit{
+  font-family:var(--mono);font-size:14px;letter-spacing:.02em;color:var(--ink-2);
+  margin:30px 0 0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+}
+.credit b{color:var(--ink);font-weight:600}
+.credit .sep{color:var(--violet);font-weight:700}
+.hint{
+  position:absolute;right:76px;bottom:66px;font-family:var(--mono);font-size:12px;
+  color:var(--ink-2);text-align:right;line-height:1.7;
+}
+kbd{
+  font-family:var(--mono);font-size:11px;border:1px solid var(--rule);border-bottom-width:2px;
+  border-radius:5px;padding:1px 6px;background:#fff;color:var(--ink);
+}
+
+/* ---------- cards ---------- */
+.cards{display:grid;gap:14px;margin-top:34px}
+/* centra el bloque principal en el espacio libre bajo el título */
+.cards,table.gf,.split,.code-split,.lanes,.recap,.stack{margin-top:auto;margin-bottom:auto}
+.c3{grid-template-columns:repeat(3,1fr)}
+.c2{grid-template-columns:1fr 1fr}
+.card{
+  background:var(--panel);border-radius:14px;padding:20px 21px 22px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.cards.tight .card{padding:15px 17px 16px;gap:6px}
+.card h3{
+  font-family:var(--display);font-weight:700;font-size:23px;letter-spacing:-.015em;margin:0;
+}
+.card p{font-size:17px;line-height:1.4;color:var(--ink-2)}
+.card .tag{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--violet);font-weight:700;
+}
+.card code{font-family:var(--mono);font-size:16px;color:var(--ink);background:#fff;
+  padding:2px 6px;border-radius:5px;border:1px solid var(--rule)}
+
+.cmd{margin-top:8px}
+.cmd code{background:transparent;border:0;padding:0}
+.cmd code{display:block;font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ink)}
+.cmd span{display:block;font-size:14px;line-height:1.32;color:var(--ink-2);margin-top:2px}
+.foot{font-size:17.5px;line-height:1.4;color:var(--ink-2);margin-top:18px}
+.foot b{color:var(--ink);font-weight:600}
+.foot code{font-family:var(--mono);font-size:16px;color:var(--ink)}
+
+/* ---------- listas ---------- */
+ul.points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+ul.points li{position:relative;padding-left:30px;font-size:20px;line-height:1.4}
+ul.points li::before{
+  content:"";position:absolute;left:2px;top:11px;width:9px;height:9px;border-radius:50%;
+  background:var(--violet);
+}
+ul.points li b{font-weight:600}
+ul.points li small{display:block;font-size:16px;color:var(--ink-2);margin-top:4px;line-height:1.4}
+
+/* ---------- bloque genérico centrado ---------- */
+.stack{display:flex;flex-direction:column;gap:20px;min-height:0}
+
+/* ---------- anatomía de la URL ---------- */
+.url{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:center;margin:6px 0}
+.url .seg{display:flex;flex-direction:column;align-items:center}
+.url .seg b{
+  font-family:var(--mono);font-size:25px;font-weight:500;color:var(--ink-2);
+  letter-spacing:-.01em;padding-bottom:7px;white-space:pre;
+}
+.url .seg i{
+  font-family:var(--mono);font-size:12px;font-style:normal;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-2);margin-top:10px;min-height:13px;
+}
+.url .hi b{color:var(--ink);font-weight:700;border-bottom:3px solid var(--violet)}
+.url .hi i{color:var(--violet);font-weight:700}
+.url .hi2 b{color:var(--ink);font-weight:700;border-bottom:3px solid var(--amber)}
+.url .hi2 i{color:var(--amber);font-weight:700}
+.url .hi3 b{color:var(--ink);font-weight:700;border-bottom:3px solid var(--teal)}
+.url .hi3 i{color:var(--teal);font-weight:700}
+
+/* ---------- cadena horizontal (flujo) ---------- */
+.chain{display:flex;align-items:stretch}
+.chain .step{flex:1;background:var(--panel);border-radius:13px;padding:17px 19px 19px}
+.chain .step.hard{background:var(--ink);color:#fff}
+.chain .step.hard p{color:rgba(255,255,255,.72)}
+.chain .step.hard .t{color:#fff;opacity:.6}
+.chain .ar{flex:0 0 44px;display:grid;place-items:center;color:#B9BFB6;font-size:20px}
+.chain .t{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--violet);font-weight:700}
+.chain .n{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.015em;margin-top:7px}
+.chain p{font-size:15.5px;line-height:1.35;color:var(--ink-2);margin-top:7px}
+
+/* ---------- jerarquía (instancia / bases) ---------- */
+.box{border:1px dashed var(--rule);border-radius:16px;padding:17px 19px 19px;background:#fff}
+.box-h{display:flex;align-items:baseline;gap:12px}
+.box-h .nm{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.015em}
+.box-h .lb{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.kids{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.kid{background:var(--panel);border-radius:11px;padding:13px 15px}
+.kid .k{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--ink)}
+.kid span{display:block;font-size:14.5px;color:var(--ink-2);margin-top:4px;line-height:1.3}
+
+/* ---------- formulario de consola (mock) ---------- */
+.split{display:grid;grid-template-columns:1.02fr .98fr;gap:44px;flex:1;align-items:start;margin-top:22px}
+.fields{background:#fff;border:1px solid var(--rule);border-radius:14px;overflow:hidden}
+.fields-h{padding:16px 22px 15px;border-bottom:1px solid var(--rule)}
+.fields-h .lb{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);display:block;margin-bottom:6px}
+.fields-h .nm{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.01em}
+.f{display:flex;gap:14px;align-items:baseline;padding:10px 22px;border-bottom:1px solid var(--panel-2)}
+.f:last-child{border-bottom:0}
+.f .k{font-family:var(--mono);font-size:13px;color:var(--ink-2);flex:0 0 44%}
+.f .v{font-family:var(--mono);font-size:14.5px;font-weight:700;color:var(--ink)}
+.f .v.acc{color:var(--violet)}
+.f .v.mut{color:var(--ink-2);font-weight:500}
+
+/* ---------- checks (mock de resumen) ---------- */
+.pr{background:#fff;border:1px solid var(--rule);border-radius:14px;overflow:hidden}
+.pr-head{padding:18px 22px 16px;border-bottom:1px solid var(--rule)}
+.pr-title{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.01em}
+.pr-meta{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:7px}
+.pr-meta b{color:var(--violet);font-weight:700}
+.pr-body{padding:8px 22px 18px}
+.check{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--panel-2);font-size:16.5px}
+.check:last-child{border-bottom:0}
+.check .ico{width:20px;height:20px;flex:0 0 20px}
+.check .nm{font-family:var(--mono);font-size:14.5px}
+.check .st{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.merge-bar{margin:14px 22px 20px;border-radius:10px;background:var(--panel);padding:14px 16px;display:flex;gap:12px;align-items:center}
+.merge-bar span{font-size:16px;color:var(--ink-2);line-height:1.35}
+.merge-bar b{color:var(--ink);font-weight:600}
+
+/* ---------- tabla ---------- */
+table.gf{width:100%;border-collapse:collapse;margin-top:26px;font-size:19px}
+table.gf th{
+  text-align:left;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);font-weight:500;padding:0 14px 12px 0;border-bottom:1px solid var(--rule);
+}
+table.gf td{padding:11px 14px 11px 0;border-bottom:1px solid var(--panel-2);vertical-align:top;color:var(--ink-2)}
+table.gf td:first-child{color:var(--ink)}
+table.gf .br{font-family:var(--mono);font-size:16px;font-weight:700}
+table.gf tr:last-child td{border-bottom:0}
+
+/* ---------- carriles ---------- */
+.lanes{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:30px;flex:1;align-items:stretch}
+.lane{padding:22px 30px}
+.lane:first-child{border-right:1px dashed var(--rule)}
+.lane-h{display:flex;align-items:baseline;gap:12px;margin-bottom:18px}
+.lane-h .who{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.015em}
+.lane-h .where{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.flow{display:flex;flex-direction:column;gap:7px}
+.node{
+  background:var(--panel);border-radius:11px;padding:10px 15px;font-size:16.5px;
+  display:flex;gap:12px;align-items:center;
+}
+.node .k{font-family:var(--mono);font-size:13px;color:var(--violet);font-weight:700;flex:0 0 auto}
+.node code{font-family:var(--mono);font-size:15.5px}
+.node.hard{background:var(--ink);color:#fff}
+.node.hard .k{color:#fff;opacity:.55}
+.arrow-down{height:13px;display:flex;justify-content:center;color:var(--rule);font-size:14px;line-height:1}
+
+/* ---------- ambientes ---------- */
+.envs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.env{border:1px solid var(--rule);border-radius:13px;padding:20px 20px 22px;background:#fff}
+.env .nm{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.015em}
+.env .src{font-family:var(--mono);font-size:13.5px;color:var(--violet);margin-top:6px;font-weight:700}
+.env p{font-size:16.5px;color:var(--ink-2);line-height:1.4;margin-top:11px}
+
+/* ---------- código ---------- */
+.code-split{display:grid;grid-template-columns:1.12fr .88fr;gap:40px;flex:1;margin-top:22px;min-height:0;align-items:start}
+pre.code{
+  margin:0;background:var(--panel);border-radius:14px;padding:22px 24px;overflow:hidden;
+  font-family:var(--mono);font-size:15px;line-height:1.72;color:var(--ink);
+}
+pre.code.sm{font-size:13.5px;line-height:1.62}
+pre.code .k{color:var(--violet);font-weight:700}
+pre.code .s{color:var(--teal)}
+pre.code .a{color:var(--amber)}
+pre.code .c{color:var(--ink-2)}
+pre.code mark{background:#fff;color:inherit;border-radius:4px;padding:1px 3px;box-shadow:0 0 0 1px var(--rule)}
+.notes{display:flex;flex-direction:column;gap:15px}
+.note-i{display:flex;gap:14px;align-items:flex-start}
+.note-i .num{
+  font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;background:var(--ink);
+  width:22px;height:22px;border-radius:6px;display:grid;place-items:center;flex:0 0 22px;margin-top:3px;
+}
+.note-i div p{font-size:17px;line-height:1.4;color:var(--ink-2)}
+.note-i div b{color:var(--ink);font-weight:600;font-family:var(--mono);font-size:15.5px}
+
+/* ---------- caption ---------- */
+.caption{
+  display:flex;align-items:center;gap:18px;background:var(--panel);border-radius:12px;padding:14px 20px;
+}
+.caption .cmd{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--ink);white-space:nowrap;margin:0}
+.caption .cmd::before{content:"$ ";color:var(--violet)}
+.caption .note{font-size:17px;color:var(--ink-2);line-height:1.35;border-left:1px solid var(--rule);padding-left:18px}
+.caption .note b{color:var(--ink);font-weight:600}
+.caption code{font-family:var(--mono);font-size:15px}
+
+/* ---------- recap ---------- */
+.recap{display:grid;grid-template-columns:1fr;gap:18px;margin-top:30px}
+.recap div{display:flex;gap:16px;align-items:flex-start;font-size:21px;line-height:1.4}
+.recap svg{flex:0 0 22px;margin-top:3px}
+.recap b{font-weight:600}
+
+/* ---------- reveals genéricos ---------- */
+[data-step]{opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease}
+[data-step].on{opacity:1;transform:none}
+
+/* ---------- agregados 2C 2026 ---------- */
+.url.sm .seg b{font-size:22px}
+.url.sm .seg i{font-size:11.5px}
+.card .tag.pub{color:var(--amber)}
+pre.code.xs{font-size:12.5px;line-height:1.56}
+.recap.two{grid-template-columns:1fr 1fr;gap:15px 32px;margin-top:24px}
+.recap.two div{font-size:18px;line-height:1.38}
+.recap.two svg{flex:0 0 20px;margin-top:2px}
+
+/* ---------- accesibilidad / impresión ---------- */
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  @page{size:1280px 720px;margin:0}
+  body{overflow:visible}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;width:1280px;height:auto}
+  .slide{display:flex!important;position:relative;height:720px;page-break-after:always;break-after:page}
+  [data-step]{opacity:1!important;transform:none!important}
+  #progress,.hint{display:none}
+}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+<!-- 1 · portada -->
+<section class="slide section-slide" data-branch="s3 · consola">
+  <div class="sec-grid">
+    <div>
+      <p class="eyebrow">Práctica 4 · <b>Ingeniería de Software</b></p>
+      <h1 class="big">Funcionamiento<br>de S3</h1>
+      <div class="rule"></div>
+      <div class="agenda">
+        <span><i>·</i>Antes de empezar: instalar Terraform</span>
+        <span><i>1</i>Conceptos básicos y consola</span>
+        <span><i>2</i>AWS CLI con S3</span>
+        <span><i>3</i>Sitio estático</span>
+        <span><i>4</i>S3 + Athena</span>
+        <span><i>5</i>Terraform: por qué código</span>
+      </div>
+      <p class="credit">
+        <b>Ing. Magali Marijuan</b><span class="sep">·</span>Universidad de San Andrés<span class="sep">·</span>2C 2026
+      </p>
+    </div>
+<pre class="motif"><b>$ aws s3 ls</b>
+2026-03-30  <span class="g">clase-isw-athena-20260330</span>
+2026-03-30  <span class="g">clase-isw-files-20260330</span>
+2026-03-30  <span class="g">clase-isw-web-20260330</span>
+
+<b>$ aws s3 ls s3://clase-isw-files-20260330</b>
+2026-03-30    1247  datos20260330.csv
+2026-03-30     PRE  reportes/
+
+<span class="d">3 buckets · us-east-1 · 1 público</span></pre>
+  </div>
+  <p class="hint"><kbd>→</kbd> avanza · <kbd>←</kbd> vuelve<br><kbd>F</kbd> pantalla completa · <kbd>P</kbd> imprimir a PDF</p>
+</section>
+
+<!-- NUEVO · instructivo 1 · instalar -->
+<section class="slide" data-branch="s3 · antes de empezar">
+  <p class="eyebrow">Antes de empezar · <b>para hacerlo en tu casa</b></p>
+  <h2 style="font-size:44px;max-width:38ch">Instalar Terraform y traer el repo</h2>
+  <div class="code-split">
+<pre class="code sm"><span class="c"># macOS</span>
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+
+<span class="c"># Windows</span>
+winget install HashiCorp.Terraform
+
+<span class="c"># Linux: bajar el binario y ponerlo en el PATH</span>
+<span class="c">#   developer.hashicorp.com/terraform/install</span>
+
+<span class="k">terraform version</span>          <span class="c"># tiene que decir &gt;= 1.5</span>
+
+<span class="c"># el repo de la clase</span>
+git clone &lt;url-del-repo&gt;
+<span class="k">cd</span> clases-ing-soft/terraform</pre>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p>Terraform es <b>un solo binario</b>, sin runtime ni dependencias: “instalarlo” es bajarlo y dejarlo en el PATH. Por eso alcanza con descomprimir un zip.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p>Las credenciales <b>no</b> se configuran en Terraform: las lee de <b>~/.aws</b>, las mismas que deja <code>aws configure</code>. Eso lo vemos en la parte 2.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p>Antes de correr cualquier cosa: <code>aws sts get-caller-identity</code>. Si eso responde, hay credenciales; si falla, no sigas.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO · instructivo 2 · correrlo -->
+<section class="slide" data-branch="s3 · antes de empezar">
+  <p class="eyebrow">Antes de empezar · <b>una sesión completa</b></p>
+  <h2 style="font-size:44px;max-width:40ch">Crear los tres buckets y borrarlos</h2>
+  <div class="code-split">
+<pre class="code xs"><span class="k">$ terraform init</span>
+Terraform has been successfully initialized!
+
+<span class="k">$ terraform plan</span>
+Plan: <b>12 to add</b>, 0 to change, 0 to destroy.
+
+<span class="k">$ terraform apply</span>            <span class="c"># hay que escribir: yes</span>
+Apply complete! Resources: 12 added.
+
+<span class="k">$ terraform output</span>
+bucket_web    = <span class="s">"clase-isw-web-20260330"</span>
+bucket_athena = <span class="s">"clase-isw-athena-20260330"</span>
+bucket_files  = <span class="s">"clase-isw-files-20260330"</span>
+
+<span class="c"># al terminar la práctica, SIEMPRE:</span>
+<span class="k">$ aws s3 rm</span> s3://$WEB <span class="a">--recursive</span>   <span class="c"># vaciar primero</span>
+<span class="k">$ terraform destroy</span></pre>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p><b>init</b> se corre una vez por carpeta: baja el provider de AWS a <b>.terraform/</b>. Pesa cientos de MB, por eso está en el <b>.gitignore</b>.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p><b>plan</b> no toca nada: es el ensayo. Leerlo antes de aplicar es el hábito que hay que llevarse de esta clase.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p>Si el <b>apply</b> falla con <b>BucketAlreadyExists</b>, no está mal el código: alguien en el mundo ya usó ese nombre. Copiar <b>ejemplo.tfvars</b> a <b>terraform.tfvars</b>, cambiar la fecha y volver a aplicar.</p></div></div>
+      <div class="note-i" data-step="4"><span class="num">4</span><div><p><b>destroy</b> falla si un bucket todavía tiene objetos: S3 no borra un bucket que no esté vacío. Primero vaciarlos.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · qué es S3 -->
+<section class="slide" data-branch="s3 · consola">
+  <p class="eyebrow">S3 · modelo mental</p>
+  <h2>Un disco infinito, accesible por HTTP</h2>
+  <p class="lede">S3 (<strong>Simple Storage Service</strong>) es el almacenamiento de objetos de AWS: no administrás ni servidor ni disco, subís objetos y pagás por lo que guardás.</p>
+  <div class="cards c3">
+    <div class="card" data-step="1">
+      <span class="tag">El contenedor</span>
+      <h3>Bucket</h3>
+      <p>La carpeta raíz donde se guarda todo. Su nombre tiene que ser <b>único a nivel mundial</b> en AWS.</p>
+      <p><code>clase-isw-files-20260330</code></p>
+    </div>
+    <div class="card" data-step="2">
+      <span class="tag">El contenido</span>
+      <h3>Objeto</h3>
+      <p>Cualquier archivo que subas. Tiene una <b>clave</b> (su nombre), el contenido y metadata.</p>
+      <p><code>datos20260330.csv</code></p>
+    </div>
+    <div class="card" data-step="3">
+      <span class="tag">El lugar</span>
+      <h3>Región</h3>
+      <p>El bucket vive en una región. Usamos <b>us-east-1</b>: es la más barata. <b>sa-east-1</b> (São Paulo) tiene menos latencia desde acá.</p>
+      <p><code>us-east-1</code></p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · para qué se usa -->
+<section class="slide" data-branch="s3 · consola">
+  <p class="eyebrow">S3 · para qué se usa</p>
+  <h2>Cuatro usos típicos</h2>
+  <div class="cards c2 tight">
+    <div class="card" data-step="1">
+      <span class="tag">Aplicaciones</span>
+      <h3>Imágenes y videos</h3>
+      <p>El contenido pesado no vive en la base de datos ni en el servidor de la app.</p>
+    </div>
+    <div class="card" data-step="1">
+      <span class="tag">Operación</span>
+      <h3>Backups y logs</h3>
+      <p>Barato, durable y con reglas de ciclo de vida para archivar lo viejo.</p>
+    </div>
+    <div class="card" data-step="2">
+      <span class="tag">Web</span>
+      <h3>Sitios estáticos</h3>
+      <p>HTML, CSS y JS servidos directo desde el bucket, sin servidor propio.</p>
+    </div>
+    <div class="card" data-step="2" style="background:var(--ink);color:#fff">
+      <span class="tag" style="color:#fff;opacity:.6">Lo que vamos a hacer</span>
+      <h3>Data lake</h3>
+      <p style="color:rgba(255,255,255,.75)">Los datos crudos quedan en S3 y se consultan desde arriba con Athena, sin mover ni cargar nada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO · el mapa de los tres buckets -->
+<section class="slide" data-branch="s3 · consola">
+  <p class="eyebrow">La práctica · el mapa</p>
+  <h2 style="font-size:46px;max-width:34ch">Tres buckets, un propósito cada uno</h2>
+  <p class="lede">Un bucket no es un disco de propósito general: se configura según para qué se va a usar. Los tres de hoy se diferencian sobre todo en una cosa — <strong>quién puede leerlos</strong>.</p>
+  <div class="cards c3">
+    <div class="card" data-step="1">
+      <span class="tag pub">Público</span>
+      <h3>web</h3>
+      <p>Sirve el sitio estático por HTTP. El único que cualquiera en internet puede leer, y a propósito.</p>
+      <p><code>clase-isw-web-20260330</code></p>
+    </div>
+    <div class="card" data-step="2">
+      <span class="tag">Privado</span>
+      <h3>athena</h3>
+      <p>Data lake: los CSV crudos en <b>datos/</b> y lo que devuelve cada consulta en <b>resultados/</b>.</p>
+      <p><code>clase-isw-athena-20260330</code></p>
+    </div>
+    <div class="card" data-step="3">
+      <span class="tag">Privado</span>
+      <h3>files</h3>
+      <p>El bucket de juguete: subir, bajar, sobrescribir y borrar con la CLI.</p>
+      <p><code>clase-isw-files-20260330</code></p>
+    </div>
+  </div>
+  <p class="foot" data-step="4">Hoy los creamos <b>a mano</b>, para ver cada campo. En la última parte los vamos a ver otra vez, escritos en <b>Terraform</b>.</p>
+</section>
+
+<!-- NUEVO · los archivos de ejemplo -->
+<section class="slide" data-branch="s3 · consola">
+  <p class="eyebrow">La práctica · <b>ejemplos/</b></p>
+  <h2 style="font-size:44px;max-width:36ch">Los archivos que vamos a subir</h2>
+  <div class="code-split">
+<pre class="code sm">ejemplos/
+├── <mark>web/</mark>               <span class="c">→ bucket web, a la raíz</span>
+│   ├── index.html
+│   ├── estilos.css
+│   └── error.html
+├── <mark>athena/</mark>            <span class="c">→ bucket athena, en datos/</span>
+│   ├── personas/personas.csv
+│   ├── ventas/ventas.csv
+│   └── consultas.sql  <span class="c">no es dato: no se sube</span>
+└── <mark>archivos/</mark>          <span class="c">→ bucket files, a la raíz</span>
+    ├── notas.txt
+    ├── datos20260330.csv
+    ├── config.json
+    ├── lista.md
+    └── reportes/      <span class="c">subcarpeta → prefijo</span>
+        ├── reporte-marzo.txt
+        └── reporte-abril.txt</pre>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p>Cada carpeta local va a un bucket distinto. Lo de la izquierda es exactamente lo que se va a ver del otro lado.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p>Los CSV de Athena están en <b>subcarpetas separadas</b> porque cada tabla necesita su propio prefijo. Si compartieran uno, cada tabla leería también las filas de la otra.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p><b>reportes/</b> es una subcarpeta local, pero en S3 se vuelve parte del nombre: <b>reportes/reporte-marzo.txt</b>.</p></div></div>
+<pre class="code sm" data-step="4" style="margin-top:2px"><span class="c"># los tres nombres, en tres variables</span>
+<span class="k">aws s3 sync</span> ejemplos/web       <span class="s">s3://$WEB</span>
+<span class="k">aws s3 sync</span> ejemplos/athena    <span class="s">s3://$ATHENA/datos</span>
+<span class="k">aws s3 sync</span> ejemplos/archivos  <span class="s">s3://$FILES</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · crear el bucket -->
+<section class="slide" data-branch="s3 · consola">
+  <p class="eyebrow">Consola · buscar “S3” → Create bucket</p>
+  <h2 style="font-size:46px;max-width:34ch">Crear el bucket es elegir seis valores</h2>
+  <div class="split">
+    <div class="fields">
+      <div class="fields-h">
+        <span class="lb">Amazon S3 · create bucket</span>
+        <span class="nm">General configuration</span>
+      </div>
+      <div class="f"><span class="k">Bucket name</span><span class="v acc">clase-isw-files-20260330</span></div>
+      <div class="f"><span class="k">AWS Region</span><span class="v">us-east-1</span></div>
+      <div class="f"><span class="k">Object Ownership</span><span class="v">ACLs disabled</span></div>
+      <div class="f"><span class="k">Block Public Access</span><span class="v">Block all public access</span></div>
+      <div class="f"><span class="k">Bucket Versioning</span><span class="v">Disable</span></div>
+      <div class="f"><span class="k">Default encryption</span><span class="v mut">(por defecto)</span></div>
+    </div>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p><b>ACLs disabled</b> es el modelo que AWS recomienda hoy: el acceso se controla solo con políticas y el bucket es dueño de todo lo que se sube.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p><b>Block all public access</b> por ahora. Mínimo privilegio: nada es público hasta que lo habilites a propósito.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p><b>Versioning: Disable</b>. Con versioning, subir un archivo con el mismo nombre no reemplaza: guarda una versión nueva. Cada versión ocupa espacio y se factura.</p></div></div>
+      <div class="note-i" data-step="4"><span class="num">4</span><div><p>El nombre es <b>único a nivel mundial</b>: si alguien ya lo usó, la consola no te deja avanzar. De ahí la fecha en el nombre.</p><p style="margin-top:8px">El bucket de <b>athena</b> se crea igual. El de <b>web</b> necesita tres cosas más: es la parte 3.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · subir y explorar -->
+<section class="slide" data-branch="s3 · consola">
+  <p class="eyebrow">Consola · <b>datos20260330.csv</b></p>
+  <h2 style="font-size:46px;max-width:34ch">Subir el archivo y mirar qué guardó</h2>
+  <div class="lanes">
+    <div class="lane">
+      <div class="lane-h"><span class="who">Subir</span><span class="where">bucket → upload</span></div>
+      <div class="flow">
+        <div class="node"><span class="k">01</span>Entrar al bucket</div>
+        <div class="arrow-down">↓</div>
+        <div class="node"><span class="k">02</span>Click en <code>Upload</code></div>
+        <div class="arrow-down">↓</div>
+        <div class="node"><span class="k">03</span>Seleccionar el archivo</div>
+        <div class="arrow-down">↓</div>
+        <div class="node hard" data-step="1"><span class="k">04</span>Click en <code>Upload</code> otra vez</div>
+      </div>
+      <p class="lede" style="font-size:16.5px;margin-top:18px">Primero necesitás un archivo de prueba: un CSV con <b>nombre, edad, ciudad</b> y una fila de encabezado.</p>
+    </div>
+    <div class="lane">
+      <div class="lane-h"><span class="who">Explorar</span><span class="where">click en el objeto</span></div>
+      <div class="flow">
+        <div class="node" data-step="2">URL del objeto</div>
+        <div class="node" data-step="2">Tamaño</div>
+        <div class="node" data-step="2">Última modificación</div>
+        <div class="node" data-step="3">Clase de almacenamiento · <b>Standard</b></div>
+        <div class="node" data-step="3">Botón <code>Open</code> → descarga el archivo</div>
+      </div>
+      <p class="lede" style="font-size:16.5px;margin-top:18px"><b>Standard</b> es el default: acceso inmediato. Las otras clases son más baratas pero más lentas o con costo por recuperar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · anatomía de la URL -->
+<section class="slide" data-branch="s3 · consola">
+  <p class="eyebrow">S3 · el detalle que importa</p>
+  <h2>Cada objeto tiene su propia URL</h2>
+  <div class="stack">
+    <div class="url sm" data-step="1">
+      <span class="seg"><b>https://</b><i></i></span>
+      <span class="seg hi"><b>clase-isw-files-20260330</b><i>bucket</i></span>
+      <span class="seg"><b>.s3.</b><i></i></span>
+      <span class="seg hi2"><b>us-east-1</b><i>región</i></span>
+      <span class="seg"><b>.amazonaws.com/</b><i></i></span>
+      <span class="seg hi3"><b>datos20260330.csv</b><i>clave del objeto</i></span>
+    </div>
+    <div class="cards c2" style="margin:0">
+      <div class="card" data-step="2">
+        <span class="tag">Consecuencia 1</span>
+        <h3>El <i>Access Denied</i> es la respuesta correcta</h3>
+        <p>Si pegás esa URL en el navegador, S3 responde <b>Access Denied</b>: el bucket bloquea el acceso público. La URL existe, el permiso no.</p>
+      </div>
+      <div class="card" data-step="3">
+        <span class="tag">Consecuencia 2</span>
+        <h3>Por eso el nombre es único en el mundo</h3>
+        <p>El bucket es un <b>subdominio</b> de <code>amazonaws.com</code>. Dos buckets con el mismo nombre serían la misma URL: por eso AWS no deja repetirlos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO · prefijos, con los dos ls al lado -->
+<section class="slide" data-branch="s3 · consola">
+  <p class="eyebrow">S3 · el malentendido clásico</p>
+  <h2 style="font-size:48px">No hay carpetas, hay prefijos</h2>
+  <div class="lanes">
+    <div class="lane">
+      <div class="lane-h"><span class="who">Lo que ves</span><span class="where">aws s3 ls</span></div>
+<pre class="code sm">$ aws s3 ls s3://$FILES
+
+                   PRE  reportes/
+2026-03-30    1247  datos20260330.csv
+2026-03-30     612  notas.txt</pre>
+      <p class="lede" style="font-size:17px;margin-top:18px" data-step="1">Parece que hay una <b>carpeta</b> <code>reportes</code> y dos archivos al lado.</p>
+    </div>
+    <div class="lane">
+      <div class="lane-h"><span class="who">Lo que hay</span><span class="where">aws s3 ls --recursive</span></div>
+<pre class="code sm" data-step="2">$ aws s3 ls s3://$FILES <span class="a">--recursive</span>
+
+2026-03-30    1247  datos20260330.csv
+2026-03-30     612  notas.txt
+2026-03-30     498  <mark>reportes/</mark>reporte-marzo.txt
+2026-03-30     441  <mark>reportes/</mark>reporte-abril.txt</pre>
+      <p class="lede" style="font-size:17px;margin-top:18px" data-step="2">Cuatro objetos y ninguna carpeta. <b>reportes/</b> es parte del <b>nombre</b> de dos de ellos.</p>
+    </div>
+  </div>
+  <p class="foot" data-step="3">Consecuencia práctica: en S3 no existe <code>mkdir</code>, y borrar “la carpeta” es borrar todos los objetos cuyo nombre empiece con <code>reportes/</code>. La consola te dibuja el árbol; abajo solo hay una lista plana de claves.</p>
+</section>
+
+<!-- 7 · portada parte 2 -->
+<section class="slide section-slide" data-branch="s3 · aws cli">
+  <div class="sec-grid">
+    <div>
+      <p class="eyebrow">Parte 2 · <b>Funcionamiento de S3</b></p>
+      <h1 class="big">AWS CLI</h1>
+      <div class="rule"></div>
+      <div class="agenda">
+        <span><i>·</i>Crear y listar: <span class="mono">mb</span> · <span class="mono">ls</span></span>
+        <span><i>·</i>Copiar y borrar: <span class="mono">cp</span> · <span class="mono">rm</span></span>
+        <span><i>·</i>Sincronizar: <span class="mono">sync</span></span>
+        <span><i>·</i>Subir todo el repo, paso a paso</span>
+      </div>
+    </div>
+<pre class="motif"><b>$ aws s3 mb s3://clase-isw-athena-20260330</b>
+make_bucket: clase-isw-athena-20260330  <span class="ok">✓</span>
+
+<b>$ aws s3 sync ejemplos/archivos s3://$FILES</b>
+upload: notas.txt  <span class="ok">✓</span>
+upload: reportes/reporte-marzo.txt  <span class="ok">✓</span>
+<span class="d">(sin cambios: 3 archivos omitidos)</span>
+
+<b>$ aws s3 rm s3://$FILES/notas.txt</b>
+delete: s3://clase-isw-files-20260330/notas.txt</pre>
+  </div>
+</section>
+
+<!-- 9 · comandos -->
+<section class="slide" data-branch="s3 · aws cli">
+  <p class="eyebrow">AWS CLI · <b>aws s3</b></p>
+  <h2 style="font-size:44px;max-width:40ch">Con cinco verbos hacés todo el trabajo</h2>
+  <div class="code-split">
+<pre class="code sm"><span class="c"># el nombre del bucket, una vez</span>
+FILES=clase-isw-files-20260330
+
+<span class="c"># crear un bucket (nombre único a nivel mundial)</span>
+<span class="k">aws s3 mb</span> <span class="s">s3://clase-isw-athena-20260330</span>
+
+<span class="c"># listar: los buckets, el contenido, todo el árbol</span>
+<span class="k">aws s3 ls</span>
+<span class="k">aws s3 ls</span> <span class="s">s3://$FILES</span> <span class="a">--recursive</span>
+
+<span class="c"># subir: origen local → destino S3</span>
+<span class="k">aws s3 cp</span> ejemplos/archivos/notas.txt <span class="s">s3://$FILES/</span>
+
+<span class="c"># bajar: origen S3 → destino local</span>
+<span class="k">aws s3 cp</span> <span class="s">s3://$FILES/notas.txt</span> ./bajado.txt
+
+<span class="c"># borrar un objeto</span>
+<span class="k">aws s3 rm</span> <span class="s">s3://$FILES/notas.txt</span>
+
+<span class="c"># sincronizar una carpeta local con el bucket</span>
+<span class="k">aws s3 sync</span> ejemplos/archivos <span class="s">s3://$FILES</span></pre>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p><b>mb</b> crea el bucket. <b>ls</b> sin argumentos lista buckets; con <b>s3://</b> lista objetos, y <b>--recursive</b> entra en todos los prefijos.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p><b>cp</b> es siempre origen y después destino. El que empieza con <b>s3://</b> define si subís o bajás.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p><b>rm</b> borra sin preguntar y sin papelera. Con versioning apagado, no hay vuelta atrás.</p></div></div>
+      <div class="note-i" data-step="4"><span class="num">4</span><div><p><b>sync</b> es lo más potente: sube solo lo que cambió, igual que <b>rsync</b>. Se usa para backups y deploys.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · cheat sheet -->
+<section class="slide" data-branch="s3 · aws cli">
+  <p class="eyebrow">Para tener a mano</p>
+  <h2>Resumen de comandos</h2>
+  <table class="gf">
+    <thead><tr><th style="width:38%">Comando</th><th style="width:30%">Qué hace</th><th style="width:32%">Ojo</th></tr></thead>
+    <tbody>
+      <tr data-step="1"><td class="br">aws s3 mb s3://bucket</td><td>Crea un bucket</td><td>El nombre es único a nivel mundial</td></tr>
+      <tr data-step="1"><td class="br">aws s3 ls</td><td>Lista los buckets</td><td>Necesita permiso de <span class="mono">ListAllMyBuckets</span></td></tr>
+      <tr data-step="1"><td class="br">aws s3 ls s3://bucket</td><td>Lista el contenido</td><td>Sin <span class="mono">--recursive</span> muestra solo el primer nivel</td></tr>
+      <tr data-step="2"><td class="br">aws s3 cp archivo s3://bucket</td><td>Sube un archivo</td><td>Si la clave ya existe, la sobrescribe sin avisar</td></tr>
+      <tr data-step="2"><td class="br">aws s3 cp s3://bucket/archivo .</td><td>Baja un archivo</td><td>El punto es el destino local</td></tr>
+      <tr data-step="3"><td class="br">aws s3 rm s3://bucket/archivo</td><td>Borra un objeto</td><td>No hay papelera de reciclaje</td></tr>
+      <tr data-step="3"><td class="br">aws s3 sync ./carpeta s3://bucket</td><td>Sincroniza una carpeta</td><td>No borra en el destino salvo que pases <span class="mono">--delete</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- NUEVO · paso a paso del sync -->
+<section class="slide" data-branch="s3 · aws cli">
+  <p class="eyebrow">AWS CLI · manos a la obra</p>
+  <h2 style="font-size:42px;max-width:40ch">Subir todo el repo, paso a paso</h2>
+  <div class="code-split">
+<pre class="code xs"><span class="c"># 1 · los tres nombres, una sola vez por terminal</span>
+<span class="k">export</span> WEB=clase-isw-web-20260330
+<span class="k">export</span> ATHENA=clase-isw-athena-20260330
+<span class="k">export</span> FILES=clase-isw-files-20260330
+
+<span class="c"># 2 · pararse en la raíz del repo</span>
+<span class="k">cd</span> clases-ing-soft
+
+<span class="c"># 3 · un sync por bucket</span>
+<span class="k">aws s3 sync</span> ejemplos/web       <span class="s">s3://$WEB</span>
+<span class="k">aws s3 sync</span> ejemplos/athena    <span class="s">s3://$ATHENA/datos</span> <span class="a">--exclude</span> <span class="s">"*.sql"</span>
+<span class="k">aws s3 sync</span> ejemplos/archivos  <span class="s">s3://$FILES</span>
+
+<span class="c"># 4 · verificar que llegó</span>
+<span class="k">aws s3 ls</span> <span class="s">s3://$WEB</span>
+<span class="k">aws s3 ls</span> <span class="s">s3://$ATHENA/datos</span> <span class="a">--recursive</span>
+<span class="k">aws s3 ls</span> <span class="s">s3://$FILES</span> <span class="a">--recursive</span></pre>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p><b>export</b> deja la variable disponible para todos los comandos que siguen. Vive en <b>esa</b> terminal: si abrís otra, hay que volver a exportar. En PowerShell es <b>$env:WEB = "..."</b>.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p>Las rutas son <b>relativas a donde estás</b>. Si te paraste en <code>terraform/</code>, los orígenes son <code>../ejemplos/…</code> — es el error más común del paso 3.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p><b>--exclude "*.sql"</b> deja <code>consultas.sql</code> afuera: no es un dato y no queremos que Athena lo lea junto a los CSV.</p></div></div>
+      <div class="note-i" data-step="4"><span class="num">4</span><div><p><b>sync</b> se puede repetir sin miedo: sube solo lo que falta o cambió. Si algo salió a medias, se vuelve a correr y listo.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO · portada parte 3 · sitio estático -->
+<section class="slide section-slide" data-branch="s3 · web estática">
+  <div class="sec-grid">
+    <div>
+      <p class="eyebrow">Parte 3 · <b>Funcionamiento de S3</b></p>
+      <h1 class="big">Sitio<br>estático</h1>
+      <div class="rule"></div>
+      <div class="agenda">
+        <span><i>·</i>Cuatro piezas, no una</span>
+        <span><i>·</i>Destrabar el bloqueo público</span>
+        <span><i>·</i>La bucket policy</span>
+        <span><i>·</i>Dos endpoints distintos</span>
+      </div>
+    </div>
+<pre class="motif"><b>$ aws s3 sync ejemplos/web s3://$WEB</b>
+upload: index.html   <span class="ok">✓</span>
+upload: estilos.css  <span class="ok">✓</span>
+upload: error.html   <span class="ok">✓</span>
+
+<span class="d">http://clase-isw-web-20260330</span>
+<span class="d">   .s3-website-us-east-1.amazonaws.com</span>  <span class="ok">200 OK</span></pre>
+  </div>
+</section>
+
+<!-- NUEVO · las cuatro piezas -->
+<section class="slide" data-branch="s3 · web estática">
+  <p class="eyebrow">Web estática · lo que hace falta</p>
+  <h2 style="font-size:46px;max-width:36ch">Un bucket público son cuatro cosas</h2>
+  <p class="lede">Subir el HTML no alcanza. El bucket que ya sabemos crear es privado: para que sirva una web hay que agregarle tres cosas más.</p>
+  <div class="cards c2 tight">
+    <div class="card" data-step="1">
+      <span class="tag">Pieza 1</span>
+      <h3>El bucket y los objetos</h3>
+      <p>Igual que el de la parte 1. Se suben con <code>sync</code>, y <b>index.html tiene que quedar en la raíz</b>.</p>
+    </div>
+    <div class="card" data-step="2">
+      <span class="tag">Pieza 2</span>
+      <h3>Website configuration</h3>
+      <p>Properties → Static website hosting → Enable. Dos campos: <b>index.html</b> y <b>error.html</b>.</p>
+    </div>
+    <div class="card" data-step="3">
+      <span class="tag">Pieza 3</span>
+      <h3>Destrabar el bloqueo</h3>
+      <p>Permissions → Block public access → Edit. Es el candado de arriba: mientras esté puesto, ninguna policy tiene efecto.</p>
+    </div>
+    <div class="card" data-step="4" style="background:var(--ink);color:#fff">
+      <span class="tag" style="color:#fff;opacity:.6">Pieza 4</span>
+      <h3>La bucket policy</h3>
+      <p style="color:rgba(255,255,255,.75)">El permiso real. Las tres piezas anteriores no dan acceso a nadie: esta sí.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO · la bucket policy -->
+<section class="slide" data-branch="s3 · web estática">
+  <p class="eyebrow">Permissions · bucket policy</p>
+  <h2 style="font-size:42px;max-width:40ch">La policy que lo hace público</h2>
+  <div class="code-split">
+<pre class="code sm">{
+  <span class="a">"Version"</span>: <span class="s">"2012-10-17"</span>,
+  <span class="a">"Statement"</span>: [
+    {
+      <span class="a">"Sid"</span>: <span class="s">"PermitirLecturaPublica"</span>,
+      <span class="a">"Effect"</span>: <span class="s">"Allow"</span>,
+      <span class="a">"Principal"</span>: <mark>"*"</mark>,
+      <span class="a">"Action"</span>: <span class="s">"s3:GetObject"</span>,
+      <span class="a">"Resource"</span>: <span class="s">"arn:aws:s3:::clase-isw-web-20260330<mark>/*</mark>"</span>
+    }
+  ]
+}</pre>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p><b>Principal: "*"</b> es literalmente “cualquiera”, sin credenciales. Es lo que hace pública la web, y lo que no hay que escribir por accidente.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p><b>GetObject</b> y nada más: se puede leer, no escribir ni listar. Sin <b>ListBucket</b>, nadie puede pedir el inventario del bucket.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p>El <b>/*</b> del final son los objetos. El ARN sin barra es el bucket: son dos recursos distintos, y esta policy solo habla de los objetos.</p></div></div>
+      <div class="note-i" data-step="4"><span class="num">4</span><div><p>Cuando la consola muestre <b>Publicly accessible</b> en rojo, no es un error: es exactamente lo que pedimos.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO · dos endpoints -->
+<section class="slide" data-branch="s3 · web estática">
+  <p class="eyebrow">Web estática · el detalle que confunde</p>
+  <h2>El mismo bucket, dos endpoints</h2>
+  <div class="stack">
+    <div class="url" data-step="1">
+      <span class="seg"><b>http://</b><i>sin TLS</i></span>
+      <span class="seg hi"><b>clase-isw-web-20260330</b><i>bucket</i></span>
+      <span class="seg hi3"><b>.s3-website-</b><i>endpoint web</i></span>
+      <span class="seg hi2"><b>us-east-1</b><i>región</i></span>
+      <span class="seg"><b>.amazonaws.com/</b><i></i></span>
+    </div>
+    <div class="cards c3" style="margin:0">
+      <div class="card" data-step="2">
+        <span class="tag">Resuelve el índice</span>
+        <h3>La raíz devuelve algo</h3>
+        <p>Pedir <code>/</code> devuelve <b>index.html</b>. El endpoint normal, el de <code>.s3.</code>, no resuelve índices.</p>
+      </div>
+      <div class="card" data-step="3">
+        <span class="tag">Resuelve el error</span>
+        <h3>404 con tu propio HTML</h3>
+        <p>Una clave que no existe devuelve <b>error.html</b>. Sin website hosting, S3 responde <code>NoSuchKey</code> en XML.</p>
+      </div>
+      <div class="card" data-step="4">
+        <span class="tag">No hace TLS</span>
+        <h3>Solo <span class="mono">http</span></h3>
+        <p>El endpoint web no habla <b>https</b>. Para eso hace falta <b>CloudFront</b> adelante — otra clase.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · portada parte 3 -->
+<section class="slide section-slide" data-branch="s3 · athena">
+  <div class="sec-grid">
+    <div>
+      <p class="eyebrow">Parte 4 · <b>Funcionamiento de S3</b></p>
+      <h1 class="big">S3 +<br>Athena</h1>
+      <div class="rule"></div>
+      <div class="agenda">
+        <span><i>·</i>SQL sobre archivos</span>
+        <span><i>·</i>Bucket de resultados</span>
+        <span><i>·</i>CREATE EXTERNAL TABLE</span>
+        <span><i>·</i>Consultar el CSV</span>
+      </div>
+    </div>
+<pre class="motif"><b>&gt; SELECT * FROM personas;</b>
+
+nombre    <span class="d">|</span>  edad  <span class="d">|</span>  ciudad
+<span class="d">----------+--------+-------------</span>
+Ana       <span class="d">|</span>  23    <span class="d">|</span>  Buenos Aires
+Bruno     <span class="d">|</span>  31    <span class="d">|</span>  Rosario
+Carla     <span class="d">|</span>  27    <span class="d">|</span>  Córdoba
+
+<span class="d">20 filas · Time: 1.2s · Data scanned: 612 B</span></pre>
+  </div>
+</section>
+
+<!-- 12 · qué es Athena -->
+<section class="slide" data-branch="s3 · athena">
+  <p class="eyebrow">Athena · qué es</p>
+  <h2 style="font-size:46px;max-width:42ch">SQL sobre archivos, sin base de datos</h2>
+  <p class="lede">Consultás directamente los archivos que están en S3: sin cargar datos, sin instancia, sin infraestructura que administrar.</p>
+  <div class="stack">
+    <div class="chain">
+      <div class="step" data-step="1">
+        <span class="t">Origen</span>
+        <div class="n">datos.csv en S3</div>
+        <p>El archivo se queda donde está. Athena no lo copia ni lo mueve.</p>
+      </div>
+      <div class="ar" data-step="2">→</div>
+      <div class="step hard" data-step="2">
+        <span class="t">Definición</span>
+        <div class="n">Athena define la estructura</div>
+        <p>Una tabla externa dice qué columnas tiene ese archivo. Es metadata, no datos.</p>
+      </div>
+      <div class="ar" data-step="3">→</div>
+      <div class="step" data-step="3">
+        <span class="t">Consulta</span>
+        <div class="n">SQL de siempre</div>
+        <p>SELECT, WHERE, GROUP BY. Se paga por los datos escaneados.</p>
+      </div>
+    </div>
+    <div class="cards c2" style="margin:0">
+      <div class="card" data-step="4">
+        <span class="tag">Paso 1</span>
+        <h3>Entrar al Query Editor</h3>
+        <p>Barra de búsqueda → <b>Athena</b>. La URL tiene que terminar en <code>#/query-editor</code>; si no, estás en otra pantalla del servicio.</p>
+      </div>
+      <div class="card" data-step="5">
+        <span class="tag">Paso 2</span>
+        <h3>Decirle dónde guardar los resultados</h3>
+        <p>Athena escribe cada resultado en S3 antes de mostrarlo. Pestaña <b>Settings</b> → <b>Manage</b> → <b>Location of query result</b>:</p>
+        <p><code>s3://clase-isw-athena-20260330/resultados/</code></p>
+        <p style="font-size:15px">Sin esto la primera consulta falla con <b>No output location provided</b> — y la barra del final no es opcional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · create external table -->
+<section class="slide" data-branch="s3 · athena">
+  <p class="eyebrow">Athena · query editor · database <b>default</b></p>
+  <h2 style="font-size:42px;max-width:42ch">La tabla que apunta al CSV</h2>
+  <div class="code-split">
+<pre class="code sm"><span class="k">CREATE EXTERNAL TABLE IF NOT EXISTS</span> personas (
+    nombre  <span class="a">STRING</span>,
+    edad    <span class="a">INT</span>,
+    ciudad  <span class="a">STRING</span>
+)
+<span class="k">ROW FORMAT DELIMITED</span>
+<span class="k">FIELDS TERMINATED BY</span> <span class="s">','</span>
+<span class="k">LINES TERMINATED BY</span> <span class="s">'\n'</span>
+<span class="k">LOCATION</span> <span class="s">'s3://clase-isw-athena-20260330/datos/personas/'</span>
+<span class="k">TBLPROPERTIES</span> (<span class="s">'skip.header.line.count'</span>=<span class="s">'1'</span>);</pre>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p>Antes de ejecutar, verificá que el selector <b>Database</b> diga <b>default</b>.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p><b>EXTERNAL</b>: la tabla es solo una definición. Si la borrás, el CSV en S3 sigue intacto.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p><b>LOCATION</b> es un prefijo, no un archivo: Athena lee <b>todo</b> lo que haya ahí. Por eso <b>ventas</b> tiene su propio prefijo, y los resultados van a <b>resultados/</b>.</p></div></div>
+      <div class="note-i" data-step="4"><span class="num">4</span><div><p><b>skip.header.line.count</b> evita que la fila de encabezado entre como un dato más.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · consultar -->
+<section class="slide" data-branch="s3 · athena">
+  <p class="eyebrow">Athena · consultar</p>
+  <h2>Tres columnas, una tabla, cero infraestructura</h2>
+  <p class="lede">Le dijimos a Athena: <strong>“el CSV que está en ese prefijo tiene estas tres columnas; tratalo como una tabla llamada personas”</strong>.</p>
+  <div class="split">
+    <div>
+      <ul class="points">
+        <li data-step="1"><b>No hay ninguna base de datos corriendo.</b><small>Nada que prender, apagar ni dimensionar.</small></li>
+        <li data-step="2"><b>Los datos no se cargaron a ningún lado.</b><small>Siguen siendo el mismo CSV en el mismo bucket.</small></li>
+        <li data-step="3"><b>Se paga por datos escaneados.</b><small>Con un archivo de 1 KB, el costo es cero. Con un data lake real, conviene particionar y usar formatos comprimidos.</small></li>
+      </ul>
+    </div>
+    <div>
+<pre class="code" data-step="1"><span class="k">SELECT</span> * <span class="k">FROM</span> personas;
+
+<span class="c">-- y SQL de verdad, sobre un CSV</span>
+<span class="k">SELECT</span> ciudad, <span class="k">COUNT</span>(*), <span class="k">ROUND</span>(<span class="k">AVG</span>(edad))
+<span class="k">FROM</span> personas
+<span class="k">GROUP BY</span> ciudad;</pre>
+      <div class="caption" style="margin-top:16px" data-step="3">
+        <p class="note" style="border:0;padding:0">Athena deja el resultado como CSV en <code>resultados/</code>. <b>Cada consulta escribe un archivo nuevo</b>, así que ese prefijo crece y también se factura.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO · portada parte 6 · terraform -->
+<section class="slide section-slide" data-branch="s3 · terraform">
+  <div class="sec-grid">
+    <div>
+      <p class="eyebrow">Parte 5 · <b>Funcionamiento de S3</b></p>
+      <h1 class="big">Terraform</h1>
+      <div class="rule"></div>
+      <div class="agenda">
+        <span><i>·</i>Por qué código y no clicks</span>
+        <span><i>·</i>Un recurso por cada pantalla</span>
+        <span><i>·</i><span class="mono">init · plan · apply · destroy</span></span>
+        <span><i>·</i>El estado y los outputs</span>
+      </div>
+    </div>
+<pre class="motif"><b>$ terraform apply</b>
+
+Plan: <b>12 to add</b>, 0 to change, 0 to destroy.
+
+aws_s3_bucket.web: Creation complete <span class="ok">✓</span>
+aws_s3_bucket.athena: Creation complete <span class="ok">✓</span>
+aws_s3_bucket.files: Creation complete <span class="ok">✓</span>
+
+<span class="d">Apply complete! 12 added, 0 changed.</span></pre>
+  </div>
+</section>
+
+<!-- NUEVO · por qué código -->
+<section class="slide" data-branch="s3 · terraform">
+  <p class="eyebrow">Terraform · infraestructura como código</p>
+  <h2 style="font-size:46px;max-width:34ch">Lo mismo, pero en un archivo</h2>
+  <p class="lede">Todo lo que clickeamos hoy se puede describir en texto. Terraform lee ese texto, lo compara con lo que hay en AWS y aplica <strong>solo la diferencia</strong>.</p>
+  <table class="gf">
+    <thead><tr><th style="width:26%"></th><th style="width:37%">Consola</th><th style="width:37%">Terraform</th></tr></thead>
+    <tbody>
+      <tr data-step="1"><td class="br">rehacerlo</td><td>Volver a clickear treinta pantallas</td><td><span class="mono">terraform apply</span></td></tr>
+      <tr data-step="2"><td class="br">revisar un cambio</td><td>Confiar en quien lo hizo</td><td>Un diff en un pull request</td></tr>
+      <tr data-step="3"><td class="br">documentarlo</td><td>Un doc que queda viejo</td><td>El archivo <i>es</i> la documentación</td></tr>
+      <tr data-step="4"><td class="br">treinta alumnos</td><td>Treinta veces lo mismo, a mano</td><td>El mismo repo, treinta <span class="mono">apply</span></td></tr>
+    </tbody>
+  </table>
+  <p class="foot" data-step="4"><b>No es magia:</b> Terraform usa la misma API que la consola. La diferencia es que queda escrito qué pediste.</p>
+</section>
+
+<!-- NUEVO · el código del bucket web -->
+<section class="slide" data-branch="s3 · terraform">
+  <p class="eyebrow">terraform/main.tf · el bucket de la web</p>
+  <h2 style="font-size:40px;max-width:44ch">Cada pantalla que clickeamos es un recurso</h2>
+  <div class="code-split">
+<pre class="code xs"><span class="k">resource</span> <span class="s">"aws_s3_bucket"</span> <span class="s">"web"</span> {
+  bucket = <span class="s">"clase-isw-web-20260330"</span>
+}
+
+<span class="k">resource</span> <span class="s">"aws_s3_bucket_website_configuration"</span> <span class="s">"web"</span> {
+  bucket = <mark>aws_s3_bucket.web.id</mark>
+  index_document { suffix = <span class="s">"index.html"</span> }
+  error_document { key    = <span class="s">"error.html"</span> }
+}
+
+<span class="k">resource</span> <span class="s">"aws_s3_bucket_public_access_block"</span> <span class="s">"web"</span> {
+  bucket                  = <mark>aws_s3_bucket.web.id</mark>
+  block_public_policy     = <span class="a">false</span>
+  restrict_public_buckets = <span class="a">false</span>
+}
+
+<span class="k">resource</span> <span class="s">"aws_s3_bucket_policy"</span> <span class="s">"web"</span> {
+  bucket = <mark>aws_s3_bucket.web.id</mark>
+  policy = jsonencode({ <span class="c">/* la de la slide anterior */</span> })
+}</pre>
+    <div class="notes">
+      <div class="note-i" data-step="1"><span class="num">1</span><div><p>Son <b>las cuatro piezas</b> de la parte 3, una por recurso. El bucket no “contiene” su configuración: cada aspecto es un objeto aparte.</p></div></div>
+      <div class="note-i" data-step="2"><span class="num">2</span><div><p><b>"web"</b> es el nombre interno de Terraform; <b>bucket =</b> es el nombre real en AWS. El primero se puede renombrar sin tocar nada en la nube.</p></div></div>
+      <div class="note-i" data-step="3"><span class="num">3</span><div><p><b>aws_s3_bucket.web.id</b> es una referencia. De ahí Terraform arma el grafo de dependencias y deduce el orden: el archivo no se lee de arriba abajo.</p></div></div>
+      <div class="note-i" data-step="4"><span class="num">4</span><div><p>Los otros dos buckets son más cortos: solo el bucket y un <b>public_access_block</b> con los cuatro flags en <b>true</b>.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO · el ciclo -->
+<section class="slide" data-branch="s3 · terraform">
+  <p class="eyebrow">Terraform · el ciclo de trabajo</p>
+  <h2 style="font-size:48px">Cuatro comandos y un archivo de estado</h2>
+  <div class="stack">
+    <div class="chain">
+      <div class="step" data-step="1">
+        <span class="t">init</span>
+        <div class="n">Bajar el provider</div>
+        <p>Una vez por carpeta. Descarga el plugin de AWS a <b>.terraform/</b>.</p>
+      </div>
+      <div class="ar" data-step="2">→</div>
+      <div class="step" data-step="2">
+        <span class="t">plan</span>
+        <div class="n">Qué va a hacer</div>
+        <p>Compara el archivo con AWS y muestra el diff. No toca nada.</p>
+      </div>
+      <div class="ar" data-step="3">→</div>
+      <div class="step hard" data-step="3">
+        <span class="t">apply</span>
+        <div class="n">Hacerlo</div>
+        <p>Crea, cambia o borra hasta que AWS coincida con el archivo.</p>
+      </div>
+      <div class="ar" data-step="4">→</div>
+      <div class="step" data-step="4">
+        <span class="t">destroy</span>
+        <div class="n">Borrar todo</div>
+        <p>Lo que creó, y solo eso. Falla si un bucket todavía tiene objetos.</p>
+      </div>
+    </div>
+    <div class="cards c2" style="margin:0">
+      <div class="card" data-step="5">
+        <span class="tag">El archivo que no va al repo</span>
+        <h3>terraform.tfstate</h3>
+        <p>El inventario de lo que Terraform creó. Sin él, <code>destroy</code> no sabe qué borrar. Va en el <b>.gitignore</b>; en equipo se guarda en un backend remoto.</p>
+      </div>
+      <div class="card" data-step="6">
+        <span class="tag">Lo que devuelve</span>
+        <h3>outputs</h3>
+        <p><code>terraform output</code> da los tres nombres de bucket, la URL del sitio y el <code>CREATE EXTERNAL TABLE</code> con el bucket ya escrito.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 23 · recap -->
+<section class="slide" data-branch="s3 · recap">
+  <p class="eyebrow">Para llevarse</p>
+  <h2 style="font-size:46px">Ocho ideas</h2>
+  <div class="recap two">
+    <div data-step="1"><svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="9" fill="#6534D6"/><path d="M5.6 10.3l2.7 2.7 6-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>S3 guarda objetos, no archivos en carpetas.</b> La clave es un nombre plano y las carpetas son prefijos que dibuja la consola.</p></div>
+    <div data-step="1"><svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="9" fill="#6534D6"/><path d="M5.6 10.3l2.7 2.7 6-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Nada es público por defecto.</b> El <i>Access Denied</i> del navegador es la configuración funcionando.</p></div>
+    <div data-step="2"><svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="9" fill="#6534D6"/><path d="M5.6 10.3l2.7 2.7 6-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Un bucket público son cuatro piezas.</b> Bucket, website configuration, destrabar el bloqueo y la policy.</p></div>
+    <div data-step="2"><svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="9" fill="#6534D6"/><path d="M5.6 10.3l2.7 2.7 6-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Con <span class="mono">mb</span>, <span class="mono">ls</span>, <span class="mono">cp</span>, <span class="mono">rm</span> y <span class="mono">sync</span> hacés todo.</b> Y <span class="mono">sync</span> se puede repetir sin miedo: sube solo lo que cambió.</p></div>
+    <div data-step="3"><svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="9" fill="#6534D6"/><path d="M5.6 10.3l2.7 2.7 6-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Athena no mueve los datos:</b> define una estructura sobre los archivos y cobra por lo escaneado.</p></div>
+    <div data-step="3"><svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="9" fill="#6534D6"/><path d="M5.6 10.3l2.7 2.7 6-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Athena también escribe en S3:</b> cada consulta deja un CSV en <span class="mono">resultados/</span>, y ese prefijo también se factura.</p></div>
+    <div data-step="4"><svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="9" fill="#6534D6"/><path d="M5.6 10.3l2.7 2.7 6-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Todo esto es un archivo de texto.</b> Lo que se clickea una vez, en Terraform se aplica y se reproduce siempre igual.</p></div>
+    <div data-step="4"><svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="9" fill="#6534D6"/><path d="M5.6 10.3l2.7 2.7 6-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p><b>Lo que prendés, apagalo.</b> <span class="mono">terraform destroy</span> al cerrar cada práctica — vaciando los buckets antes.</p></div>
+  </div>
+  <p class="lede" style="margin-top:0;font-size:20px" data-step="5">En el repo está todo: <span class="mono">terraform/</span> con los tres buckets, <span class="mono">ejemplos/</span> con los archivos y el <span class="mono">README</span> con los comandos para copiar y pegar. →</p>
+</section>
+
+</div></div>
+<div id="progress"></div>
+
+<script>
+"use strict";
+
+/* ---------- navegación ---------- */
+const slides = Array.from(document.querySelectorAll(".slide"));
+slides.forEach((s, i) => {
+  const steps = Array.from(s.querySelectorAll("[data-step]")).map(e => +e.dataset.step);
+  s.dataset.max = steps.length ? Math.max(...steps) : 0;
+  const ref = document.createElement("div");
+  ref.className = "ref";
+  ref.innerHTML = `<span class="b">${s.dataset.branch}</span>
+    <span>Universidad de San Andrés · 2C 2026</span>
+    <span>${String(i + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}</span>`;
+  s.appendChild(ref);
+});
+
+let si = 0, st = 0;
+
+function render(){
+  slides.forEach((s, i) => s.classList.toggle("is-active", i === si));
+  const s = slides[si];
+
+  s.querySelectorAll("[data-step]").forEach(e => {
+    e.classList.toggle("on", +e.dataset.step <= st);
+  });
+
+  const total = slides.reduce((a, x) => a + 1 + (+x.dataset.max), 0);
+  const done = slides.slice(0, si).reduce((a, x) => a + 1 + (+x.dataset.max), 0) + st + 1;
+  document.getElementById("progress").style.width = (done / total * 100) + "%";
+  history.replaceState(null, "", "#" + (si + 1) + (st ? "." + st : ""));
+}
+
+window.addEventListener("hashchange", () => {
+  const h = location.hash.replace("#", "").split(".");
+  const ns = Math.min(Math.max((+h[0] || 1) - 1, 0), slides.length - 1);
+  const nt = Math.min(+h[1] || 0, +slides[ns].dataset.max);
+  if (ns !== si || nt !== st){ si = ns; st = nt; render(); }
+});
+
+function next(){
+  const max = +slides[si].dataset.max;
+  if (st < max) st++;
+  else if (si < slides.length - 1){ si++; st = 0; }
+  render();
+}
+function prev(){
+  if (st > 0) st--;
+  else if (si > 0){ si--; st = +slides[si].dataset.max; }
+  render();
+}
+
+document.addEventListener("keydown", e => {
+  const k = e.key;
+  if (k === "ArrowRight" || k === " " || k === "PageDown" || k === "n"){ e.preventDefault(); next(); }
+  else if (k === "ArrowLeft" || k === "PageUp"){ e.preventDefault(); prev(); }
+  else if (k === "ArrowDown"){ e.preventDefault(); si = Math.min(si + 1, slides.length - 1); st = 0; render(); }
+  else if (k === "ArrowUp"){ e.preventDefault(); si = Math.max(si - 1, 0); st = 0; render(); }
+  else if (k === "Home"){ si = 0; st = 0; render(); }
+  else if (k === "End"){ si = slides.length - 1; st = +slides[si].dataset.max; render(); }
+  else if (k === "f" || k === "F"){
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }
+  else if (k === "p" || k === "P"){ window.print(); }
+});
+document.addEventListener("click", e => {
+  if (e.target.closest("a")) return;
+  (e.clientX < window.innerWidth * 0.18 ? prev : next)();
+});
+
+/* ---------- escalado del escenario ---------- */
+function fit(){
+  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+  document.getElementById("stage").style.transform = "scale(" + s + ")";
+}
+window.addEventListener("resize", fit);
+
+const h = (location.hash || "").replace("#", "").split(".");
+if (+h[0]) si = Math.min(Math.max(+h[0] - 1, 0), slides.length - 1);
+if (+h[1]) st = +h[1];
+fit();
+render();
+</script>
+</body>
+</html>
