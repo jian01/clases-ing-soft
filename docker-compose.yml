@@ -1,0 +1,70 @@
+services:
+
+  # ─── Aplicación: la "tienda" que vamos a testear ──────────────────────────
+  py-app:
+    build: ./py-app
+    ports:
+      - "5000:5000"
+    environment:
+      # Capacidad simulada de la API (ver py-app/app.py y TIENDA.md):
+      # 10 conexiones / 0.1s por request = ~100 req/s
+      DB_POOL_SIZE: "10"
+      QUEUE_TIMEOUT: "1.0"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ─── Monitoreo ────────────────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=1d
+    depends_on:
+      - py-app
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      # Para la clase: se puede mirar sin loguearse y abre directo el tablero de tests
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/performance-testing.json
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # ─── Tests de performance (Locust) ────────────────────────────────────────
+  # No arranca con `docker compose up`: lo lanza ./run-test.sh <smoke|load|stress|spike>
+  locust:
+    profiles: [tests]
+    build: ./performance-tests
+    volumes:
+      - ./performance-tests:/mnt/tests
+    environment:
+      GRAFANA_URL: http://grafana:3000
+      GRAFANA_AUTH: admin:admin
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: /mnt/tests   # para que cada locustfile pueda importar common.py
+
+volumes:
+  prometheus-data:
+  grafana-data:

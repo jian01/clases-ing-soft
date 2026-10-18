@@ -1,0 +1,20 @@
+global:
+  # Cada 2s: los tests duran pocos minutos y queremos ver los cambios al instante
+  scrape_interval: 2s
+  scrape_timeout: 2s
+
+scrape_configs:
+
+  # La tienda: métricas de requests, latencia y pool de conexiones
+  - job_name: py-app
+    static_configs:
+      - targets:
+          - py-app:5000
+    metrics_path: /metrics
+
+  # Locust (solo existe mientras corre un test con ./run-test.sh)
+  # Publica los usuarios virtuales y la etapa actual del test
+  - job_name: locust
+    static_configs:
+      - targets:
+          - locust:9646

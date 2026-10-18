@@ -1,0 +1,38 @@
+name: Smoke test
+
+# Gate de cada PR: si la API no "prende" (algún endpoint responde mal),
+# el PR queda en rojo y no se debería mergear.
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: Smoke test (Locust)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # Solo hace falta la API: Prometheus/Grafana son para mirar, no para el gate.
+      - name: Levantar py-app
+        run: docker compose up -d --build --wait py-app
+
+      - name: Correr smoke test
+        run: ./run-test.sh smoke
+
+      - name: Logs de py-app (si falla)
+        if: failure()
+        run: docker compose logs py-app
+
+      - name: Subir reporte HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-report
+          path: performance-tests/reports/smoke-report.html
+          if-no-files-found: ignore
+
+      - name: Bajar el stack
+        if: always()
+        run: docker compose down -v
