@@ -1,0 +1,12 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    uid: prometheus          # UID fijo para referenciar desde dashboards y alertas
+    url: http://prometheus:9090
+    access: proxy
+    isDefault: true
+    jsonData:
+      timeInterval: 15s      # Debe coincidir con scrape_interval de Prometheus
+      httpMethod: POST
