@@ -8,7 +8,7 @@ set -euo pipefail
 #
 # Prerequisites:
 #   - INSTANCE_IP env variable must be set (e.g. export INSTANCE_IP=1.2.3.4)
-#   - PEM key at ~/.ssh/aws.pem
+#   - PEM key at ~/.ssh/isw-aws.pem
 #   - rsync installed locally
 #
 # Usage:
@@ -16,8 +16,8 @@ set -euo pipefail
 #   bash initial_setup.sh
 # ---------------------------------------------------------------------------
 
-PEM_KEY="$HOME/.ssh/aws.pem"
-EC2_USER="ec2-user"          # Use ec2-user for Amazon Linux AMIs
+PEM_KEY="$HOME/.ssh/isw-aws.pem"
+EC2_USER="ubuntu"          # Use ec2-user for Amazon Linux AMIs
 APP_REMOTE_DIR="/home/${EC2_USER}/app"
 
 # --- Validate ---
@@ -39,30 +39,24 @@ echo "==> [1/3] Installing Docker on ${INSTANCE_IP}..."
 $SSH << 'REMOTE'
 set -e
 
-# Remove broken docker-ce repo if left over from a previous run
-sudo rm -f /etc/yum.repos.d/docker-ce.repo
+# Install Docker on Ubuntu
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
 
-# Install Docker from Amazon Linux 2023 repos
-sudo dnf install -y docker
+# Add Docker's official GPG key
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Install Compose and Buildx plugins from GitHub releases
-sudo mkdir -p /usr/local/lib/docker/cli-plugins
+# Add Docker repository
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# Compose release filenames use the uname -m arch directly (x86_64, aarch64)
-COMPOSE_ARCH=$(uname -m)
-curl -fsSL "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-${COMPOSE_ARCH}" \
-  -o /tmp/docker-compose
-
-# Buildx: fetch latest version tag, then build the versioned filename
-BUILDX_VERSION=$(curl -fsSL https://api.github.com/repos/docker/buildx/releases/latest \
-  | grep '"tag_name"' | sed 's/.*"tag_name": "\(.*\)".*/\1/')
-BUILDX_ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
-curl -fsSL "https://github.com/docker/buildx/releases/download/${BUILDX_VERSION}/buildx-${BUILDX_VERSION}.linux-${BUILDX_ARCH}" \
-  -o /tmp/docker-buildx
-
-sudo mv /tmp/docker-compose /tmp/docker-buildx /usr/local/lib/docker/cli-plugins/
-sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose \
-              /usr/local/lib/docker/cli-plugins/docker-buildx
+# Install Docker Engine, CLI, and plugins
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Enable and start Docker
 sudo systemctl enable docker
