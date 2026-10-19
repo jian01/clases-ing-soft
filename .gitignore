@@ -209,3 +209,7 @@ __marimo__/
 *.csv
 *.ipynb
 .idea
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
