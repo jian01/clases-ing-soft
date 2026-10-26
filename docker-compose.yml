@@ -1,0 +1,134 @@
+name: clase-airflow
+
+x-airflow-common:
+  &airflow-common
+  image: apache/airflow:3.3.2   # ya trae pandas y scikit-learn: no hace falta imagen propia
+  environment:
+    &airflow-common-env
+    # LocalExecutor: las tareas corren como procesos dentro del scheduler.
+    # Alcanza para una máquina; en producción se usa Celery o Kubernetes.
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ""
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-apiserver:8080/execution/
+    AIRFLOW__API_AUTH__JWT_SECRET: clase-airflow-udesa
+    AIRFLOW__API_AUTH__JWT_ISSUER: airflow
+    AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+    # Para la clase: los DAGs nuevos aparecen enseguida en la UI
+    AIRFLOW__DAG_PROCESSOR__REFRESH_INTERVAL: "10"
+    AIRFLOW__DAG_PROCESSOR__MIN_FILE_PROCESS_INTERVAL: "10"
+    LAKE_DIR: /opt/airflow/lake
+    FUENTE_CSV: /opt/airflow/fuente/produccion_vaca_muerta.csv.gz
+    ENTRANTES_DIR: /opt/airflow/entrantes
+    # Conexión que usa el FileSensor (ruta base del filesystem local)
+    AIRFLOW_CONN_FS_DEFAULT: '{"conn_type": "fs", "extra": {"path": "/"}}'
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./datos/fuente:/opt/airflow/fuente:ro
+    - ./entrantes:/opt/airflow/entrantes
+    # En volúmenes (no carpetas del repo): `docker compose down -v` los borra y la clase arranca de cero
+    - airflow-logs:/opt/airflow/logs
+    - lake:/opt/airflow/lake
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    &airflow-common-depends-on
+    postgres:
+      condition: service_healthy
+
+services:
+
+  # ─── Base de metadatos: DAGs, ejecuciones, estados, XComs ────────────────
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ─── Setup inicial: migra la base, crea el usuario airflow/airflow ───────
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        mkdir -p /opt/airflow/lake
+        chown -R "${AIRFLOW_UID:-50000}:0" /opt/airflow/logs /opt/airflow/lake
+        # entrantes/ es una carpeta del repo: tanto vos como Airflow tienen que poder escribir
+        chmod 777 /opt/airflow/entrantes
+        exec /entrypoint airflow version
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_MIGRATE: "true"
+      _AIRFLOW_WWW_USER_CREATE: "true"
+      _AIRFLOW_WWW_USER_USERNAME: airflow
+      _AIRFLOW_WWW_USER_PASSWORD: airflow
+    user: "0:0"
+
+  # ─── UI + API REST:  http://localhost:8080  (airflow / airflow) ──────────
+  airflow-apiserver:
+    <<: *airflow-common
+    command: api-server
+    ports:
+      - "${AIRFLOW_PORT:-8080}:8080"   # si el 8080 está ocupado: AIRFLOW_PORT=8081 docker compose up -d
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/monitor/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  # ─── Scheduler: decide qué corre y cuándo (y con LocalExecutor, lo corre) ─
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  # ─── DAG processor: lee los .py de dags/ y los registra en la base ───────
+  airflow-dag-processor:
+    <<: *airflow-common
+    command: dag-processor
+    restart: unless-stopped
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  # ─── Triggerer: espera eventos asíncronos (sensores diferidos) ───────────
+  airflow-triggerer:
+    <<: *airflow-common
+    command: triggerer
+    restart: unless-stopped
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+volumes:
+  postgres-db:
+  airflow-logs:
+  lake:
