@@ -1,0 +1,44 @@
+services:
+  api1:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      API_NAME: "API 1"
+    volumes:
+      - ./app.py:/app/app.py
+    ports:
+      - "5001:5000"
+
+  api2:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      API_NAME: "API 2"
+    volumes:
+      - ./app.py:/app/app.py
+    ports:
+      - "5002:5000"
+
+  nginx:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - api1
+      - api2
+
+  locust:
+    build:
+      context: .
+      dockerfile: Dockerfile.locust
+    volumes:
+      - ./locustfile.py:/locust/locustfile.py
+    ports:
+      - "8089:8089"
+    depends_on:
+      - api1
+      - nginx
