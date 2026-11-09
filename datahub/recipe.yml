@@ -8,8 +8,8 @@
 #
 # Prerequisitos:
 #   1. DataHub corriendo:  datahub docker quickstart
-#   2. SDK instalado:      pip install 'acryl-datahub[dbt-postgres]'
-#   3. Artefactos frescos: cd ../dbt && dbt docs generate --profiles-dir .
+#   2. SDK instalado:      pip install 'acryl-datahub[dbt,datahub-rest]'
+#   3. Artefactos frescos: los genera datahub/ingest.sh (dbt docs generate en el contenedor de Dagster)
 
 source:
   type: dbt

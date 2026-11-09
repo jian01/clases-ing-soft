@@ -41,12 +41,13 @@ Las herramientas del stack:
 
 ## Requisitos
 
+- **Git**, para clonar el repositorio.
 - **Docker** con **Docker Compose v2** (el comando es `docker compose`, sin guion). En Windows, Docker Desktop con WSL2.
 - Unos **6 GB de RAM** libres para Docker.
 - Una terminal **bash** (Linux, macOS, WSL o Git Bash en Windows).
-- Estos puertos libres en tu máquina: `3000`, `3001`, `5433`, `8081`, `8082`, `8083`. Si alguno está ocupado, mirá [Problemas comunes](#problemas-comunes).
+- Estos puertos libres en tu máquina: `3000`, `3001`, `5433`, `8081`, `8082`, `8083`. El `8081` es de Adminer, un cliente SQL que se levanta con el stack aunque esta guía no lo usa. Si alguno está ocupado, mirá [Problemas comunes](#problemas-comunes).
 
-No hace falta instalar Python, dbt ni Postgres: todo corre adentro de Docker.
+No hace falta instalar Python, dbt ni Postgres: todo corre adentro de Docker. La única excepción es el [Paso 9](#paso-9-opcional--lineage-por-columna-con-datahub), que es opcional y necesita Python para instalar el CLI de DataHub.
 
 ---
 
@@ -566,10 +567,10 @@ Esto es lineage **a nivel de modelo** (tabla). Sabés que `fact_streams` depende
 
 DataHub es un **catálogo de datos**: un buscador de todas las tablas de una organización, con su lineage por columna, sus dueños, sus tags (como PII) y el estado de sus tests. No mueve datos: guarda **metadata** sobre ellos.
 
-Es pesado (unos 10 contenedores, ~8 GB de RAM), por eso no está en el `docker-compose.yml`. Si tu máquina lo aguanta:
+Es pesado (unos 10 contenedores, ~8 GB de RAM), por eso no está en el `docker-compose.yml`: se levanta aparte con su propio CLI, que se instala con Python (`pip`). Si tu máquina lo aguanta, con el stack de la clase levantado:
 
 ```bash
-pip install 'acryl-datahub[dbt-postgres]'
+pip install 'acryl-datahub[dbt,datahub-rest]'
 
 # puertos remapeados para no chocar con otros servicios
 export DATAHUB_MAPPED_GMS_PORT=8090
@@ -579,7 +580,7 @@ datahub docker quickstart          # UI en http://localhost:9002 (datahub / data
 bash datahub/ingest.sh             # manda la metadata de dbt a DataHub
 ```
 
-`ingest.sh` corre `dbt docs generate` desde tu máquina (necesita `dbt-postgres` instalado y se conecta a `localhost:5433`) y después `datahub ingest -c datahub/recipe.yml`. Mirá el `recipe.yml`: DataHub **no se conecta a nada nuevo**, lee los archivos que dbt ya genera (`manifest.json`, `catalog.json`, `run_results.json`).
+`ingest.sh` hace dos cosas: corre `dbt docs generate` adentro del contenedor de Dagster (no necesitás dbt en tu máquina; los archivos quedan en `dbt/target/`) y después `datahub ingest -c datahub/recipe.yml`, que los manda a DataHub. Mirá el `recipe.yml`: DataHub **no se conecta a nada nuevo**, lee los archivos que dbt ya genera (`manifest.json`, `catalog.json`, `run_results.json`).
 
 En http://localhost:9002 buscá `fact_streams` y mirá las pestañas **Lineage** (flechas columna a columna), **Schema** (descripciones del `schema.yml`) y **Properties** (`owner`).
 
@@ -750,7 +751,7 @@ Para apagar todo sin borrar datos: `docker compose down` (sin `-v`).
 
 | Síntoma | Qué hacer |
 |---|---|
-| `Bind for 0.0.0.0:XXXX failed: port is already allocated` | Otro programa usa ese puerto. Cambiá el número de la izquierda en la línea `ports` de ese servicio en `docker-compose.yml` (por ejemplo `"5434:5432"`) y volvé a levantar. |
+| `Bind for 0.0.0.0:XXXX failed: port is already allocated` | Otro programa usa ese puerto. Cambiá el número de la izquierda en la línea `ports` de ese servicio en `docker-compose.yml` (por ejemplo `"5434:5432"`) y volvé a levantar. Si cambiás el de una pestaña del browser (Dagster, Metabase, dbt docs, Elementary), usá el puerto nuevo en la URL. El de Postgres solo importa si te conectás desde tu máquina con un cliente SQL propio. |
 | Las cards de Metabase dicen "relation does not exist" | Todavía no corriste el pipeline. *Materialize all* en Dagster. |
 | No encuentro el dashboard en Metabase | Buscá "Data Quality" en el buscador de arriba. Si no está: `docker compose up -d --build metabase-init`. |
 | Un escenario muestra errores de otro escenario | Faltó `dq --cleanup` + volver a correr el pipeline. |
