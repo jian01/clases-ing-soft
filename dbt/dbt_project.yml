@@ -9,6 +9,7 @@ test-paths: ["tests"]
 seed-paths: ["seeds"]
 target-path: "target"
 clean-targets: ["target", "dbt_packages"]
+packages-install-path: /dbt_packages_vol/pkgs
 
 models:
   dwh_streaming:
@@ -18,6 +19,8 @@ models:
     gold:
       +materialized: table
       +schema: gold
+  elementary:
+    +schema: elementary
 
 snapshots:
   dwh_streaming:

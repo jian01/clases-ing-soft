@@ -55,4 +55,15 @@ def dbt_dim_assets(context: AssetExecutionContext, dbt: DbtCliResource):
     ).stream()
 
 
-all_assets = [extract_to_bronze, dbt_fact_assets, dbt_dim_assets]
+@asset(
+    group_name="checks",
+    deps=[extract_to_bronze],
+    description="Verifica que las tablas bronze tengan datos de las últimas 24h (dbt source freshness).",
+)
+def source_freshness_check(context: AssetExecutionContext, dbt: DbtCliResource) -> None:
+    # No es un @dbt_assets: no se le puede pasar el context a dbt.cli (falla buscando
+    # metadata del manifest). Se corre como comando suelto y se espera el resultado.
+    dbt.cli(["source", "freshness"], manifest=DBT_MANIFEST).wait()
+
+
+all_assets = [extract_to_bronze, dbt_fact_assets, dbt_dim_assets, source_freshness_check]
