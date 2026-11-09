@@ -39,7 +39,7 @@ ID_BASE = {
 def get_conn():
     return psycopg2.connect(
         host=os.getenv("POSTGRES_HOST", "localhost"),
-        port=int(os.getenv("POSTGRES_PORT", "5432")),
+        port=int(os.getenv("POSTGRES_PORT", "5433")),
         dbname=os.getenv("POSTGRES_DB", "warehouse"),
         user=os.getenv("POSTGRES_USER", "dwh"),
         password=os.getenv("POSTGRES_PASSWORD", "dwh"),
@@ -175,11 +175,11 @@ def inyectar_column_anomaly(cur):
       - positive_revenue ✓       → ingresos > 0
       - ingreso_por_reproduccion_razonable ✓  → $0.048/play < $0.05 límite
 
-    Pero las estadísticas de ingresos_usd se disparan:
-      - max_value: de ~$60 normales a $2.400
-      - average:   sube varios órdenes de magnitud respecto al baseline
+    Son 5.000 filas (10% del volumen) para que el promedio de la tabla se mueva:
+      - average de ingresos_usd en silver: de ~$120 a ~$327
 
-    Test que alerta: elementary.column_anomalies (max_value, average) en stg_streams y fact_streams.
+    Test que alerta: elementary.column_anomalies (average) en stg_streams.
+    Como el test es severidad error, fact_streams no se actualiza en ese run.
     IMPORTANTE: requiere al menos 2 runs previos para que Elementary tenga baseline.
     Si es el primer run del día, corré el pipeline una vez limpio antes de inyectar.
     """
@@ -189,9 +189,9 @@ def inyectar_column_anomaly(cur):
             (i % 1000) + 1,
             1,
             "BR",
-            5000000,   # reproducciones = máximo del dataset
+            50_000,   # reproducciones = máximo del dataset
             2_400.0,  # ingresos = $2400 → ratio $0.048/play (justo bajo el límite de $0.05)
-            "column_anomaly2",
+            "column_anomaly",
         )
         for i in range(5000)
     ]
@@ -204,7 +204,7 @@ def inyectar_column_anomaly(cur):
 ESCENARIOS = {
     "pais_invalido": {
         "descripcion": "Streams con código de país malformado (ARG, ar, USA, 00...)",
-        "alarma":      "assert_stg_streams_valid_pais  [FALLA]",
+        "alarma":      "assert_stg_streams_valid_pais  [FALLA con 2 de 7: silver trunca el resto a 2 letras]",
         "fn":          inyectar_pais_invalido,
     },
     "ingreso_sospechoso": {
@@ -228,8 +228,8 @@ ESCENARIOS = {
         "fn":          inyectar_silencioso,
     },
     "column_anomaly": {
-        "descripcion": "20 streams con $2400 de ingreso en 50.000 plays ($0.048/play, bajo el límite de $0.05)",
-        "alarma":      "elementary.column_anomalies en ingresos_usd (max_value, average)  [ALERTA]",
+        "descripcion": "5.000 streams con $2400 de ingreso en 50.000 plays ($0.048/play, bajo el límite de $0.05)",
+        "alarma":      "elementary.column_anomalies en stg_streams.ingresos_usd (average)  [FALLA]",
         "fn":          inyectar_column_anomaly,
     },
 }
@@ -278,7 +278,7 @@ def cmd_run(nombre):
         print(f"\nError al conectar a Postgres: {e}")
         print("Variables de entorno usadas:")
         print(f"  POSTGRES_HOST={os.getenv('POSTGRES_HOST', 'localhost')}")
-        print(f"  POSTGRES_PORT={os.getenv('POSTGRES_PORT', '5432')}")
+        print(f"  POSTGRES_PORT={os.getenv('POSTGRES_PORT', '5433')}")
         print(f"  POSTGRES_DB={os.getenv('POSTGRES_DB', 'warehouse')}")
         sys.exit(1)
 
@@ -293,11 +293,18 @@ def cmd_cleanup():
                 streams = cur.rowcount
                 cur.execute("DELETE FROM bronze.plataformas_raw WHERE _source_file LIKE 'injected_%'")
                 plataformas = cur.rowcount
+                # fact_streams es incremental: re-correr el pipeline NO borra filas que ya
+                # llegaron a gold. Las sacamos a mano (todos los IDs inyectados son >= 900.000).
+                cur.execute("SELECT to_regclass('gold.fact_streams') IS NOT NULL")
+                gold = 0
+                if cur.fetchone()[0]:
+                    cur.execute("DELETE FROM gold.fact_streams WHERE stream_id >= %s", (min(ID_BASE.values()),))
+                    gold = cur.rowcount
         conn.close()
         print(f"   bronze.streams_raw:    {streams} filas eliminadas")
         print(f"   bronze.plataformas_raw: {plataformas} filas eliminadas")
-        print("\n   Próximo paso: re-correr el pipeline en Dagster.")
-        print("   Con --full-refresh para que gold se reconstruya limpio.\n")
+        print(f"   gold.fact_streams:      {gold} filas eliminadas")
+        print("\n   Próximo paso: re-correr el pipeline en Dagster (silver y las dims se reconstruyen solas).\n")
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
@@ -333,7 +340,7 @@ def cmd_counts():
 
             cur.execute(
                 "SELECT COUNT(*) FROM bronze.streams_raw "
-                "WHERE fecha::date = %s AND _source_file LIKE 'injected_%'",
+                "WHERE fecha::date = %s AND _source_file LIKE 'injected_%%'",
                 (FECHA_INYECCION,)
             )
             inyectadas = cur.fetchone()[0]

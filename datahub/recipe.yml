@@ -48,5 +48,5 @@ source:
 sink:
   type: datahub-rest
   config:
-    # DataHub GMS corre en localhost:8080 con el quickstart por defecto.
-    server: "http://localhost:8080"
+    # GMS mapeado a 8090 (ver ingest.sh) para no chocar con otros servicios en 8080.
+    server: "http://localhost:8090"

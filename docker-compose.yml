@@ -5,7 +5,7 @@ services:
       POSTGRES_DB: warehouse
       POSTGRES_USER: dwh
       POSTGRES_PASSWORD: dwh
-    ports: ["5432:5432"]
+    ports: ["5433:5432"]  # host 5433 para no chocar con otros Postgres locales
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres-init:/docker-entrypoint-initdb.d
@@ -80,6 +80,9 @@ services:
       PG_DB: warehouse
       PG_USER: metabase_ro
       PG_PASSWORD: metabase_ro
+      # Para dar SELECT sobre bronze/silver/gold a metabase_ro (dashboard de Data Quality)
+      PG_ADMIN_USER: dwh
+      PG_ADMIN_PASSWORD: dwh
     depends_on:
       metabase:
         condition: service_healthy

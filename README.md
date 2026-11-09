@@ -38,7 +38,7 @@ PostgreSQL — schema gold (star schema)
 
 | Servicio    | Imagen / base              | Puerto | Rol                          |
 |-------------|----------------------------|--------|------------------------------|
-| PostgreSQL  | `postgres:16`              | 5432   | DWH (bronze / silver / gold) |
+| PostgreSQL  | `postgres:16`              | 5433   | DWH (bronze / silver / gold) |
 | Dagster     | Python 3.12 custom         | 3000   | Orquestación + gobierno      |
 | Metabase    | `metabase/metabase:latest` | 3001   | BI para usuarios no técnicos |
 | Adminer     | `adminer`                  | 8081   | UI SQL para debug            |
@@ -66,7 +66,7 @@ Eso corre la extracción, todos los modelos dbt y los tests de calidad. En una l
 | Dagster (gobierno) | http://localhost:3000  | sin login                                                           |
 | Metabase (BI)      | http://localhost:3001  | admin@demo.com / Admin1234!                                         |
 | Adminer (SQL)      | http://localhost:8081  | servidor: `postgres` / user: `dwh` / pass: `dwh` / DB: `warehouse` |
-| Postgres directo   | localhost:5432         | `psql -h localhost -U dwh -d warehouse`                             |
+| Postgres directo   | localhost:5433         | `psql -h localhost -p 5433 -U dwh -d warehouse`                           |
 
 ---
 
