@@ -333,7 +333,7 @@ def cmd_counts():
 
             cur.execute(
                 "SELECT COUNT(*) FROM bronze.streams_raw "
-                "WHERE fecha::date = %s AND _source_file LIKE 'injected_%'",
+                "WHERE fecha::date = %s AND _source_file LIKE 'injected_%%'",
                 (FECHA_INYECCION,)
             )
             inyectadas = cur.fetchone()[0]
