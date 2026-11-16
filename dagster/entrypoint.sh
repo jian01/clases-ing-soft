@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "==> Instalando dependencias de dbt (dbt_utils)..."
+echo "==> Instalando dependencias de dbt..."
 cd /workspace/dbt && dbt deps --profiles-dir /workspace/dbt
 
 echo "==> Generando manifest.json con dbt parse..."
