@@ -4,7 +4,7 @@ dwh_streaming:
     dev:
       type: postgres
       host: "{{ env_var('POSTGRES_HOST', 'localhost') }}"
-      port: "{{ env_var('POSTGRES_PORT', '5432') | int }}"
+      port: "{{ env_var('POSTGRES_PORT', '5433') | int }}"
       user: "{{ env_var('POSTGRES_USER', 'dwh') }}"
       password: "{{ env_var('POSTGRES_PASSWORD', 'dwh') }}"
       dbname: "{{ env_var('POSTGRES_DB', 'warehouse') }}"
@@ -19,7 +19,7 @@ elementary:
     dev:
       type: postgres
       host: "{{ env_var('POSTGRES_HOST', 'localhost') }}"
-      port: "{{ env_var('POSTGRES_PORT', '5432') | int }}"
+      port: "{{ env_var('POSTGRES_PORT', '5433') | int }}"
       user: "{{ env_var('POSTGRES_USER', 'dwh') }}"
       password: "{{ env_var('POSTGRES_PASSWORD', 'dwh') }}"
       dbname: "{{ env_var('POSTGRES_DB', 'warehouse') }}"

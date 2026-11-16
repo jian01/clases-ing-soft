@@ -8,8 +8,8 @@
 #
 # Prerequisitos:
 #   1. DataHub corriendo:  datahub docker quickstart
-#   2. SDK instalado:      pip install 'acryl-datahub[dbt-postgres]'
-#   3. Artefactos frescos: cd ../dbt && dbt docs generate --profiles-dir .
+#   2. SDK instalado:      pip install 'acryl-datahub[dbt,datahub-rest]'
+#   3. Artefactos frescos: los genera datahub/ingest.sh (dbt docs generate en el contenedor de Dagster)
 
 source:
   type: dbt
@@ -48,5 +48,5 @@ source:
 sink:
   type: datahub-rest
   config:
-    # DataHub GMS corre en localhost:8080 con el quickstart por defecto.
-    server: "http://localhost:8080"
+    # GMS mapeado a 8090 (ver ingest.sh) para no chocar con otros servicios en 8080.
+    server: "http://localhost:8090"

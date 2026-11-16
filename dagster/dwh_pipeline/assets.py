@@ -61,10 +61,9 @@ def dbt_dim_assets(context: AssetExecutionContext, dbt: DbtCliResource):
     description="Verifica que las tablas bronze tengan datos de las últimas 24h (dbt source freshness).",
 )
 def source_freshness_check(context: AssetExecutionContext, dbt: DbtCliResource) -> None:
-    # Sin context=: este asset no fue creado con @dbt_assets, y dagster-dbt
-    # falla si se le pasa el context de un asset común. wait() espera a que
-    # termine y falla el paso si dbt reporta un error (datos con más de 48 h).
-    dbt.cli(["source", "freshness"]).wait()
+    # No es un @dbt_assets: no se le puede pasar el context a dbt.cli (falla buscando
+    # metadata del manifest). Se corre como comando suelto y se espera el resultado.
+    dbt.cli(["source", "freshness"], manifest=DBT_MANIFEST).wait()
 
 
 all_assets = [extract_to_bronze, dbt_fact_assets, dbt_dim_assets, source_freshness_check]
